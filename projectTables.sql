@@ -7,6 +7,7 @@ CREATE TABLE users_table (
                              is_admin TINYINT(1) DEFAULT '0',
                              user TEXT
 );
+
 CREATE TABLE quiz_table (
                             quiz_id INT PRIMARY KEY,
                             username VARCHAR(50),
@@ -16,3 +17,13 @@ CREATE TABLE quiz_table (
                             practice_mode TINYINT(1) DEFAULT '0',
                             quiz TEXT
 );
+
+CREATE TABLE history_table (
+                            history_id INT PRIMARY KEY,
+                            quiz_id INT,
+                            username VARCHAR(50),
+                            score INT,
+                            time TIMESTAMP
+);
+
+
