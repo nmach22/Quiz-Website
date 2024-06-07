@@ -14,7 +14,7 @@
     <h1> Sign in failed.</h1> <br/>
     <h2> name: <%= request.getParameter("username") %> is taken</h2>
     <p> Enter another username</p>
-    <form action="CreateServlet" method="post">
+    <form action="CreateAccountServlet" method="post">
         User Name: <input type="text" name="user"/> <br/>
         Password: <input type="text" name="pas"/>
         <input type="submit" value="create"/>
