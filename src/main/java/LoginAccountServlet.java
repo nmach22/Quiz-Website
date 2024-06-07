@@ -14,11 +14,14 @@ public class LoginAccountServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         AccountManager accMan = (AccountManager)getServletContext().getAttribute("Account Manager");
         try {
-            if(!accMan.isCorrect(req.getParameter("username"), req.getParameter("pas"))){
+            if(accMan.isCorrect(req.getParameter("username"), req.getParameter("pas")) == 0){
                 RequestDispatcher dis = req.getRequestDispatcher("login_failed.jsp");
                 dis.forward(req,resp);
-            }else{
+            }else if(accMan.isCorrect(req.getParameter("username"), req.getParameter("pas")) == 1){
                 RequestDispatcher dis = req.getRequestDispatcher("home_page.jsp");
+                dis.forward(req,resp);
+            }else{
+                RequestDispatcher dis = req.getRequestDispatcher("admin_home_page.jsp");
                 dis.forward(req,resp);
             }
         } catch (SQLException e) {

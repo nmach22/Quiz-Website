@@ -39,13 +39,19 @@ public class AccountManager {
         return buff.toString();
     }
 
-    public boolean isCorrect(String user , String pas) throws SQLException {
+    public int isCorrect(String user , String pas) throws SQLException {
         String query = "SELECT * FROM users WHERE username = ? AND password_hash = ?";
         PreparedStatement st = con.prepareStatement(query);
         st.setString(1 , user);
         st.setString(2 , generateHash(pas));
         ResultSet rs = st.executeQuery();
-        return rs.next();
+        if(rs.next()){
+            if (rs.getInt(3) == 1){
+                return 2;
+            }
+            return 1;
+        }
+        return 0;
     }
 
     public boolean hasAcc(String user) throws SQLException {
