@@ -7,9 +7,9 @@ CREATE TABLE users (
                              is_admin TINYINT(1) DEFAULT '0'
 );
 
-CREATE TABLE quizes (
+CREATE TABLE quizzes (
                             quiz_id INT AUTO_INCREMENT PRIMARY KEY,
-                            username VARCHAR(50),
+                            author VARCHAR(50),
                             is_random TINYINT(1) DEFAULT '0',
                             one_page TINYINT(1) DEFAULT '0',
                             immediate_correction TINYINT(1) DEFAULT '0',
@@ -70,4 +70,37 @@ CREATE TABLE quizChallenges (
                       sentDate TIMESTAMP DEFAULT NOW()
 );
 
+CREATE TABLE questions (
+                    question_id INT AUTO_INCREMENT PRIMARY KEY,
+                    author VARCHAR(50) FOREIGN KEY,
+                    question_type VARCHAR(50) NOT NULL
+);
 
+CREATE TABLE questionResponse (
+                    question_id INT PRIMARY KEY,
+                    question varchar(200) NOT NULL ,
+                    answer varchar(200) NOT NULL
+);
+
+CREATE TABLE questionFillInTheBlank (
+                    question_id INT PRIMARY KEY,
+                    question varchar(200) NOT NULL ,
+                    answer varchar(200) NOT NULL
+);
+
+CREATE TABLE questionPictureResponse (
+                    question_id INT PRIMARY KEY,
+                    picture_link varchar(200) NOT NULL ,
+                    answer varchar(200) NOT NULL
+);
+
+CREATE TABLE questionMultipleChoice (
+                    question_id INT PRIMARY KEY,
+                    question varchar(200),
+                    poss_ans_1 varchar(100),
+                    poss_ans_2 varchar(100),
+                    poss_ans_3 varchar(100),
+                    poss_ans_4 varchar(100),
+                    poss_ans_5 varchar(100),
+                    answer INT NOT NULL
+);
