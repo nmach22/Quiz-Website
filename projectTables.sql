@@ -1,6 +1,20 @@
 USE mysql;
-DROP TABLE IF EXISTS users_table;
-DROP TABLE IF EXISTS quiz_table;
+
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS quizzes;
+DROP TABLE IF EXISTS hystory;
+DROP TABLE IF EXISTS announcements;
+DROP TABLE IF EXISTS achievements;
+DROP TABLE IF EXISTS friends;
+DROP TABLE IF EXISTS friendRequests;
+DROP TABLE IF EXISTS chat;
+DROP TABLE IF EXISTS quizChallenges;
+DROP TABLE IF EXISTS questions;
+DROP TABLE IF EXISTS questionResponse;
+DROP TABLE IF EXISTS questionFillInTheBlank;
+DROP TABLE IF EXISTS questionPictureResponse;
+DROP TABLE IF EXISTS questionMultipleChoice;
+
 CREATE TABLE users (
                              username VARCHAR(50) PRIMARY KEY,
                              password_hash VARCHAR(50),
