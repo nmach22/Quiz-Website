@@ -3,8 +3,8 @@ DROP TABLE IF EXISTS users_table;
 DROP TABLE IF EXISTS quiz_table;
 CREATE TABLE users (
                              username VARCHAR(50) PRIMARY KEY,
-                             password VARCHAR(50),
-                             is_admin TINYINT(1) DEFAULT '0',
+                             password_hash VARCHAR(50),
+                             is_admin TINYINT(1) DEFAULT '0'
 );
 
 CREATE TABLE quizes (
@@ -40,18 +40,34 @@ CREATE TABLE achievements (
 );
 
 CREATE TABLE friends (
+                            friendship_id INT AUTO_INCREMENT PRIMARY KEY,
                             username varchar(50),
                             friend varchar(50),
-                            isRequest TINYINT(1),
-                            requestOrAddDate TIMESTAMP DEFAULT NOW()
+                            addDate TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE friendRequests (
+                         request_id INT AUTO_INCREMENT PRIMARY KEY,
+                         from varchar(50),
+                         to varchar(50),
+                         requestDate TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE chat (
-                            username varchar(50),
-                            friend varchar(50),
+                            challenge_id INT AUTO_INCREMENT PRIMARY KEY,
+                            from varchar(50),
+                            to varchar(50),
                             message varchar(1000),
-                            isRequest TINYINT(1),
                             sentDate TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE quizChallenges (
+                      challenge_id INT AUTO_INCREMENT PRIMARY KEY,
+                      from varchar(50),
+                      to varchar(50),
+                      link varchar(100),
+                      status varchar(20) default "pending",
+                      sentDate TIMESTAMP DEFAULT NOW()
 );
 
 
