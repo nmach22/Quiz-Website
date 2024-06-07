@@ -92,31 +92,48 @@ CREATE TABLE questions (
 
 CREATE TABLE questionResponse (
                     question_id INT PRIMARY KEY,
-                    question varchar(200) NOT NULL ,
-                    answer varchar(200) NOT NULL
+                    question varchar(200) NOT NULL
+);
+
+
+CREATE TABLE questionResponseAnswers(
+    answer_id INT PRIMARY KEY ,
+    question_id INT ,
+    answer varchar(200) NOT NULL
 );
 
 CREATE TABLE questionFillInTheBlank (
                     question_id INT PRIMARY KEY,
-                    question varchar(200) NOT NULL ,
-                    answer varchar(200) NOT NULL
+                    question varchar(200) NOT NULL
+
+);
+
+CREATE TABLE questionFillInTheBlankAnswers(
+    answer_id INT PRIMARY KEY ,
+    question_id INT,
+    answer varchar(200) NOT NULL
 );
 
 CREATE TABLE questionPictureResponse (
-                    question_id INT PRIMARY KEY,
-                    picture_link varchar(200) NOT NULL ,
-                    answer varchar(200) NOT NULL
-);
+        question_id INT PRIMARY KEY,
+        picture_link varchar(200) NOT NULL,
+        question varchar(200) NOT NULL
 
+);
+CREATE TABLE questionPictureResponseAnswers(
+        answer_id INT PRIMARY KEY ,
+        question_id INT,
+        answer varchar(200) NOT NULL
+);
 CREATE TABLE questionMultipleChoice (
-                    question_id INT PRIMARY KEY,
-                    question varchar(200),
-                    poss_ans_1 varchar(100),
-                    poss_ans_2 varchar(100),
-                    poss_ans_3 varchar(100),
-                    poss_ans_4 varchar(100),
-                    poss_ans_5 varchar(100),
-                    answer INT NOT NULL
+    question_id INT PRIMARY KEY,
+    question varchar(200)
+);
+CREATE TABLE questionMultipleChoiceResponseAnswers(
+    answer_id INT PRIMARY KEY ,
+    question_id INT,
+    answer varchar(200) NOT NULL,
+    is_correct TINYINT(1)
 );
 
 select * from users;
