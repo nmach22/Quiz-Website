@@ -14,7 +14,7 @@
     <h1>Welcome to Quiz Website </h1>
     <p> Log in </p>
     <form action="LoginServlet" method="post">
-        UserName: <input type="text" name="user"/> <br/>
+        UserName: <input type="text" name="username"/> <br/>
         Password: <input type="text" name="pas"/>
         <input type="submit" value="login"/>
     </form>

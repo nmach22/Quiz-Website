@@ -1,5 +1,6 @@
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebListener;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -7,24 +8,25 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet(urlPatterns = {"/LoginWeb/CreateAccountServlet"})
-public class CreateAccountServlet extends HttpServlet {
+@WebServlet(urlPatterns = {"/LoginWeb/LoginServlet"})
+public class LoginAccountServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        AccountManager accMan =(AccountManager)getServletContext().getAttribute("Account Manager");
+        AccountManager accMan = (AccountManager)getServletContext().getAttribute("Account Manager");
         try {
-            if(!accMan.hasAcc(req.getParameter("username"))){
-                accMan.createAcc(req.getParameter("username"), req.getParameter("pas"));
+            if(accMan.isCorrect(req.getParameter("username"), req.getParameter("pas")) == 0){
+                RequestDispatcher dis = req.getRequestDispatcher("login_failed.jsp");
+                dis.forward(req,resp);
+            }else if(accMan.isCorrect(req.getParameter("username"), req.getParameter("pas")) == 1){
                 RequestDispatcher dis = req.getRequestDispatcher("home_page.jsp");
                 dis.forward(req,resp);
             }else{
-                RequestDispatcher dis =req.getRequestDispatcher("create_new_failed.jsp");
+                RequestDispatcher dis = req.getRequestDispatcher("admin_home_page.jsp");
                 dis.forward(req,resp);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     @Override
