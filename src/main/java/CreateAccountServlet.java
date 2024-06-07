@@ -15,7 +15,7 @@ public class CreateAccountServlet extends HttpServlet {
         try {
             if(!accMan.hasAcc(req.getParameter("username"))){
                 accMan.createAcc(req.getParameter("username"), req.getParameter("pas"));
-                RequestDispatcher dis = req.getRequestDispatcher("Login.jsp");
+                RequestDispatcher dis = req.getRequestDispatcher("home_page.jsp");
                 dis.forward(req,resp);
             }else{
                 RequestDispatcher dis =req.getRequestDispatcher("create_new_failed.jsp");
