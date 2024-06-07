@@ -41,35 +41,116 @@ public class QuizServlet extends HttpServlet {
             }
 
             String quizName = rs.getString("quiz_name");
+            String description = rs.getString("description");
+            String author = rs.getString("author");
+            boolean practiceMode = rs.getBoolean("practice_mode");
 
-            String questionsQuery = "SELECT * FROM questions WHERE quiz_id = ?";
-            ps = connection.prepareStatement(questionsQuery);
+            // Fetch author details
+            String authorQuery = "SELECT * FROM users WHERE username = ?";
+            ps = connection.prepareStatement(authorQuery);
+            ps.setString(1, author);
+            ResultSet authorRs = ps.executeQuery();
+            authorRs.next();
+            String authorPage = authorRs.getString("user_page");
+
+            // Fetch user's past performance on this quiz
+            String performanceQuery = "SELECT * FROM quiz_performance WHERE quiz_id = ? AND user_id = ? ORDER BY date_taken DESC";
+            ps = connection.prepareStatement(performanceQuery);
             ps.setInt(1, Integer.parseInt(quizId));
-            ResultSet questionsRs = ps.executeQuery();
+            ps.setInt(2, getUsername(request)); // Assuming you have a method to get user id from session
+            ResultSet performanceRs = ps.executeQuery();
 
-            List<Map<String, String>> questions = new ArrayList<>();
-            while (questionsRs.next()) {
-                Map<String, String> question = new HashMap<>();
-                question.put("question_id", questionsRs.getString("question_id"));
-                question.put("question_text", questionsRs.getString("question_text"));
-                questions.add(question);
+            List<Map<String, Object>> pastPerformances = new ArrayList<>();
+            while (performanceRs.next()) {
+                Map<String, Object> performance = new HashMap<>();
+                performance.put("score", performanceRs.getBigDecimal("score"));
+                performance.put("time_taken", performanceRs.getInt("time_taken"));
+                performance.put("date_taken", performanceRs.getTimestamp("date_taken"));
+                pastPerformances.add(performance);
             }
 
-            // Set quiz details and questions as request attributes
-            request.setAttribute("quizName", quizName);
-            request.setAttribute("questions", questions);
+            // Fetch highest performers of all time
+            String topAllTimeQuery = "SELECT users.username, quiz_performance.score FROM quiz_performance JOIN users ON quiz_performance.user_id = users.user_id WHERE quiz_id = ? ORDER BY score DESC LIMIT 10";
+            ps = connection.prepareStatement(topAllTimeQuery);
+            ps.setInt(1, Integer.parseInt(quizId));
+            ResultSet topAllTimeRs = ps.executeQuery();
 
-            // Forward to the JSP page
-            RequestDispatcher dispatcher = request.getRequestDispatcher("quiz.jsp");
+            List<Map<String, Object>> topAllTime = new ArrayList<>();
+            while (topAllTimeRs.next()) {
+                Map<String, Object> topPerformance = new HashMap<>();
+                topPerformance.put("username", topAllTimeRs.getString("username"));
+                topPerformance.put("score", topAllTimeRs.getBigDecimal("score"));
+                topAllTime.add(topPerformance);
+            }
+
+            // Fetch top performers in the last day
+            String topLastDayQuery = "SELECT users.username, quiz_performance.score FROM quiz_performance JOIN users ON quiz_performance.user_id = users.user_id WHERE quiz_id = ? AND date_taken >= NOW() - INTERVAL 1 DAY ORDER BY score DESC LIMIT 10";
+            ps = connection.prepareStatement(topLastDayQuery);
+            ps.setInt(1, Integer.parseInt(quizId));
+            ResultSet topLastDayRs = ps.executeQuery();
+
+            List<Map<String, Object>> topLastDay = new ArrayList<>();
+            while (topLastDayRs.next()) {
+                Map<String, Object> topPerformance = new HashMap<>();
+                topPerformance.put("username", topLastDayRs.getString("username"));
+                topPerformance.put("score", topLastDayRs.getBigDecimal("score"));
+                topLastDay.add(topPerformance);
+            }
+
+            // Fetch recent test takers
+            String recentTakersQuery = "SELECT users.username, quiz_performance.score FROM quiz_performance JOIN users ON quiz_performance.user_id = users.user_id WHERE quiz_id = ? ORDER BY date_taken DESC LIMIT 10";
+            ps = connection.prepareStatement(recentTakersQuery);
+            ps.setInt(1, Integer.parseInt(quizId));
+            ResultSet recentTakersRs = ps.executeQuery();
+
+            List<Map<String, Object>> recentTakers = new ArrayList<>();
+            while (recentTakersRs.next()) {
+                Map<String, Object> recentPerformance = new HashMap<>();
+                recentPerformance.put("username", recentTakersRs.getString("username"));
+                recentPerformance.put("score", recentTakersRs.getBigDecimal("score"));
+                recentTakers.add(recentPerformance);
+            }
+
+            // Fetch summary statistics
+            String summaryStatsQuery = "SELECT AVG(score) AS average_score, MAX(score) AS max_score, MIN(score) AS min_score FROM quiz_performance WHERE quiz_id = ?";
+            ps = connection.prepareStatement(summaryStatsQuery);
+            ps.setInt(1, Integer.parseInt(quizId));
+            ResultSet summaryStatsRs = ps.executeQuery();
+            summaryStatsRs.next();
+
+            Map<String, Object> summaryStats = new HashMap<>();
+            summaryStats.put("average_score", summaryStatsRs.getBigDecimal("average_score"));
+            summaryStats.put("max_score", summaryStatsRs.getBigDecimal("max_score"));
+            summaryStats.put("min_score", summaryStatsRs.getBigDecimal("min_score"));
+
+            // Set attributes for the JSP
+            request.setAttribute("description", description);
+            request.setAttribute("author", author);
+            request.setAttribute("authorPage", authorPage);
+            request.setAttribute("pastPerformances", pastPerformances);
+            request.setAttribute("topAllTime", topAllTime);
+            request.setAttribute("topLastDay", topLastDay);
+            request.setAttribute("recentTakers", recentTakers);
+            request.setAttribute("summaryStats", summaryStats);
+            request.setAttribute("quizId", quizId);
+            request.setAttribute("practiceMode", practiceMode);
+
+            // Forward to JSP
+            RequestDispatcher dispatcher = request.getRequestDispatcher("quizSummary.jsp");
             dispatcher.forward(request, response);
 
         } catch (SQLException e) {
             e.printStackTrace();
-            response.getWriter().println("Error retrieving quiz.");
+            response.getWriter().println("Error retrieving quiz summary.");
         } finally {
             if (rs != null) try { rs.close(); } catch (SQLException e) { e.printStackTrace(); }
             if (ps != null) try { ps.close(); } catch (SQLException e) { e.printStackTrace(); }
             if (connection != null) try { connection.close(); } catch (SQLException e) { e.printStackTrace(); }
         }
+    }
+
+    private int getUsername(HttpServletRequest request) {
+        // Implement logic to get the logged-in user's ID from the session or context
+        return (int) request.getSession().getAttribute("username");
     }
 }
