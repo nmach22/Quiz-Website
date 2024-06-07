@@ -67,6 +67,6 @@ public class AccountManager {
         PreparedStatement st = con.prepareStatement(query);
         st.setString(1 , name);
         st.setString(2 , generateHash(pas));
-
+        st.executeUpdate();
     }
 }

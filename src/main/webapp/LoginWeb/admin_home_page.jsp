@@ -9,7 +9,7 @@
 
 <%
 //    String username = request.getParameter("username");
-    String username = "Nika";
+    String username = request.getParameter("username");
 
 %>
 
