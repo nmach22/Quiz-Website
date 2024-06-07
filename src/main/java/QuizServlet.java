@@ -51,13 +51,13 @@ public class QuizServlet extends HttpServlet {
             ps.setString(1, author);
             ResultSet authorRs = ps.executeQuery();
             authorRs.next();
-            String authorPage = authorRs.getString("user_page");
+            String authorUsername = authorRs.getString("username");
 
             // Fetch user's past performance on this quiz
-            String performanceQuery = "SELECT * FROM quiz_performance WHERE quiz_id = ? AND user_id = ? ORDER BY date_taken DESC";
+            String performanceQuery = "SELECT * FROM quizzes WHERE quiz_id = ? AND username = ? ORDER BY creation_date DESC";
             ps = connection.prepareStatement(performanceQuery);
             ps.setInt(1, Integer.parseInt(quizId));
-            ps.setInt(2, getUsername(request)); // Assuming you have a method to get user id from session
+            ps.setInt(2, getUsername(request));
             ResultSet performanceRs = ps.executeQuery();
 
             List<Map<String, Object>> pastPerformances = new ArrayList<>();
@@ -70,7 +70,7 @@ public class QuizServlet extends HttpServlet {
             }
 
             // Fetch highest performers of all time
-            String topAllTimeQuery = "SELECT users.username, quiz_performance.score FROM quiz_performance JOIN users ON quiz_performance.user_id = users.user_id WHERE quiz_id = ? ORDER BY score DESC LIMIT 10";
+            String topAllTimeQuery = "SELECT users.username, quizzes.score FROM quizzes JOIN users ON quizzes.username = users.username WHERE quiz_id = ? ORDER BY score DESC LIMIT 10";
             ps = connection.prepareStatement(topAllTimeQuery);
             ps.setInt(1, Integer.parseInt(quizId));
             ResultSet topAllTimeRs = ps.executeQuery();
@@ -84,7 +84,7 @@ public class QuizServlet extends HttpServlet {
             }
 
             // Fetch top performers in the last day
-            String topLastDayQuery = "SELECT users.username, quiz_performance.score FROM quiz_performance JOIN users ON quiz_performance.user_id = users.user_id WHERE quiz_id = ? AND date_taken >= NOW() - INTERVAL 1 DAY ORDER BY score DESC LIMIT 10";
+            String topLastDayQuery = "SELECT users.username, quizzes.score FROM quizzes JOIN users ON quizzes.username = users.username WHERE quiz_id = ? AND creation_date >= NOW() - INTERVAL 1 DAY ORDER BY score DESC LIMIT 10";
             ps = connection.prepareStatement(topLastDayQuery);
             ps.setInt(1, Integer.parseInt(quizId));
             ResultSet topLastDayRs = ps.executeQuery();
@@ -98,7 +98,7 @@ public class QuizServlet extends HttpServlet {
             }
 
             // Fetch recent test takers
-            String recentTakersQuery = "SELECT users.username, quiz_performance.score FROM quiz_performance JOIN users ON quiz_performance.user_id = users.user_id WHERE quiz_id = ? ORDER BY date_taken DESC LIMIT 10";
+            String recentTakersQuery = "SELECT users.username, quizzes.score FROM quizzes JOIN users ON quizzes.username = users.username WHERE quiz_id = ? ORDER BY creation_date DESC LIMIT 10";
             ps = connection.prepareStatement(recentTakersQuery);
             ps.setInt(1, Integer.parseInt(quizId));
             ResultSet recentTakersRs = ps.executeQuery();
@@ -112,7 +112,7 @@ public class QuizServlet extends HttpServlet {
             }
 
             // Fetch summary statistics
-            String summaryStatsQuery = "SELECT AVG(score) AS average_score, MAX(score) AS max_score, MIN(score) AS min_score FROM quiz_performance WHERE quiz_id = ?";
+            String summaryStatsQuery = "SELECT AVG(score) AS average_score, MAX(score) AS max_score, MIN(score) AS min_score FROM quizzes WHERE quiz_id = ?";
             ps = connection.prepareStatement(summaryStatsQuery);
             ps.setInt(1, Integer.parseInt(quizId));
             ResultSet summaryStatsRs = ps.executeQuery();
@@ -126,7 +126,7 @@ public class QuizServlet extends HttpServlet {
             // Set attributes for the JSP
             request.setAttribute("description", description);
             request.setAttribute("author", author);
-            request.setAttribute("authorPage", authorPage);
+            request.setAttribute("authorPage", authorUsername);
             request.setAttribute("pastPerformances", pastPerformances);
             request.setAttribute("topAllTime", topAllTime);
             request.setAttribute("topLastDay", topLastDay);
