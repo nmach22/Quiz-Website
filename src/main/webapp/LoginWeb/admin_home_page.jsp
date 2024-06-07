@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
-//    String username = request.getParameter("username");
+
     String username = request.getParameter("username");
 
 %>
@@ -24,12 +24,16 @@
 <div>
     <input name="announcement_field" type="text" value=""/>
     <button type="submit">Create announcement</button>
+
 </div>
 
 <div>
-    <input name="user_id" type="text" value=""/>
-    <button type="submit">Remove User</button>
+    <form id = "removeUser" action="RemoveServlet" method="post">
+        <input id = "userid" name="user_id" type="text" value=""/>
+        <button type="submit">Remove User</button>
+    </form>
     <button type="submit">Promote User to Admin</button>
+
 </div>
 <div>
     <input name="quiz_id" type="text" value=""/>
@@ -42,3 +46,4 @@
 </div>
 </body>
 </html>
+

@@ -21,7 +21,6 @@ public class AccountManager {
             byte[] hashBytes;
             hashBytes = md.digest();
             hashString = hexToString(hashBytes);
-            System.out.println(hashString);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
@@ -68,5 +67,16 @@ public class AccountManager {
         st.setString(1 , name);
         st.setString(2 , generateHash(pas));
         st.executeUpdate();
+    }
+
+    public boolean removeAcc(String name) throws SQLException {
+        if(hasAcc(name)){
+            String query = "DELETE FROM users WHERE username = ?";
+            PreparedStatement st = con.prepareStatement(query);
+            st.setString(1, name);
+            st.executeUpdate();
+            return true;
+        }
+        return false;
     }
 }
