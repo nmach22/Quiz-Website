@@ -44,7 +44,6 @@ public class QuizServlet extends HttpServlet {
             String description = rs.getString("description");
             String author = rs.getString("author");
             boolean practiceMode = rs.getBoolean("practice_mode");
-
             // Fetch author details
             String authorQuery = "SELECT * FROM users WHERE username = ?";
             ps = connection.prepareStatement(authorQuery);
@@ -134,6 +133,7 @@ public class QuizServlet extends HttpServlet {
             request.setAttribute("summaryStats", summaryStats);
             request.setAttribute("quizId", quizId);
             request.setAttribute("practiceMode", practiceMode);
+            request.setAttribute("quizName", quizName);
 
             // Forward to JSP
             RequestDispatcher dispatcher = request.getRequestDispatcher("quizSummary.jsp");
