@@ -5,7 +5,6 @@ CREATE TABLE users (
                              username VARCHAR(50) PRIMARY KEY,
                              password VARCHAR(50),
                              is_admin TINYINT(1) DEFAULT '0',
-                             user TEXT
 );
 
 CREATE TABLE quizes (
@@ -15,7 +14,6 @@ CREATE TABLE quizes (
                             one_page TINYINT(1) DEFAULT '0',
                             immediate_correction TINYINT(1) DEFAULT '0',
                             practice_mode TINYINT(1) DEFAULT '0',
-                            quiz TEXT,
                             creation_date TIMESTAMP DEFAULT NOW()
 );
 
