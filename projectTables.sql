@@ -16,9 +16,10 @@ DROP TABLE IF EXISTS questionPictureResponse;
 DROP TABLE IF EXISTS questionMultipleChoice;
 
 CREATE TABLE users (
-                     username VARCHAR(50) PRIMARY KEY,
-                     password_hash VARCHAR(50),
-                     is_admin TINYINT(1) DEFAULT '0'
+
+    username VARCHAR(50) PRIMARY KEY,
+    password_hash VARCHAR(50),
+    is_admin TINYINT(1) DEFAULT '0'
 );
 
 CREATE TABLE quizzes (
@@ -135,6 +136,8 @@ CREATE TABLE questionMultipleChoiceResponseAnswers(
     answer varchar(200) NOT NULL,
     is_correct TINYINT(1)
 );
+
+INSERT INTO users (username, password_hash) values ('a' , 'a');
 
 select * from users;
 select * from friends;
