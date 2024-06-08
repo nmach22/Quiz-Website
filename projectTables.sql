@@ -37,12 +37,13 @@ CREATE TABLE history (
                     quiz_id INT,
                     username VARCHAR(50),
                     score INT,
-                    time TIMESTAMP
+                    time TIMESTAMP,
+                    date_taken TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE announcements (
                     announcement_id INT AUTO_INCREMENT PRIMARY KEY,
-                    user_id         INT,
+                    username         varchar(50),
                     announcement    varchar(1000),
                     creation_date   TIMESTAMP DEFAULT NOW()
 );
@@ -69,7 +70,7 @@ CREATE TABLE friendRequests (
 );
 
 CREATE TABLE chat (
-                    challenge_id INT AUTO_INCREMENT PRIMARY KEY,
+                    chat_id INT AUTO_INCREMENT PRIMARY KEY,
                     user_from varchar(50),
                     user_to varchar(50),
                     message varchar(1000),

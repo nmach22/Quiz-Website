@@ -5,7 +5,7 @@ import java.sql.*;
 public class AccountManager {
     private static final String url = "jdbc:mysql://localhost:3306/mysql";
     private static final String name = "root";
-    public static final String pas = "lukatoma_123";
+    public static final String pas = "";
     private Connection con;
 
     public AccountManager() throws ClassNotFoundException, SQLException {
