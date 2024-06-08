@@ -146,8 +146,7 @@ select * from history;
 INSERT INTO users (username, password_hash, is_admin) VALUES
                 ('kato', '34800e15707fae815d7c90d49de44aca97e2d759', 1),
                 ('Nika', '86f7e437faa5a7fce15d1ddcb9eaeaea377667b8', 1),
-                ('qatama', 'adeb6f2a18fe33af368d91b09587b68e3abcb9a7', 0),
-                ('aleqsa', '4181eecbd7a755d19fdf73887c54837cbecf63fd', 0);
+                ('qatama', 'adeb6f2a18fe33af368d91b09587b68e3abcb9a7', 0);
 
 INSERT INTO friends ( username, friend, addDate) VALUES
                 ('luka', 'kato', NOW()),

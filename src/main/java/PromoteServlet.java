@@ -1,6 +1,3 @@
-import javax.servlet.DispatcherType;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextListener;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,25 +6,26 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-@WebServlet(urlPatterns = {"/LoginWeb/removeServlet"})
-public class RemoveServlet extends HttpServlet {
+
+@WebServlet(urlPatterns = {"/LoginWeb/promoteServlet"})
+public class PromoteServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         AccountManager accMan = (AccountManager) getServletContext().getAttribute("Account Manager");
+        String username = req.getParameter("name");
         try {
-            String userId = req.getParameter("name");
-            if(accMan.removeAcc(userId) == 1){
+            if(accMan.promoteToAdmin(username) == 1){
                 resp.setContentType("text/plain");
                 PrintWriter out = resp.getWriter();
-                out.print("Successfully deleted " + userId);
-            } else if(accMan.removeAcc(userId) == 0) {
+                out.print("Successfully promoted " + username + " to admin");
+            }else if(accMan.promoteToAdmin(username) == 2){
                 resp.setContentType("text/plain");
                 PrintWriter out = resp.getWriter();
-                out.print("User " + userId +" does not exist");
+                out.print("User " + username + " is already admin");
             }else{
                 resp.setContentType("text/plain");
                 PrintWriter out = resp.getWriter();
-                out.print("You can not remove an admin: " + userId);
+                out.print("User " + username + " does not exist");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -39,5 +37,3 @@ public class RemoveServlet extends HttpServlet {
         super.doPost(req, resp);
     }
 }
-
-

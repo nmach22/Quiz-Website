@@ -8,12 +8,47 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
-
     String username = request.getParameter("username");
-
 %>
 
 <html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function (){
+        $('#remove').click(function (e){
+            e.preventDefault();
+            var username = $('#userid').val();
+            $.ajax({
+                type: 'POST',
+                url: 'removeServlet',
+                data: {name: username},
+                success: function (result){
+                    $('#message').html(result);
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX error: " + status + " - " + error);
+                }
+            });
+            console.log("AJAX request for removing user sent");
+        });
+        $('#promote').click(function (e){
+            e.preventDefault();
+            var username = $('#userid').val();
+            $.ajax({
+                type: 'POST',
+                url: 'promoteServlet',
+                data: {name: username},
+                success: function (result){
+                    $('#message').html(result);
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX error: " + status + " - " + error);
+                }
+            });
+            console.log("AJAX request for removing user sent");
+        });
+    });
+</script>
 <head>
     <title>Welcome <%=username%></title>
     <h>Welcome <%=username%> (admin)</h>
@@ -28,11 +63,12 @@
 </div>
 
 <div>
-    <form id = "removeUser" action="RemoveServlet" method="post">
+    <form id="removeUserForm">
         <input id = "userid" name="user_id" type="text" value=""/>
-        <button type="submit">Remove User</button>
+        <button type="submit" id="remove">Remove User</button>
+        <button type="submit" id ="promote">Promote User to Admin</button>
+        <span id = "message"></span>
     </form>
-    <button type="submit">Promote User to Admin</button>
 
 </div>
 <div>
