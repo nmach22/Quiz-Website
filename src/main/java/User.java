@@ -262,6 +262,7 @@ public class User {
                 info.add(rs.getString("user_to"));
                 info.add(rs.getString("link"));
                 info.add(rs.getString("status"));
+                info.add(rs.getString("quiz_id"));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

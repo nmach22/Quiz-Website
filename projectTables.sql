@@ -82,57 +82,67 @@ CREATE TABLE quizChallenges (
                       user_from varchar(50),
                       user_to varchar(50),
                       link varchar(100),
+                      quiz_id INT,
                       status varchar(20) default 'pending',
                       sentDate TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE questions (
                     question_id INT AUTO_INCREMENT PRIMARY KEY,
+                    quiz_id INT,
                     author VARCHAR(50),
                     question_type VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE questionResponse (
                     question_id INT PRIMARY KEY,
+                    quiz_id INT,
                     question varchar(200) NOT NULL
 );
 
 
 CREATE TABLE questionResponseAnswers(
     answer_id INT PRIMARY KEY ,
+    quiz_id INT,
     question_id INT ,
     answer varchar(200) NOT NULL
 );
 
 CREATE TABLE questionFillInTheBlank (
                     question_id INT PRIMARY KEY,
+                    quiz_id INT,
                     question varchar(200) NOT NULL
 
 );
 
 CREATE TABLE questionFillInTheBlankAnswers(
     answer_id INT PRIMARY KEY ,
+    quiz_id INT,
     question_id INT,
     answer varchar(200) NOT NULL
 );
 
 CREATE TABLE questionPictureResponse (
         question_id INT PRIMARY KEY,
+        quiz_id INT,
         picture_link varchar(200) NOT NULL,
         question varchar(200) NOT NULL
 
 );
 CREATE TABLE questionPictureResponseAnswers(
         answer_id INT PRIMARY KEY ,
+        quiz_id INT,
         question_id INT,
         answer varchar(200) NOT NULL
 );
 CREATE TABLE questionMultipleChoice (
     question_id INT PRIMARY KEY,
+    quiz_id INT,
     question varchar(200)
 );
 CREATE TABLE questionMultipleChoiceResponseAnswers(
     answer_id INT PRIMARY KEY ,
+    quiz_id INT,
     question_id INT,
     answer varchar(200) NOT NULL,
     is_correct TINYINT(1)
