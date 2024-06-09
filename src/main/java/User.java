@@ -5,14 +5,14 @@ public class User {
     private static final String url = "jdbc:mysql://localhost:3306/mysql";
     private static final String name = "root";
     public static final String pas = "";
-    private Connection con;
+    private static Connection con;
 
     public User() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         con = DriverManager.getConnection(url,name,pas);
     }
 
-    public Vector<String> getFriends(String name){
+    public static Vector<String> getFriends(String name){
         Vector<String> friends = new Vector<>();
         try {
             Statement statement = con.createStatement();
@@ -27,7 +27,7 @@ public class User {
         return friends;
     }
 
-    public Vector<String> getSentFriendRequests(String name){
+    public static Vector<String> getSentFriendRequests(String name){
         Vector<String> requests = new Vector<>();
         try {
             Statement statement = con.createStatement();
@@ -42,7 +42,7 @@ public class User {
         return requests;
     }
 
-    public Vector<String> getFriendRequests(String name){
+    public static Vector<String> getFriendRequests(String name){
         Vector<String> requests = new Vector<>();
         try {
             Statement statement = con.createStatement();
@@ -57,7 +57,7 @@ public class User {
         return requests;
     }
 
-    public Vector<String> getCreatedQuizzes(String name){
+    public static Vector<String> getCreatedQuizzes(String name){
         Vector<String> quizzes = new Vector<>();
         try {
             Statement statement = con.createStatement();
@@ -72,7 +72,7 @@ public class User {
         return quizzes;
     }
 
-    public Vector<Vector<String>> takenQuizzesByDate(String name){
+    public static Vector<Vector<String>> takenQuizzesByDate(String name){
         Vector<Vector<String>> quizzes = new Vector<>();
         try {
             Statement statement = con.createStatement();
@@ -91,7 +91,7 @@ public class User {
         return quizzes;
     }
 
-    public Vector<Vector<String>> takenQuizzesByTime(String name){
+    public static Vector<Vector<String>> takenQuizzesByTime(String name){
         Vector<Vector<String>> quizzes = new Vector<>();
         try {
             Statement statement = con.createStatement();
@@ -110,7 +110,7 @@ public class User {
         return quizzes;
     }
 
-    public Vector<Vector<String>> takenQuizzesByScore(String name){
+    public static Vector<Vector<String>> takenQuizzesByScore(String name){
         Vector<Vector<String>> quizzes = new Vector<>();
         try {
             Statement statement = con.createStatement();
@@ -129,7 +129,7 @@ public class User {
         return quizzes;
     }
 
-    public Vector<String> getAchievements(String name){
+    public static Vector<String> getAchievements(String name){
         Vector<String> achievements = new Vector<>();
         try {
             Statement statement = con.createStatement();
@@ -144,7 +144,7 @@ public class User {
         return achievements;
     }
 
-    public Vector<String> getSentMessages(String user_from, String user_to){
+    public static Vector<String> getSentMessages(String user_from, String user_to){
         Vector<String> chat = new Vector<>();
         try {
             Statement statement = con.createStatement();
@@ -159,7 +159,7 @@ public class User {
         return chat;
     }
 
-    public Vector<String> getMessageWithID(int chatID){
+    public static Vector<String> getMessageWithID(int chatID){
         Vector<String> info = new Vector<>();
         try {
             Statement statement = con.createStatement();
@@ -176,7 +176,7 @@ public class User {
         return info;
     }
 
-    public Vector<String> getAllSentMessages(String user_from){
+    public static Vector<String> getAllSentMessages(String user_from){
         Vector<String> chat = new Vector<>();
         try {
             Statement statement = con.createStatement();
@@ -191,7 +191,7 @@ public class User {
         return chat;
     }
 
-    public Vector<String> getAllReceivedMessages(String user_to){
+    public static Vector<String> getAllReceivedMessages(String user_to){
         Vector<String> chat = new Vector<>();
         try {
             Statement statement = con.createStatement();
@@ -206,7 +206,7 @@ public class User {
         return chat;
     }
 
-    public Vector<String> getAllSentChallenges(String user_from){
+    public static Vector<String> getAllSentChallenges(String user_from){
         Vector<String> requests = new Vector<>();
         try {
             Statement statement = con.createStatement();
@@ -221,7 +221,7 @@ public class User {
         return requests;
     }
 
-    public Vector<String> getAllReceivedChallenges(String user_to){
+    public static Vector<String> getAllReceivedChallenges(String user_to){
         Vector<String> requests = new Vector<>();
         try {
             Statement statement = con.createStatement();
@@ -236,7 +236,7 @@ public class User {
         return requests;
     }
 
-    public Vector<String> getChallenge(String user_from, String user_to){
+    public static Vector<String> getChallenge(String user_from, String user_to){
         Vector<String> requests = new Vector<>();
         try {
             Statement statement = con.createStatement();
@@ -251,7 +251,7 @@ public class User {
         return requests;
     }
 
-    public Vector<String> getChallengeWithID(String id){
+    public static Vector<String> getChallengeWithID(String id){
         Vector<String> info = new Vector<>();
         try {
             Statement statement = con.createStatement();
@@ -270,7 +270,7 @@ public class User {
         return info;
     }
 
-    public boolean addFriend(String name, String friend) throws SQLException {
+    public static boolean addFriend(String name, String friend) throws SQLException {
         if(!getFriends(name).contains(friend)){
             String sql = "INSERT INTO friends (username, friend) VALUES (?, ?)";
             PreparedStatement st = con.prepareStatement(sql);
@@ -287,7 +287,7 @@ public class User {
         return false;
     }
 
-    public boolean sendFriendRequest(String name, String friend) throws SQLException {
+    public static boolean sendFriendRequest(String name, String friend) throws SQLException {
         if(!getFriends(name).contains(friend) && !getSentFriendRequests(name).contains(friend)){
             String sql = "INSERT INTO friendRequests (user_from, user_to) VALUES (?, ?)";
             PreparedStatement st = con.prepareStatement(sql);
@@ -299,7 +299,7 @@ public class User {
         return false;
     }
 
-    public boolean removeFriend(String name, String friend) throws SQLException {
+    public static boolean removeFriend(String name, String friend) throws SQLException {
         if(getFriends(name).contains(friend)){
             String sql = "DELETE FROM friends WHERE username = ? AND friend = ?";
             PreparedStatement st = con.prepareStatement(sql);
@@ -314,7 +314,7 @@ public class User {
         return false;
     }
 
-    public boolean removeFriendRequest(String name, String friend) throws SQLException {
+    public static boolean removeFriendRequest(String name, String friend) throws SQLException {
         if(getSentFriendRequests(name).contains(friend)){
             String sql = "DELETE FROM friendRequests WHERE user_from = ? AND user_to = ?";
             PreparedStatement st = con.prepareStatement(sql);
@@ -326,7 +326,7 @@ public class User {
         return false;
     }
 
-    public void sendChallenge(String from, String to, String link, int quizID) throws SQLException {
+    public static void sendChallenge(String from, String to, String link, int quizID) throws SQLException {
         String sql = "INSERT INTO quizChallenges (user_from, user_to, link, quiz_id) VALUES (?, ?, ?, ?)";
         PreparedStatement st = con.prepareStatement(sql);
         st.setString(1 , from);
@@ -336,7 +336,7 @@ public class User {
         st.executeUpdate();
     }
 
-    public void addAchievement(String name, String achievement) throws SQLException {
+    public static void addAchievement(String name, String achievement) throws SQLException {
         String sql = "INSERT INTO achievements (username, achievement_type) VALUES (?, ?)";
         PreparedStatement st = con.prepareStatement(sql);
         st.setString(1 , name);
@@ -344,7 +344,7 @@ public class User {
         st.executeUpdate();
     }
 
-    public void sendMessage(String from, String to, String message) throws SQLException {
+    public static void sendMessage(String from, String to, String message) throws SQLException {
         String sql = "INSERT INTO chat (user_from, user_to, message) VALUES (?, ?, ?)";
         PreparedStatement st = con.prepareStatement(sql);
         st.setString(1 , from);
