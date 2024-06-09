@@ -14,6 +14,10 @@ DROP TABLE IF EXISTS questionResponse;
 DROP TABLE IF EXISTS questionFillInTheBlank;
 DROP TABLE IF EXISTS questionPictureResponse;
 DROP TABLE IF EXISTS questionMultipleChoice;
+DROP TABLE IF EXISTS questionmultiplechoiceresponseanswers;
+DROP TABLE IF EXISTS questionPictureResponseAnswers;
+DROP TABLE IF EXISTS questionFillInTheBlankAnswers;
+DROP TABLE IF EXISTS questionResponseAnswers;
 
 CREATE TABLE users (
                      username VARCHAR(50) PRIMARY KEY,
@@ -38,7 +42,8 @@ CREATE TABLE history (
                     quiz_id INT,
                     username VARCHAR(50),
                     score INT,
-                    time TIMESTAMP
+                    time TIMESTAMP,
+                    date_taken TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE announcements (
@@ -142,13 +147,19 @@ select * from friends;
 select * from history;
 
 INSERT INTO users (username, password_hash, is_admin) VALUES
-                ('kato', '34800e15707fae815d7c90d49de44aca97e2d759', 1),
+                ('kato', '34800e15707fae815d7c90d49de44aca97e2d759', 0),
                 ('nika', '86f7e437faa5a7fce15d1ddcb9eaeaea377667b8', 0),
                 ('qatama', 'adeb6f2a18fe33af368d91b09587b68e3abcb9a7', 0),
                 ('aleqsa', '4181eecbd7a755d19fdf73887c54837cbecf63fd', 0);
 
 INSERT INTO friends ( username, friend, addDate) VALUES
-                ('luka', 'kato', NOW()),
-                ('kato', 'luka', NOW()),
+                ('qatama', 'kato', NOW()),
+                ('kato', 'qatama', NOW()),
                 ('aleqsa', 'nika', NOW()),
                 ('nika', 'aleqsa', NOW());
+INSERT INTO quizzes (quiz_id, description, quiz_name, author,
+                     is_random, one_page, immediate_correction,
+                     practice_mode, creation_date) VALUES
+    (1, 'PIRVELI QVIZI MTEL SAMYAROSHI', 'KATOS QUIZ', 'kato', 0, 0, 0, 0, NOW());
+
+select * from quizzes;
