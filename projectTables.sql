@@ -14,6 +14,10 @@ DROP TABLE IF EXISTS questionResponse;
 DROP TABLE IF EXISTS questionFillInTheBlank;
 DROP TABLE IF EXISTS questionPictureResponse;
 DROP TABLE IF EXISTS questionMultipleChoice;
+DROP TABLE IF EXISTS questionResponseAnswers;
+DROP TABLE IF EXISTS questionFillInTheBlankAnswers;
+DROP TABLE IF EXISTS questionMultipleChoiceResponseAnswers;
+DROP TABLE IF EXISTS questionPictureResponseAnswers;
 
 CREATE TABLE users (
 

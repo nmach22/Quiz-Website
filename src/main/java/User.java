@@ -270,5 +270,88 @@ public class User {
         return info;
     }
 
+    public boolean addFriend(String name, String friend) throws SQLException {
+        if(!getFriends(name).contains(friend)){
+            String sql = "INSERT INTO friends (username, friend) VALUES (?, ?)";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1 , name);
+            st.setString(2 , friend);
+            st.executeUpdate();
+            sql = "INSERT INTO friends (username, friend) VALUES (?, ?)";
+            st = con.prepareStatement(sql);
+            st.setString(1 , friend);
+            st.setString(2 , name);
+            st.executeUpdate();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean sendFriendRequest(String name, String friend) throws SQLException {
+        if(!getFriends(name).contains(friend) && !getSentFriendRequests(name).contains(friend)){
+            String sql = "INSERT INTO friendRequests (user_from, user_to) VALUES (?, ?)";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1 , name);
+            st.setString(2 , friend);
+            st.executeUpdate();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean removeFriend(String name, String friend) throws SQLException {
+        if(getFriends(name).contains(friend)){
+            String sql = "DELETE FROM friends WHERE username = ? AND friend = ?";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, name);
+            st.setString(2, friend);
+            st.executeUpdate();
+            st.setString(1, friend);
+            st.setString(2, name);
+            st.executeUpdate();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean removeFriendRequest(String name, String friend) throws SQLException {
+        if(getSentFriendRequests(name).contains(friend)){
+            String sql = "DELETE FROM friendRequests WHERE user_from = ? AND user_to = ?";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, name);
+            st.setString(2, friend);
+            st.executeUpdate();
+            return true;
+        }
+        return false;
+    }
+
+    public void sendChallenge(String from, String to, String link, int quizID) throws SQLException {
+        String sql = "INSERT INTO quizChallenges (user_from, user_to, link, quiz_id) VALUES (?, ?, ?, ?)";
+        PreparedStatement st = con.prepareStatement(sql);
+        st.setString(1 , from);
+        st.setString(2 , to);
+        st.setString(3 , link);
+        st.setInt(4 , quizID);
+        st.executeUpdate();
+    }
+
+    public void addAchievement(String name, String achievement) throws SQLException {
+        String sql = "INSERT INTO achievements (username, achievement_type) VALUES (?, ?)";
+        PreparedStatement st = con.prepareStatement(sql);
+        st.setString(1 , name);
+        st.setString(2 , achievement);
+        st.executeUpdate();
+    }
+
+    public void sendMessage(String from, String to, String message) throws SQLException {
+        String sql = "INSERT INTO chat (user_from, user_to, message) VALUES (?, ?, ?)";
+        PreparedStatement st = con.prepareStatement(sql);
+        st.setString(1 , from);
+        st.setString(2 , to);
+        st.setString(3 , message);
+        st.executeUpdate();
+    }
+
 
 }
