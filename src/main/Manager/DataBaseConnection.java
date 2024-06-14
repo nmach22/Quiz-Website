@@ -9,11 +9,10 @@ public class DataBaseConnection {
 
     public static Connection getConnection() throws SQLException, ClassNotFoundException {
         if (conn == null) {
-            // Replace with your MySQL connection details
             Class.forName("com.mysql.cj.jdbc.Driver");
             String url = "jdbc:mysql://localhost:3306/mysql";
             String user = "root";
-            String password = "lukatoma_123";
+            String password = "rootroot";
 
             conn = DriverManager.getConnection(url, user, password);
         }
