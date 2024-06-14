@@ -39,6 +39,7 @@ public class CreateAccountListener implements ServletContextListener {
         } catch (ClassNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
+        System.out.printf("1");
     }
 
     @Override
