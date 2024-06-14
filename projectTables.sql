@@ -1,15 +1,11 @@
 USE mysql;
 
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS quizzes;
 DROP TABLE IF EXISTS history;
 DROP TABLE IF EXISTS announcements;
 DROP TABLE IF EXISTS achievements;
 DROP TABLE IF EXISTS friends;
 DROP TABLE IF EXISTS friendRequests;
 DROP TABLE IF EXISTS chat;
-DROP TABLE IF EXISTS quizChallenges;
-DROP TABLE IF EXISTS questions;
 DROP TABLE IF EXISTS questionResponse;
 DROP TABLE IF EXISTS questionFillInTheBlank;
 DROP TABLE IF EXISTS questionPictureResponse;
@@ -18,17 +14,21 @@ DROP TABLE IF EXISTS questionResponseAnswers;
 DROP TABLE IF EXISTS questionFillInTheBlankAnswers;
 DROP TABLE IF EXISTS questionMultipleChoiceResponseAnswers;
 DROP TABLE IF EXISTS questionPictureResponseAnswers;
+DROP TABLE IF EXISTS quizChallenges;
+DROP TABLE IF EXISTS questions;
+DROP TABLE IF EXISTS quizzes;
+DROP TABLE IF EXISTS users;
 
 CREATE TABLE users
 (
     username                  VARCHAR(50) PRIMARY KEY,
+    password_hash             VARCHAR(50),
+    is_admin                  TINYINT(1) DEFAULT '0',
     user_first_name           VARCHAR(50),
     user_last_name            VARCHAR(50),
     user_profile_picture_link VARCHAR(50),
-    user_date_of_birth        DATE,
-    date_of_registration      DATE       DEFAULT NOW(),
-    password_hash             VARCHAR(50),
-    is_admin                  TINYINT(1) DEFAULT '0'
+    user_date_of_birth        TIMESTAMP,
+    date_of_registration      TIMESTAMP  DEFAULT NOW()
 );
 
 CREATE TABLE quizzes
@@ -195,8 +195,8 @@ CREATE TABLE questionPictureResponseAnswers
     question_id INT,
     answer      VARCHAR(200) NOT NULL,
 
-    FOREIGN KEY (quiz_id) REFERENCES quizzes(quiz_id),
-    FOREIGN KEY (question_id) REFERENCES questions(question_id)
+    FOREIGN KEY (quiz_id) REFERENCES quizzes (quiz_id),
+    FOREIGN KEY (question_id) REFERENCES questions (question_id)
 );
 CREATE TABLE questionMultipleChoice
 (
@@ -204,8 +204,8 @@ CREATE TABLE questionMultipleChoice
     quiz_id     INT,
     question    VARCHAR(200),
 
-    FOREIGN KEY (quiz_id) REFERENCES quizzes(quiz_id),
-    FOREIGN KEY (question_id) REFERENCES questions(question_id)
+    FOREIGN KEY (quiz_id) REFERENCES quizzes (quiz_id),
+    FOREIGN KEY (question_id) REFERENCES questions (question_id)
 );
 CREATE TABLE questionMultipleChoiceResponseAnswers
 (
@@ -215,8 +215,8 @@ CREATE TABLE questionMultipleChoiceResponseAnswers
     answer      VARCHAR(200) NOT NULL,
     is_correct  TINYINT(1),
 
-    FOREIGN KEY (quiz_id) REFERENCES quizzes(quiz_id),
-    FOREIGN KEY (question_id) REFERENCES questions(question_id)
+    FOREIGN KEY (quiz_id) REFERENCES quizzes (quiz_id),
+    FOREIGN KEY (question_id) REFERENCES questions (question_id)
 );
 
 
@@ -231,13 +231,15 @@ from history;
 INSERT INTO users (username, password_hash, is_admin)
 VALUES ('kato', '34800e15707fae815d7c90d49de44aca97e2d759', 1),
        ('Nika', '86f7e437faa5a7fce15d1ddcb9eaeaea377667b8', 1),
-       ('qatama', 'adeb6f2a18fe33af368d91b09587b68e3abcb9a7', 0);
+       ('qatama', 'adeb6f2a18fe33af368d91b09587b68e3abcb9a7', 0),
+       ('aleqsa', 'adeb6f2a18fe33af368d91b09587b68e3abcb9a7', 0);
 
 INSERT INTO friends (username, friend, addDate)
 VALUES ('qatama', 'kato', NOW()),
        ('kato', 'qatama', NOW()),
-       ('aleqsa', 'nika', NOW()),
-       ('nika', 'aleqsa', NOW());
+       ('aleqsa', 'Nika', NOW()),
+       ('Nika', 'aleqsa', NOW());
+
 INSERT INTO quizzes (quiz_id, description, quiz_name, author,
                      is_random, one_page, immediate_correction,
                      practice_mode, creation_date)
