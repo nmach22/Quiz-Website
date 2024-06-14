@@ -19,7 +19,7 @@
         <div id="search">
             <form action="search.jsp" method="get">
                 <span>
-						<input type="text" name="query" placeholder="Search" size="50" />
+                        <input type="text" name="query" placeholder="Search" size="50" />
 						<input type="submit" value="Search"> </input>
                 </span>
             </form>
