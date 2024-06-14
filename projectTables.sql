@@ -20,14 +20,15 @@ DROP TABLE IF EXISTS questionMultipleChoiceResponseAnswers;
 DROP TABLE IF EXISTS questionPictureResponseAnswers;
 
 CREATE TABLE users (
-
-    username VARCHAR(50) PRIMARY KEY,
-    password_hash VARCHAR(50),
-    is_admin TINYINT(1) DEFAULT '0'
+                     username VARCHAR(50) PRIMARY KEY,
+                     password_hash VARCHAR(50),
+                     is_admin TINYINT(1) DEFAULT '0'
 );
 
 CREATE TABLE quizzes (
                     quiz_id INT AUTO_INCREMENT PRIMARY KEY,
+                    description VARCHAR(1000),
+                    quiz_name VARCHAR(1000),
                     author VARCHAR(50),
                     is_random TINYINT(1) DEFAULT '0',
                     one_page TINYINT(1) DEFAULT '0',
@@ -164,7 +165,13 @@ INSERT INTO users (username, password_hash, is_admin) VALUES
                 ('qatama', 'adeb6f2a18fe33af368d91b09587b68e3abcb9a7', 0);
 
 INSERT INTO friends ( username, friend, addDate) VALUES
-                ('luka', 'kato', NOW()),
-                ('kato', 'luka', NOW()),
+                ('qatama', 'kato', NOW()),
+                ('kato', 'qatama', NOW()),
                 ('aleqsa', 'nika', NOW()),
                 ('nika', 'aleqsa', NOW());
+INSERT INTO quizzes (quiz_id, description, quiz_name, author,
+                     is_random, one_page, immediate_correction,
+                     practice_mode, creation_date) VALUES
+    (1, 'PIRVELI QVIZI MTEL SAMYAROSHI', 'KATOS QUIZ', 'kato', 0, 0, 0, 0, NOW());
+
+select * from quizzes;
