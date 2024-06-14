@@ -17,7 +17,6 @@ public class QuizSummaryServlet extends HttpServlet {
             response.getWriter().println("No quiz ID provided.");
             return;
         }
-        quizId = "1";
         PreparedStatement ps = null;
         ResultSet rs = null;
         Quiz quiz = null;
@@ -68,11 +67,6 @@ public class QuizSummaryServlet extends HttpServlet {
             }
             if (ps != null) try {
                 ps.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            if (quiz.getConnection() != null) try {
-                quiz.getConnection().close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
