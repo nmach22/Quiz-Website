@@ -245,5 +245,8 @@ INSERT INTO quizzes (quiz_id, description, quiz_name, author,
                      practice_mode, creation_date)
 VALUES (1, 'PIRVELI QVIZI MTEL SAMYAROSHI', 'KATOS QUIZ', 'kato', 0, 0, 0, 0, NOW());
 
+insert into announcements(announcement_id, username, announcement, title)
+values (1, 'Nika', 'qatamas sheveci', 'kutu');
+
 select *
 from quizzes;

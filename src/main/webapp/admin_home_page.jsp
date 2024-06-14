@@ -47,22 +47,53 @@
             });
             console.log("AJAX request for removing user sent");
         });
+        $('#createAnnouncementButton').click(function (e){
+            e.preventDefault();
+            var title = $('#announcementTitle').val();
+            var description = $('#announcementText').val();
+
+            if (title.trim() === "" || description.trim() === "") {
+                alert("Title and description must not be empty.");
+                return;
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: 'createAnnouncement',
+                data: {
+                    title: title,
+                    description: description,
+                    username: '<%=username%>'
+                },
+                success: function (result){
+                    alert(result);
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX error: " + status + " - " + error);
+                }
+            });
+        });
+
     });
 </script>
 <head>
     <title>Welcome <%=username%></title>
-    <h>Welcome <%=username%> (admin)</h>
+    <h1>Welcome <%=username%> (admin)</h1>
 
 </head>
 <body>
 
 <div>
-    <input name="announcement_field" type="text" value=""/>
-    <button type="submit">Create announcement</button>
-
+    <h2>Create Announcement</h2>
+    <form>
+        <input id="announcementTitle" type="text" placeholder="Announcement Title" required />
+        <textarea id="announcementText" placeholder="Announcement Text" required></textarea>
+        <button type="submit" id="createAnnouncementButton">Create Announcement</button>
+    </form>
 </div>
 
 <div>
+    <h2>Manage Users</h2>
     <form id="removeUserForm">
         <input id = "userid" name="user_id" type="text" value=""/>
         <button type="submit" id="remove">Remove User</button>

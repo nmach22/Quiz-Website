@@ -4,11 +4,9 @@ import java.sql.*;
 import java.util.Vector;
 
 public class User {
-
     private static Connection con;
 
     public User() throws ClassNotFoundException, SQLException {
-
         con = DataBaseConnection.getConnection();
     }
 

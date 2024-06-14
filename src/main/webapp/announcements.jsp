@@ -1,18 +1,24 @@
-<%@ page import="main.Manager.Quiz" %>
+<%--
+  Created by IntelliJ IDEA.
+  User: alexsurmava
+  Date: 14.06.24
+  Time: 20:04
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="main.Manager.Announcement" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Recent Announcements</title>
+    <title>All Announcements</title>
 </head>
 <body>
-<h1>Recent Announcements</h1>
+<h1>All Announcements</h1>
 <%
     ArrayList<Announcement> announcements = null;
     try {
-        announcements = Announcement.getAnnouncements(5);
+        announcements = Announcement.getAnnouncements(0);
     } catch (Exception e) {
         e.printStackTrace();
     }
@@ -30,8 +36,8 @@
         out.println("<p>No announcements found.</p>");
     }
 %>
-<form action="announcements.jsp" method="get">
-    <button type="submit">All Announcements</button>
+<form action="homePage.jsp" method="get">
+    <button type="submit">Back to home page</button>
 </form>
 </body>
 </html>
