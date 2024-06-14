@@ -21,9 +21,14 @@ DROP TABLE IF EXISTS questionPictureResponseAnswers;
 
 CREATE TABLE users
 (
-    username      VARCHAR(50) PRIMARY KEY,
-    password_hash VARCHAR(50),
-    is_admin      TINYINT(1) DEFAULT '0'
+    username                  VARCHAR(50) PRIMARY KEY,
+    user_first_name           VARCHAR(50),
+    user_last_name            VARCHAR(50),
+    user_profile_picture_link VARCHAR(50),
+    user_date_of_birth        DATE,
+    date_of_registration      DATE       DEFAULT NOW(),
+    password_hash             VARCHAR(50),
+    is_admin                  TINYINT(1) DEFAULT '0'
 );
 
 CREATE TABLE quizzes
