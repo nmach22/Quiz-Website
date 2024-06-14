@@ -20,9 +20,14 @@ DROP TABLE IF EXISTS questionMultipleChoiceResponseAnswers;
 DROP TABLE IF EXISTS questionPictureResponseAnswers;
 
 CREATE TABLE users (
-                     username VARCHAR(50) PRIMARY KEY,
-                     password_hash VARCHAR(50),
-                     is_admin TINYINT(1) DEFAULT '0'
+                    username VARCHAR(50) PRIMARY KEY,
+                    user_first_name VARCHAR(50),
+                    user_last_name VARCHAR(50),
+                    user_profile_picture_link VARCHAR(50),
+                    user_date_of_birth DATE,
+                    date_of_registration DATE DEFAULT NOW(),
+                    password_hash VARCHAR(50),
+                    is_admin TINYINT(1) DEFAULT '0'
 );
 
 CREATE TABLE quizzes (
@@ -160,7 +165,7 @@ select * from friends;
 select * from history;
 
 INSERT INTO users (username, password_hash, is_admin) VALUES
-                ('kato', '34800e15707fae815d7c90d49de44aca97e2d759', 1),
+                ('kato', '34800e15707fae815d7c90d49de44aca97e2d759', 0),
                 ('Nika', '86f7e437faa5a7fce15d1ddcb9eaeaea377667b8', 1),
                 ('qatama', 'adeb6f2a18fe33af368d91b09587b68e3abcb9a7', 0);
 
