@@ -12,8 +12,10 @@
 </head>
 <body>
     <h1> Create new account</h1>
-    <p> Enter username and password </p>
+    <p> Fill in </p>
     <form action="CreateAccountServlet" method="post">
+        First Name: <input type = "text" name="firstName"/> <br/>
+        Last Name: <input type = "text" name="lastName"/> <br/>
         Username: <input type="text" name="username"/> <br/>
         password: <input type="text" name = "pas"/>
         <input type="submit" value="Create"/>

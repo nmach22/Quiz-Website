@@ -19,7 +19,7 @@ public class CreateAccountServlet extends HttpServlet {
         System.out.println(accMan == null);
         try {
             if(!accMan.hasAcc(req.getParameter("username"))){
-                accMan.createAcc(req.getParameter("username"), req.getParameter("pas"));
+                accMan.createAcc(req.getParameter("username"), req.getParameter("pas"), req.getParameter("firstName"), req.getParameter("LastName"));
                 req.getSession().setAttribute("username", req.getParameter("username"));
                 RequestDispatcher dis = req.getRequestDispatcher("homePage.jsp");
                 dis.forward(req,resp);

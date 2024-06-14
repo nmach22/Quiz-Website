@@ -62,11 +62,13 @@ public class AccountManager {
         return rs.next();
     }
 
-    public void createAcc(String name ,String pas) throws SQLException {
-        String query = "INSERT INTO users (username,password_hash) VALUES (? , ?)";
+    public void createAcc(String name ,String pas, String firstName, String lastName) throws SQLException {
+        String query = "INSERT INTO users (username,password_hash,user_first_name, user_last_name) VALUES (? , ?, ?, ?)";
         PreparedStatement st = con.prepareStatement(query);
         st.setString(1 , name);
         st.setString(2 , generateHash(pas));
+        st.setString(3,firstName);
+        st.setString(4, lastName);
         st.executeUpdate();
     }
 
