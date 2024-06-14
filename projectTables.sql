@@ -1,7 +1,5 @@
 USE mysql;
 
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS quizzes;
 DROP TABLE IF EXISTS history;
 DROP TABLE IF EXISTS announcements;
 DROP TABLE IF EXISTS achievements;
@@ -9,7 +7,6 @@ DROP TABLE IF EXISTS friends;
 DROP TABLE IF EXISTS friendRequests;
 DROP TABLE IF EXISTS chat;
 DROP TABLE IF EXISTS quizChallenges;
-DROP TABLE IF EXISTS questions;
 DROP TABLE IF EXISTS questionResponse;
 DROP TABLE IF EXISTS questionFillInTheBlank;
 DROP TABLE IF EXISTS questionPictureResponse;
@@ -19,14 +16,17 @@ DROP TABLE IF EXISTS questionFillInTheBlankAnswers;
 DROP TABLE IF EXISTS questionMultipleChoiceResponseAnswers;
 DROP TABLE IF EXISTS questionPictureResponseAnswers;
 
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS questions;
+DROP TABLE IF EXISTS quizzes;
 CREATE TABLE users
 (
     username                  VARCHAR(50) PRIMARY KEY,
     user_first_name           VARCHAR(50),
     user_last_name            VARCHAR(50),
     user_profile_picture_link VARCHAR(50),
-    user_date_of_birth        DATE,
-    date_of_registration      DATE       DEFAULT NOW(),
+    user_date_of_birth        TIMESTAMP,
+    date_of_registration      TIMESTAMP  DEFAULT NOW(),
     password_hash             VARCHAR(50),
     is_admin                  TINYINT(1) DEFAULT '0'
 );
