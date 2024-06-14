@@ -52,7 +52,7 @@
 <head>
     <title>Welcome <%=username%></title>
     <h>Welcome <%=username%> (admin)</h>
-
+    <link rel="stylesheet" type="text/css" href="css/main_background.css">
 </head>
 <body>
 

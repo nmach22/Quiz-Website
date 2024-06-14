@@ -7,6 +7,7 @@
 <head>
     <title>Quiz Website</title>
     <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/main_background.css">
 </head>
 <body>
 <%@include file="header.jsp"%>
