@@ -1,3 +1,7 @@
+package main.Servlets;
+
+import main.Manager.AccountManager;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -7,15 +11,17 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet(urlPatterns = {"/LoginWeb/CreateAccountServlet"})
+@WebServlet("/CreateAccountServlet")
 public class CreateAccountServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         AccountManager accMan =(AccountManager)getServletContext().getAttribute("Account Manager");
+        System.out.println(accMan == null);
         try {
             if(!accMan.hasAcc(req.getParameter("username"))){
                 accMan.createAcc(req.getParameter("username"), req.getParameter("pas"));
-                RequestDispatcher dis = req.getRequestDispatcher("home_page.jsp");
+                req.getSession().setAttribute("username", req.getParameter("username"));
+                RequestDispatcher dis = req.getRequestDispatcher("homePage.jsp");
                 dis.forward(req,resp);
             }else{
                 RequestDispatcher dis =req.getRequestDispatcher("create_new_failed.jsp");

@@ -1,6 +1,9 @@
+package main.Servlets;
+
+import main.Manager.AccountManager;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebListener;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -8,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet(urlPatterns = {"/LoginWeb/LoginServlet"})
+@WebServlet("/LoginServlet")
 public class LoginAccountServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -18,7 +21,8 @@ public class LoginAccountServlet extends HttpServlet {
                 RequestDispatcher dis = req.getRequestDispatcher("login_failed.jsp");
                 dis.forward(req,resp);
             }else if(accMan.isCorrect(req.getParameter("username"), req.getParameter("pas")) == 1){
-                RequestDispatcher dis = req.getRequestDispatcher("home_page.jsp");
+                req.getSession().setAttribute("username", req.getParameter("username"));
+                RequestDispatcher dis = req.getRequestDispatcher("homePage.jsp");
                 dis.forward(req,resp);
             }else{
                 RequestDispatcher dis = req.getRequestDispatcher("admin_home_page.jsp");

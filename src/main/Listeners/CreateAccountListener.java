@@ -1,5 +1,10 @@
 import com.mysql.cj.jdbc.AbandonedConnectionCleanupThread;
 
+package main.Listeners;
+
+import main.Manager.AccountManager;
+import main.Manager.User;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -14,15 +19,24 @@ public class CreateAccountListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
+        System.out.printf("1");
         AccountManager accMan = null;
         try {
             accMan = new AccountManager();
         } catch (ClassNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
+        System.out.printf("1");
 
         ServletContext con = servletContextEvent.getServletContext();
         con.setAttribute("Account Manager", accMan);
+        System.out.printf("1");
+
+        try {
+            con.setAttribute("User Manager", new User());
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -40,4 +54,5 @@ public class CreateAccountListener implements ServletContextListener {
         // Stop the abandoned connection cleanup thread
         AbandonedConnectionCleanupThread.checkedShutdown();
     }
+
 }

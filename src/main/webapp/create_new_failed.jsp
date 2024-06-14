@@ -1,6 +1,6 @@
 <%--
   Created by IntelliJ IDEA.
-  User: User
+  main.Manager.User: main.Manager.User
   Date: 6/6/2024
   Time: 7:51 PM
   To change this template use File | Settings | File Templates.
@@ -15,7 +15,7 @@
     <h2> name: <%= request.getParameter("username") %> is taken</h2>
     <p> Enter another username</p>
     <form action="CreateAccountServlet" method="post">
-        User Name: <input type="text" name="user"/> <br/>
+        User Name: <input type="text" name="username"/> <br/>
         Password: <input type="text" name="pas"/>
         <input type="submit" value="create"/>
     </form>

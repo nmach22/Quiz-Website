@@ -1,10 +1,12 @@
+package main.Manager;
+
 import java.sql.*;
 import java.util.Vector;
 
 public class User {
     private static final String url = "jdbc:mysql://localhost:3306/mysql";
     private static final String name = "root";
-    public static final String pas = "";
+    public static final String pas = "lukatoma_123";
     private static Connection con;
 
     public User() throws ClassNotFoundException, SQLException {

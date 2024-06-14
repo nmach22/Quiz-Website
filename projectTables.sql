@@ -56,14 +56,14 @@ CREATE TABLE history
     FOREIGN KEY (quiz_id) REFERENCES quizzes (quiz_id)
 );
 
-CREATE TABLE announcements
-(
-    announcement_id INT AUTO_INCREMENT PRIMARY KEY,
-    username        VARCHAR(50),
-    announcement    VARCHAR(1000),
-    creation_date   TIMESTAMP DEFAULT NOW(),
+CREATE TABLE announcements (
+                    announcement_id INT AUTO_INCREMENT PRIMARY KEY,
+                    username         varchar(50),
+                    announcement    varchar(1000),
+                    title varchar(200),
+                    creation_date   TIMESTAMP DEFAULT NOW(),
+                    FOREIGN KEY (username) REFERENCES users (username)
 
-    FOREIGN KEY (username) REFERENCES users (username)
 );
 
 CREATE TABLE achievements
