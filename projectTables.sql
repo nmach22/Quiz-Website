@@ -14,10 +14,10 @@ DROP TABLE IF EXISTS questionResponse;
 DROP TABLE IF EXISTS questionFillInTheBlank;
 DROP TABLE IF EXISTS questionPictureResponse;
 DROP TABLE IF EXISTS questionMultipleChoice;
-DROP TABLE IF EXISTS questionmultiplechoiceresponseanswers;
-DROP TABLE IF EXISTS questionPictureResponseAnswers;
-DROP TABLE IF EXISTS questionFillInTheBlankAnswers;
 DROP TABLE IF EXISTS questionResponseAnswers;
+DROP TABLE IF EXISTS questionFillInTheBlankAnswers;
+DROP TABLE IF EXISTS questionMultipleChoiceResponseAnswers;
+DROP TABLE IF EXISTS questionPictureResponseAnswers;
 
 CREATE TABLE users (
                      username VARCHAR(50) PRIMARY KEY,
@@ -48,6 +48,7 @@ CREATE TABLE history (
 
 CREATE TABLE announcements (
                     announcement_id INT AUTO_INCREMENT PRIMARY KEY,
+                    username         varchar(50),
                     announcement    varchar(1000),
                     creation_date   TIMESTAMP DEFAULT NOW()
 );
@@ -74,7 +75,7 @@ CREATE TABLE friendRequests (
 );
 
 CREATE TABLE chat (
-                    challenge_id INT AUTO_INCREMENT PRIMARY KEY,
+                    chat_id INT AUTO_INCREMENT PRIMARY KEY,
                     user_from varchar(50),
                     user_to varchar(50),
                     message varchar(1000),
@@ -86,71 +87,82 @@ CREATE TABLE quizChallenges (
                       user_from varchar(50),
                       user_to varchar(50),
                       link varchar(100),
+                      quiz_id INT,
                       status varchar(20) default 'pending',
                       sentDate TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE questions (
                     question_id INT AUTO_INCREMENT PRIMARY KEY,
+                    quiz_id INT,
                     author VARCHAR(50),
                     question_type VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE questionResponse (
                     question_id INT PRIMARY KEY,
+                    quiz_id INT,
                     question varchar(200) NOT NULL
 );
 
 
 CREATE TABLE questionResponseAnswers(
     answer_id INT PRIMARY KEY ,
+    quiz_id INT,
     question_id INT ,
     answer varchar(200) NOT NULL
 );
 
 CREATE TABLE questionFillInTheBlank (
                     question_id INT PRIMARY KEY,
+                    quiz_id INT,
                     question varchar(200) NOT NULL
 
 );
 
 CREATE TABLE questionFillInTheBlankAnswers(
     answer_id INT PRIMARY KEY ,
+    quiz_id INT,
     question_id INT,
     answer varchar(200) NOT NULL
 );
 
 CREATE TABLE questionPictureResponse (
         question_id INT PRIMARY KEY,
+        quiz_id INT,
         picture_link varchar(200) NOT NULL,
         question varchar(200) NOT NULL
 
 );
 CREATE TABLE questionPictureResponseAnswers(
         answer_id INT PRIMARY KEY ,
+        quiz_id INT,
         question_id INT,
         answer varchar(200) NOT NULL
 );
 CREATE TABLE questionMultipleChoice (
     question_id INT PRIMARY KEY,
+    quiz_id INT,
     question varchar(200)
 );
 CREATE TABLE questionMultipleChoiceResponseAnswers(
     answer_id INT PRIMARY KEY ,
+    quiz_id INT,
     question_id INT,
     answer varchar(200) NOT NULL,
     is_correct TINYINT(1)
 );
+
+
 
 select * from users;
 select * from friends;
 select * from history;
 
 INSERT INTO users (username, password_hash, is_admin) VALUES
-                ('kato', '34800e15707fae815d7c90d49de44aca97e2d759', 0),
-                ('nika', '86f7e437faa5a7fce15d1ddcb9eaeaea377667b8', 0),
-                ('qatama', 'adeb6f2a18fe33af368d91b09587b68e3abcb9a7', 0),
-                ('aleqsa', '4181eecbd7a755d19fdf73887c54837cbecf63fd', 0);
+                ('kato', '34800e15707fae815d7c90d49de44aca97e2d759', 1),
+                ('Nika', '86f7e437faa5a7fce15d1ddcb9eaeaea377667b8', 1),
+                ('qatama', 'adeb6f2a18fe33af368d91b09587b68e3abcb9a7', 0);
 
 INSERT INTO friends ( username, friend, addDate) VALUES
                 ('qatama', 'kato', NOW()),

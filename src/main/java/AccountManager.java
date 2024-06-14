@@ -18,7 +18,6 @@ public class AccountManager {
             byte[] hashBytes;
             hashBytes = md.digest();
             hashString = hexToString(hashBytes);
-            System.out.println(hashString);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
@@ -65,5 +64,45 @@ public class AccountManager {
         st.setString(1 , name);
         st.setString(2 , generateHash(pas));
         st.executeUpdate();
+    }
+
+    public int removeAcc(String name) throws SQLException {
+        if(hasAcc(name)){
+            if(!isAdmin(name)) {
+                String query = "DELETE FROM users WHERE username = ?";
+                PreparedStatement st = con.prepareStatement(query);
+                st.setString(1, name);
+                st.executeUpdate();
+                return 1;
+            }else{
+                return 2;
+            }
+        }
+        return 0;
+    }
+    public boolean isAdmin(String name) throws SQLException {
+        String query = "SELECT * FROM users WHERE username = ?";
+        PreparedStatement st = con.prepareStatement(query);
+        st.setString(1 , name);
+        ResultSet rs = st.executeQuery();
+        if(rs.next()){
+            return rs.getInt(3) == 1;
+        }
+        return false;
+    }
+
+    public int promoteToAdmin(String name) throws SQLException {
+        if(hasAcc(name)){
+            if(isAdmin(name)){
+                return 2;
+            }else{
+                String query = "UPDATE users SET is_admin = 1 WHERE username = ?";
+                PreparedStatement st = con.prepareStatement(query);
+                st.setString(1, name);
+                st.executeUpdate();
+                return 1;
+            }
+        }
+        return 0;
     }
 }
