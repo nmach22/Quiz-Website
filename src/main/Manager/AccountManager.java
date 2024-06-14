@@ -1,3 +1,7 @@
+package main.Manager;
+
+import main.Manager.DataBaseConnection;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
@@ -6,7 +10,7 @@ public class AccountManager {
     private Connection con;
 
     public AccountManager() throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
+
         con = DataBaseConnection.getConnection();
     }
     static String generateHash(String password) {

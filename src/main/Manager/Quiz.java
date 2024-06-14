@@ -1,4 +1,7 @@
-import javax.servlet.RequestDispatcher;
+package main.Manager;
+
+import main.Manager.DataBaseConnection;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -156,7 +159,7 @@ public class Quiz {
                 throw new RuntimeException(e);
             }
             connection = DataBaseConnection.getConnection();
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
         return connection;

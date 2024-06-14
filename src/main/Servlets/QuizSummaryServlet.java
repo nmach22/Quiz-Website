@@ -1,5 +1,5 @@
-// QuizServlet.java
-
+package main.Servlets;// QuizServlet.java
+import main.Manager.Quiz;
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;

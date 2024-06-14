@@ -1,8 +1,10 @@
-import com.mysql.cj.jdbc.AbandonedConnectionCleanupThread;
-
 package main.Listeners;
 
+import com.mysql.cj.jdbc.AbandonedConnectionCleanupThread;
+
 import main.Manager.AccountManager;
+
+
 import main.Manager.User;
 
 import javax.servlet.ServletContext;

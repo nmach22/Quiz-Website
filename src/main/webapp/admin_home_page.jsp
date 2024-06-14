@@ -65,16 +65,16 @@
 <div>
     <form id="removeUserForm">
         <input id = "userid" name="user_id" type="text" value=""/>
-        <button type="submit" id="remove">Remove main.Manager.User</button>
-        <button type="submit" id ="promote">Promote main.Manager.User to Admin</button>
+        <button type="submit" id="remove">Remove User</button>
+        <button type="submit" id ="promote">Promote User to Admin</button>
         <span id = "message"></span>
     </form>
 
 </div>
 <div>
     <input name="quiz_id" type="text" value=""/>
-    <button type="submit">Remove main.Manager.Quiz</button>
-    <button type="submit">Remove main.Manager.Quiz History</button>
+    <button type="submit">Remove Quiz</button>
+    <button type="submit">Remove Quiz History</button>
 </div>
 
 <div>

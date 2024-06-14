@@ -9,9 +9,6 @@ public class Announcement {
     public String title;
     public String description;
     public String created;
-    private static final String url = "jdbc:mysql://localhost:3306/mysql";
-    private static final String name = "root";
-    public static final String pas = "";
 
     public Announcement(String user, String title, String description, String created) {
         this.user = user;
@@ -27,8 +24,7 @@ public class Announcement {
         }else {
             query = "SELECT * FROM announcements ORDER BY creation_date desc LIMIT " + amount;
         }
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection con = DriverManager.getConnection(url, name, pas);
+        Connection con = DataBaseConnection.getConnection();
         PreparedStatement st = con.prepareStatement(query);
         ResultSet rs = st.executeQuery();
         while(rs.next()){
