@@ -127,21 +127,6 @@ public class User {
         return quizzes;
     }
 
-    public static Vector<String> getAchievements(String name){
-        Vector<String> achievements = new Vector<>();
-        try {
-            Statement statement = con.createStatement();
-            String sql = "SELECT * FROM achievements WHERE username = \""+ name +"\" ORDER BY dateAchieved";
-            ResultSet rs = statement.executeQuery(sql);
-            while(rs.next()){
-                achievements.add(rs.getString("achievement_type"));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return achievements;
-    }
-
     public static Vector<String> getSentMessages(String user_from, String user_to){
         Vector<String> chat = new Vector<>();
         try {
