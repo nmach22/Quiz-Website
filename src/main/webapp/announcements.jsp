@@ -9,9 +9,13 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="main.Manager.Announcement" %>
 <!DOCTYPE html>
+<%
+    String username = request.getParameter("username");
+%>
 <html>
 <head>
     <title>All Announcements</title>
+    <link rel="stylesheet" type="text/css" href="css/allAnnouncements.css">
 </head>
 <body>
 <h1>All Announcements</h1>
@@ -25,18 +29,20 @@
 
     if (announcements != null && announcements.size() > 0) {
         for (Announcement announcement : announcements) {
-            out.println("<div>");
+            out.println("<div class=" + "announcement>");
             out.println("<h2>" + announcement.title + "</h2>");
             out.println("<p><strong>By:</strong> " + announcement.user + "</p>");
             out.println("<p><strong>Date:</strong> " + announcement.created + "</p>");
             out.println("<p>" + announcement.description + "</p>");
-            out.println("</div><hr/>");
+            out.println("</div>");
+            out.println("</hr>");
         }
     } else {
-        out.println("<p>No announcements found.</p>");
+        out.println("<p>There are no announcements</p>");
     }
 %>
 <form action="homePage.jsp" method="get">
+    <input type="hidden" name="username" value=<%=username%>>
     <button type="submit">Back to home page</button>
 </form>
 </body>

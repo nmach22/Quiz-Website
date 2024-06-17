@@ -7,7 +7,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 
 public class AccountManager {
-    private Connection con;
+    private static Connection con;
 
     public AccountManager() throws ClassNotFoundException, SQLException {
 
@@ -39,19 +39,16 @@ public class AccountManager {
         return buff.toString();
     }
 
-    public int isCorrect(String user , String pas) throws SQLException {
+    public boolean isCorrect(String user , String pas) throws SQLException {
         String query = "SELECT * FROM users WHERE username = ? AND password_hash = ?";
         PreparedStatement st = con.prepareStatement(query);
         st.setString(1 , user);
         st.setString(2 , generateHash(pas));
         ResultSet rs = st.executeQuery();
         if(rs.next()){
-            if (rs.getInt(3) == 1){
-                return 2;
-            }
-            return 1;
+            return true;
         }
-        return 0;
+        return false;
     }
 
     public boolean hasAcc(String user) throws SQLException {
@@ -86,7 +83,7 @@ public class AccountManager {
         }
         return 0;
     }
-    public boolean isAdmin(String name) throws SQLException {
+    public static boolean isAdmin(String name) throws SQLException {
         String query = "SELECT * FROM users WHERE username = ?";
         PreparedStatement st = con.prepareStatement(query);
         st.setString(1 , name);
