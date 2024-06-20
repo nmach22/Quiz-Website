@@ -18,6 +18,7 @@ DROP TABLE IF EXISTS quizChallenges;
 DROP TABLE IF EXISTS questions;
 DROP TABLE IF EXISTS quizzes;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS achievementTypes;
 
 CREATE TABLE users
 (
@@ -74,6 +75,14 @@ CREATE TABLE achievements
     dateAchieved     TIMESTAMP DEFAULT NOW(),
 
     FOREIGN KEY (username) REFERENCES users (username)
+);
+
+CREATE TABLE achievementTypes
+(
+    type_id   INT AUTO_INCREMENT PRIMARY KEY,
+    achievement_type VARCHAR(50),
+    achievement_description   VARCHAR(200),
+    achievement_badge VARCHAR(50)
 );
 
 CREATE TABLE friends
@@ -257,5 +266,34 @@ INSERT INTO quizzes (quiz_id, description, quiz_name, author,
                      practice_mode, creation_date)
 VALUES (1, 'PIRVELI QVIZI MTEL SAMYAROSHI', 'KATOS QUIZ', 'kato', 0, 0, 0, 0, NOW());
 
+insert into announcements(announcement_id, username, announcement, title)
+values (1, 'Nika', 'qatamas sheveci', 'kutu');
+
+insert into achievements(username, achievement_type)
+VALUES ('aleqsa', 'yvelaze magari');
+insert into achievements(username, achievement_type)
+VALUES ('aleqsa', 'yvelaze magari 2');
+insert into achievements(username, achievement_type)
+VALUES ('aleqsa', 'yvelaze magari 3');
+insert into achievements(username, achievement_type)
+VALUES ('aleqsa', 'yvelaze magari 4');
+insert into achievements(username, achievement_type)
+VALUES ('aleqsa', 'yvelaze magari 5');
+insert into achievements(username, achievement_type)
+VALUES ('aleqsa', 'yvelaze magari 6');
+
+insert into achievementTypes(achievement_type, achievement_description, achievement_badge)
+VALUES ('yvelaze magari', 'roca yvelaze magari xar', 'fas fa-medal');
+insert into achievementTypes(achievement_type, achievement_description, achievement_badge)
+VALUES ('yvelaze magari 2', 'roca yvelaze magari xar', 'fas fa-medal');
+insert into achievementTypes(achievement_type, achievement_description, achievement_badge)
+VALUES ('yvelaze magari 3', 'roca yvelaze magari xar', 'fas fa-users');
+insert into achievementTypes(achievement_type, achievement_description, achievement_badge)
+VALUES ('yvelaze magari 4', 'roca yvelaze magari xar', 'fas fa-lightbulb');
+insert into achievementTypes(achievement_type, achievement_description, achievement_badge)
+VALUES ('yvelaze magari 5', 'roca yvelaze magari xar', 'fas fa-users');
+insert into achievementTypes(achievement_type, achievement_description, achievement_badge)
+VALUES ('yvelaze magari 6', 'roca yvelaze magari xar', 'fas fa-lightbulb');
+
 select *
-from quizzes;
+from achievements;

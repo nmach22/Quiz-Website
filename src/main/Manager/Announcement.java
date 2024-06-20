@@ -33,8 +33,11 @@ public class Announcement {
         return res;
     }
 
-    public static void  makeAnnouncement(String description , String title, String user){
-        String query = "INSERT INTO announcements (username , announcement, title, creation_date) VALUES " +
-                "('" + user + "','" + description +"','" + title + "','"+ new Date() +"')";
+    public static void  makeAnnouncement(String description , String title, String user) throws SQLException, ClassNotFoundException {
+        String query = "INSERT INTO announcements (username , announcement, title) VALUES " +
+                "('" + user + "','" + description +"','" + title + "')";
+        Connection con = DataBaseConnection.getConnection();
+        PreparedStatement st = con.prepareStatement(query);
+        st.executeUpdate();
     }
 }
