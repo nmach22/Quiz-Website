@@ -1,6 +1,7 @@
 package main.Manager;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class User {
@@ -12,17 +13,22 @@ public class User {
         con = DataBaseConnection.getConnection();
     }
 
-    public static Vector<String> getFriends(String name){
-        Vector<String> friends = new Vector<>();
+    public static ArrayList<String> getFriends(String name){
+        ArrayList<String> friends = new ArrayList<>();
+
         try {
-            Statement statement = con.createStatement();
-            String sql = "SELECT * FROM friends WHERE username = \""+ name +"\" ORDER BY addDate";
-            ResultSet rs = statement.executeQuery(sql);
+            if (con == null || con.isClosed()) {
+                throw new SQLException("Database connection is not initialized or is closed.");
+            }
+            String sql = "SELECT user2 FROM friends WHERE user1 = \""+ name +"\" AND status = 'accepted' ORDER BY addDate";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery(sql);
             while(rs.next()){
-                friends.add(rs.getString("friend"));
+                friends.add(rs.getString(1));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            throw new RuntimeException("Error retrieving friends from the database: " + e.getMessage());
         }
         return friends;
     }

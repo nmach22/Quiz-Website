@@ -1,0 +1,57 @@
+
+.friend-list {
+    width: 20%;
+    padding: 20px;
+    background-color: whitesmoke;
+    border: 1px solid whitesmoke;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    right: 0;
+    top: 20%;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.friend-list h2 {
+    text-align: center;
+}
+
+.friend-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.friend-list li {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Simple styles for the modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 25%;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.message-box {
+    display: none;
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+.message-box textarea {
+    width: 300px; /* Set a fixed width for the textarea */
+    height: 60px; /* Set a fixed height for the textarea */
+    min-height: 100px; /* Ensure the textarea doesn't expand beyond this height */
+    max-width: 300px; /* Ensure the textarea doesn't expand beyond this width */
+    min-width: 300px; /* Ensure the textarea doesn't expand beyond this width */
+}
