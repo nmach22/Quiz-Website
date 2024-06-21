@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="css/home-page.css">
     <link rel="stylesheet" type="text/css" href="css/friend-list.css">
+    <link rel="stylesheet" type="text/css" href="css/chat.css">
     <script src="js/MessageScript.js"></script>
 
 </head>
@@ -38,10 +39,10 @@
     </button>
     <%
         try {
-            if(AccountManager.isAdmin(username)){
-                out.println("<button class=\"admin-button\" onclick=\"goToAdminPage()\">" );
-                out.println("<i class=\"fas fa-shield-alt\"></i>" );
-                out.println("</button>" );
+            if (AccountManager.isAdmin(username)) {
+                out.println("<button class=\"admin-button\" onclick=\"goToAdminPage()\">");
+                out.println("<i class=\"fas fa-shield-alt\"></i>");
+                out.println("</button>");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -52,32 +53,32 @@
     </form>
 </div>
 <div class="announcements">
-<%
-    ArrayList<Announcement> announcements = null;
-    try {
-        announcements = Announcement.getAnnouncements(5);
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-
-    if (announcements != null && announcements.size() > 0) {
-        for (Announcement announcement : announcements) {
-            out.println("<div class=" + "announcement>");
-            out.println("<h2>" + announcement.title + "</h2>");
-            out.println("<p><strong>By:</strong> " + announcement.user + "</p>");
-            out.println("<p><strong>Date:</strong> " + announcement.created + "</p>");
-            out.println("<p>" + announcement.description + "</p>");
-            out.println("</div>");
-            out.println("</hr>");
+    <%
+        ArrayList<Announcement> announcements = null;
+        try {
+            announcements = Announcement.getAnnouncements(5);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    } else {
-        out.println("<p>There are no announcements</p>");
-    }
-%>
-<form action="announcements.jsp" method="get">
-    <input type="hidden" name="username" value=<%=username%>>
-    <button type="submit">All Announcements</button>
-</form>
+
+        if (announcements != null && announcements.size() > 0) {
+            for (Announcement announcement : announcements) {
+                out.println("<div class=" + "announcement>");
+                out.println("<h2>" + announcement.title + "</h2>");
+                out.println("<p><strong>By:</strong> " + announcement.user + "</p>");
+                out.println("<p><strong>Date:</strong> " + announcement.created + "</p>");
+                out.println("<p>" + announcement.description + "</p>");
+                out.println("</div>");
+                out.println("</hr>");
+            }
+        } else {
+            out.println("<p>There are no announcements</p>");
+        }
+    %>
+    <form action="announcements.jsp" method="get">
+        <input type="hidden" name="username" value=<%=username%>>
+        <button type="submit">All Announcements</button>
+    </form>
 </div>
 
 <div class="friend-list">
@@ -103,6 +104,15 @@
         %>
     </ul>
 </div>
+
+<div id="chat-container" style="display: none;">
+    <div id="friend-name"><%=username%></div>
+
+    <div id="chat-window"></div>
+    <input type="text" id="message-input" placeholder="Type a message...">
+    <button id="send-button" onclick="sendMessage()">Send</button>
+</div>
+
 <script>
     function viewAchievements() {
         window.location.href = 'achievements.jsp?username=<%=username%>';

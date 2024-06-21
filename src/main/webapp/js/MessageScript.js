@@ -1,39 +1,98 @@
-function toggleMessageBox(friendName, element) {
-    let messageBox = element.nextElementSibling;
+document.addEventListener('DOMContentLoaded', function() {
+    const chatWindow = document.getElementById('chat-window');
+    const messageInput = document.getElementById('message-input');
+    const chatContainer = document.getElementById('chat-container');
+    const friendName = document.getElementById('friend-name');
+    let currentFriend = null;
 
-    if (messageBox && messageBox.classList.contains('message-box')) {
-        if (messageBox.style.display === 'none' || messageBox.style.display === '') {
-            messageBox.style.display = 'block';
-        } else {
-            messageBox.style.display = 'none';
-        }
-    } else {
-        messageBox = document.createElement('div');
-        messageBox.classList.add('message-box');
-        messageBox.innerHTML = `
-            <p>Message ${friendName}</p>
-            <textarea class="message-text" rows="4" cols="50" style="width: 300px; height: 100px;"></textarea>
-            <br>
-            <button onclick="sendMessage('${friendName}', this)">Send Message</button>
-        `;
-        element.parentNode.insertBefore(messageBox, element.nextSibling);
-    }
-}
+    const socket = new WebSocket('ws://localhost:8080/chat');
 
-function sendMessage(friendName, element) {
-    const messageBox = element.parentElement;
-    const message = messageBox.querySelector('.message-text').value;
-
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", "SendMessageServlet", true);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            alert("Message sent to " + friendName);
-            messageBox.style.display = 'none';
-        } else if (xhr.readyState == 4 && xhr.status != 200) {
-            alert(xhr.status + " Error while sending message.");
-        }
+    socket.onmessage = function(event) {
+        const message = document.createElement('div');
+        const data = JSON.parse(event.data);
+        message.textContent = `${data.senderName}: ${data.message}`;
+        chatWindow.appendChild(message);
     };
-    xhr.send("friendName=" + encodeURIComponent(friendName) + "&message=" + encodeURIComponent(message));
-}
+
+    window.toggleMessageBox = function(friend, element) {
+        console.log("Clicked friend: " + friend);
+        console.log("Current friend: " + currentFriend);
+
+        if (currentFriend === friend) {
+            chatContainer.style.display = 'none';
+            currentFriend = null;
+            console.log("Hiding chat container");
+        } else {
+            chatContainer.style.display = 'block';
+            chatWindow.innerHTML = ''; // Clear chat window for new friend
+            friendName.textContent = friend; // Set the friend's name
+            currentFriend = friend;
+            console.log("Showing chat container for friend: " + friend);
+
+            // Load messages for this friend from database
+            loadMessages(friend);
+        }
+    }
+
+    window.sendMessage = function() {
+        const message = messageInput.value;
+        if (message.trim() === '') {
+            return;
+        }
+
+        // Send message via WebSocket
+        socket.send(message);
+
+        // Save message to database via servlet
+        saveMessageToServlet(currentFriend, message);
+
+        // Display sent message in chat window
+        displaySentMessage(message);
+
+        messageInput.value = '';
+    }
+
+    function loadMessages(friend) {
+        // Fetch messages from database via servlet
+        fetch(`/FetchMessagesServlet?user_from=${currentFriend}`)
+            .then(response => response.json())
+            .then(messages => {
+                messages.forEach(msg => displayMessage(msg.senderName, msg.message));
+            })
+            .catch(error => console.error('Error fetching messages:', error));
+    }
+
+    function displayMessage(senderName, message) {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message');
+        messageDiv.textContent = `${senderName}: ${message}`;
+        chatWindow.appendChild(messageDiv);
+    }
+
+    function displaySentMessage(message) {
+        const sentMessageDiv = document.createElement('div');
+        sentMessageDiv.classList.add('sent-message');
+        sentMessageDiv.textContent = `Me: ${message}`;
+        chatWindow.appendChild(sentMessageDiv);
+    }
+
+    function saveMessageToServlet(userTo, message) {
+        // Prepare data
+        const data = new URLSearchParams();
+        data.append('friendName', currentFriend);
+        data.append('message', message);
+
+        // Send POST request to servlet
+        fetch('/SendMessageServlet', {
+            method: 'POST',
+            body: data
+        })
+            .then(response => response.text())
+            .then(result => {
+                console.log(result); // Log the response from servlet
+                // Update chat window with new message (optional)
+                displaySentMessage(message);
+            })
+            .catch(error => console.error('Error saving message:', error));
+    }
+});
