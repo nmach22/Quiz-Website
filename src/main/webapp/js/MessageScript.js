@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const chatWindow = document.getElementById('chat-window');
     const messageInput = document.getElementById('message-input');
     const chatContainer = document.getElementById('chat-container');
@@ -7,14 +7,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const socket = new WebSocket('ws://localhost:8080/chat');
 
-    socket.onmessage = function(event) {
+    socket.onmessage = function (event) {
         const message = document.createElement('div');
         const data = JSON.parse(event.data);
         message.textContent = `${data.senderName}: ${data.message}`;
         chatWindow.appendChild(message);
     };
 
-    window.toggleMessageBox = function(friend, element) {
+    window.toggleMessageBox = function (friend, element) {
         console.log("Clicked friend: " + friend);
         console.log("Current friend: " + currentFriend);
 
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    window.sendMessage = function() {
+    window.sendMessage = function () {
         const message = messageInput.value;
         if (message.trim() === '') {
             return;
@@ -47,26 +47,43 @@ document.addEventListener('DOMContentLoaded', function() {
         saveMessageToServlet(currentFriend, message);
 
         // Display sent message in chat window
-        displaySentMessage(message);
+        // displaySentMessage(message);
 
         messageInput.value = '';
     }
 
-    function loadMessages(friend) {
-        // Fetch messages from database via servlet
-        fetch(`/FetchMessagesServlet?user_from=${currentFriend}`)
-            .then(response => response.json())
-            .then(messages => {
-                messages.forEach(msg => displayMessage(msg.senderName, msg.message));
-            })
-            .catch(error => console.error('Error fetching messages:', error));
+    // Fetch messages and display them
+    async function loadMessages(friend) {
+        try {
+            const response = await fetch(`/FetchMessagesServlet?user_from=${friend}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch messages');
+            }
+            const messages = await response.json();
+            const chatWindow = document.getElementById('chat-window');
+            chatWindow.innerHTML = ''; // Clear chat window before appending messages
+            messages.forEach(msg => displayMessage(msg.senderName, msg.message));
+        } catch (error) {
+            console.error('Error fetching messages:', error);
+        }
     }
 
-    function displayMessage(senderName, message) {
-        const messageDiv = document.createElement('div');
-        messageDiv.classList.add('message');
-        messageDiv.textContent = `${senderName}: ${message}`;
-        chatWindow.appendChild(messageDiv);
+
+    // Function to display a message
+    function displayMessage(sender, message) {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message');
+
+        const senderElement = document.createElement('strong');
+        senderElement.textContent = `${sender}: `;
+
+        const messageContent = document.createElement('span');
+        messageContent.textContent = message;
+
+        messageElement.appendChild(senderElement);
+        messageElement.appendChild(messageContent);
+
+        document.getElementById('chat-window').appendChild(messageElement);
     }
 
     function displaySentMessage(message) {
@@ -76,6 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
         chatWindow.appendChild(sentMessageDiv);
     }
 
+    // Send message to the servlet and update the chat window
     function saveMessageToServlet(userTo, message) {
         // Prepare data
         const data = new URLSearchParams();
@@ -87,11 +105,12 @@ document.addEventListener('DOMContentLoaded', function() {
             method: 'POST',
             body: data
         })
-            .then(response => response.text())
-            .then(result => {
-                console.log(result); // Log the response from servlet
-                // Update chat window with new message (optional)
-                displaySentMessage(message);
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to send message');
+                }
+                // Reload messages after successfully sending the message
+                return loadMessages(currentFriend);
             })
             .catch(error => console.error('Error saving message:', error));
     }
