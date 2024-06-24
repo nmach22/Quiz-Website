@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const data = JSON.parse(event.data);
         message.textContent = `${data.senderName}: ${data.message}`;
         chatWindow.appendChild(message);
+        scrollToBottom();
     };
 
     window.toggleMessageBox = function (friend, element) {
@@ -30,7 +31,8 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log("Showing chat container for friend: " + friend);
 
             // Load messages for this friend from database
-            loadMessages(friend);
+            loadMessages(friend).then(r => r);
+            scrollToBottom();
         }
     }
 
@@ -46,6 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Save message to database via servlet
         saveMessageToServlet(currentFriend, message);
 
+        scrollToBottom();
         messageInput.value = '';
     }
 
@@ -81,6 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
         messageElement.appendChild(messageContent);
 
         document.getElementById('chat-window').appendChild(messageElement);
+        scrollToBottom();
     }
 
 // Send message to the servlet and update the chat window
@@ -103,5 +107,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 return loadMessages(friend);
             })
             .catch(error => console.error('Error saving message:', error));
+    }
+
+    function scrollToBottom() {
+        const chatWindow = document.getElementById('chat-window');
+        chatWindow.scrollTop = chatWindow.scrollHeight - chatWindow.clientHeight;
     }
 });
