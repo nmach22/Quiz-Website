@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 @WebServlet("/FetchMessagesServlet")
 public class FetchMessagesServlet extends HttpServlet {
     @Override
@@ -33,9 +34,12 @@ public class FetchMessagesServlet extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
+
         try {
             Connection conn = DataBaseConnection.getConnection();
-            String sql = "SELECT user_from, message FROM chat WHERE (user_from = ? AND user_to = ?) OR (user_from = ? AND user_to = ?) ORDER BY sentDate ASC";
+            String sql = "SELECT user_from, user_to, message, sentDate FROM chat " +
+                    "WHERE (user_from = ? AND user_to = ?) OR (user_from = ? AND user_to = ?) " +
+                    "ORDER BY sentDate ASC";
             PreparedStatement st = conn.prepareStatement(sql);
             st.setString(1, username);
             st.setString(2, friendName);
@@ -43,7 +47,7 @@ public class FetchMessagesServlet extends HttpServlet {
             st.setString(4, username);
             ResultSet rs = st.executeQuery();
 
-            List<Map<String, String>> messages = new ArrayList<>();
+            ArrayList<Map<String, String>> messages = new ArrayList<>();
             while (rs.next()) {
                 Map<String, String> message = new HashMap<>();
                 message.put("senderName", rs.getString("user_from"));
@@ -52,10 +56,11 @@ public class FetchMessagesServlet extends HttpServlet {
             }
 
             response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(new Gson().toJson(messages));
+            PrintWriter out = response.getWriter();
+            out.println(new Gson().toJson(messages));
         } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 }

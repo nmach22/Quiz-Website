@@ -46,9 +46,6 @@ document.addEventListener('DOMContentLoaded', function () {
         // Save message to database via servlet
         saveMessageToServlet(currentFriend, message);
 
-        // Display sent message in chat window
-        // displaySentMessage(message);
-
         messageInput.value = '';
     }
 
@@ -86,18 +83,11 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('chat-window').appendChild(messageElement);
     }
 
-    function displaySentMessage(message) {
-        const sentMessageDiv = document.createElement('div');
-        sentMessageDiv.classList.add('sent-message');
-        sentMessageDiv.textContent = `Me: ${message}`;
-        chatWindow.appendChild(sentMessageDiv);
-    }
-
-    // Send message to the servlet and update the chat window
-    function saveMessageToServlet(userTo, message) {
+// Send message to the servlet and update the chat window
+    function saveMessageToServlet(friend, message) {
         // Prepare data
         const data = new URLSearchParams();
-        data.append('friendName', currentFriend);
+        data.append('friendName', friend);
         data.append('message', message);
 
         // Send POST request to servlet
@@ -110,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     throw new Error('Failed to send message');
                 }
                 // Reload messages after successfully sending the message
-                return loadMessages(currentFriend);
+                return loadMessages(friend);
             })
             .catch(error => console.error('Error saving message:', error));
     }
