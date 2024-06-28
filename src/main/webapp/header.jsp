@@ -13,7 +13,7 @@
 <div id="header">
     <% String loggedInUser = (String) session.getAttribute("username"); %>
 
-            <a href="homePage.jsp" class="logo"><%= loggedInUser%></a>
+            <a href="homePage.jsp" id="user-name" class="logo"><%= loggedInUser%></a>
         </div>
         <!-- Search -->
         <div id="search">

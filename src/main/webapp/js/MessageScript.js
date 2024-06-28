@@ -1,34 +1,31 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded',
+    function () {
     const chatWindow = document.getElementById('chat-window');
     const messageInput = document.getElementById('message-input');
     const chatContainer = document.getElementById('chat-container');
     const friendName = document.getElementById('friend-name');
+    const myName = document.getElementById('user-name').text;
     let currentFriend = null;
 
-    const socket = new WebSocket('ws://localhost:8080/chat');
+    const socket = new WebSocket('ws://localhost:8080/chat?user=' + myName);
 
     socket.onmessage = function (event) {
-        const message = document.createElement('div');
         const data = JSON.parse(event.data);
-        message.textContent = `${data.senderName}: ${data.message}`;
-        chatWindow.appendChild(message);
+        displayMessage(data.senderName, data.message);
         scrollToBottom();
     };
 
     window.toggleMessageBox = function (friend, element) {
-        console.log("Clicked friend: " + friend);
-        console.log("Current friend: " + currentFriend);
-
         if (currentFriend === friend) {
             chatContainer.style.display = 'none';
             currentFriend = null;
-            console.log("Hiding chat container");
         } else {
             chatContainer.style.display = 'block';
-            chatWindow.innerHTML = ''; // Clear chat window for new friend
-            friendName.textContent = friend; // Set the friend's name
+            // Clear chat window for new friend
+            chatWindow.innerHTML = '';
+            // Set the friend's name
+            friendName.textContent = friend;
             currentFriend = friend;
-            console.log("Showing chat container for friend: " + friend);
 
             // Load messages for this friend from database
             loadMessages(friend).then(r => r);
@@ -41,10 +38,11 @@ document.addEventListener('DOMContentLoaded', function () {
         if (message.trim() === '') {
             return;
         }
-
         // Send message via WebSocket
-        socket.send(message);
-
+        socket.send(JSON.stringify({
+            message: message,
+            to: currentFriend
+        }));
         // Save message to database via servlet
         saveMessageToServlet(currentFriend, message);
 
