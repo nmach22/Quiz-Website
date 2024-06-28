@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>create new account failed</title>
+    <link rel="stylesheet" type="text/css" href="css/main_background.css">
 </head>
 <body>
     <h1> Sign in failed.</h1> <br/>

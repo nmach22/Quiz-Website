@@ -80,6 +80,7 @@
 <head>
     <title>Admin Page</title>
     <link rel="stylesheet" type="text/css" href="css/adminPage.css">
+<%--    <link rel="stylesheet" type="text/css" href="css/main_background.css">--%>
 </head>
 <body>
 <div class="header">
