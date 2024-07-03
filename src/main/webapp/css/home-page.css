@@ -8,7 +8,7 @@ body {
     grid-template-columns: 1fr 2fr;
 }
 
-.header {
+.hheader {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -57,7 +57,7 @@ p strong {
     color: #6b6a6a;
 }
 
-button {
+.announcementsButton {
     display: block;
     width: 200px;
     margin: 20px auto;
@@ -71,7 +71,7 @@ button {
     transition: background-color 0.3s;
 }
 
-button:hover {
+.announcementsButton:hover {
     background-color: #0056b3;
 }
 

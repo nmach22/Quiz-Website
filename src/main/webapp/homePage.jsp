@@ -23,7 +23,8 @@
     <link rel="stylesheet" type="text/css" href="css/home-page.css">
 </head>
 <body>
-<div class="header">
+<%@include file="header.jsp"%>
+<div class="hheader">
     <h1>Recent Announcements</h1>
     <button class="achievements-button" onclick="viewAchievements()">
         <i class="fas fa-trophy"></i>
@@ -41,7 +42,7 @@
         }
     %>
     <form action="index.jsp" method="get">
-        <button type="submit">Log Out</button>
+        <button type="submit" class="announcementsButton">Log Out</button>
     </form>
 </div>
 <div class="announcements">
@@ -69,7 +70,7 @@
 %>
 <form action="announcements.jsp" method="get">
     <input type="hidden" name="username" value=<%=username%>>
-    <button type="submit">All Announcements</button>
+    <button type="submit" class="announcementsButton">All Announcements</button>
 </form>
 </div>
     <script>
