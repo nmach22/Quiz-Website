@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>Profile Page</title>
+    <link rel="stylesheet" type="text/css" href="css/main_background.css">
 </head>
 <body>
     <%

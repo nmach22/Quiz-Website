@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>Create New Account</title>
+    <link rel="stylesheet" type="text/css" href="css/main_background.css">
 </head>
 <body>
     <h1> Create new account</h1>

@@ -88,11 +88,13 @@ CREATE TABLE achievementTypes
 CREATE TABLE friends
 (
     friendship_id INT AUTO_INCREMENT PRIMARY KEY,
-    username      VARCHAR(50),
-    friend        VARCHAR(50),
+    user1      VARCHAR(50),
+    user2        VARCHAR(50),
+    status     ENUM('accepted', 'pending', 'blocked') DEFAULT 'pending',
     addDate       TIMESTAMP DEFAULT NOW(),
 
-    FOREIGN KEY (username) REFERENCES users (username)
+    FOREIGN KEY (user1) REFERENCES users (username),
+    FOREIGN KEY (user2) REFERENCES users (username)
 );
 
 CREATE TABLE friendRequests
@@ -236,6 +238,12 @@ select *
 from friends;
 select *
 from history;
+select *
+from chat;
+
+SELECT user2
+FROM friends
+WHERE user1 = 'qatama' AND status = 'accepted';
 
 INSERT INTO users (username, password_hash, is_admin)
 VALUES ('kato', '34800e15707fae815d7c90d49de44aca97e2d759', 0),
@@ -243,11 +251,15 @@ VALUES ('kato', '34800e15707fae815d7c90d49de44aca97e2d759', 0),
        ('qatama', 'adeb6f2a18fe33af368d91b09587b68e3abcb9a7', 0),
        ('aleqsa', 'adeb6f2a18fe33af368d91b09587b68e3abcb9a7', 0);
 
-INSERT INTO friends (username, friend, addDate)
-VALUES ('qatama', 'kato', NOW()),
-       ('kato', 'qatama', NOW()),
-       ('aleqsa', 'Nika', NOW()),
-       ('Nika', 'aleqsa', NOW());
+INSERT INTO friends (user1, user2, addDate, status)
+VALUES ('qatama', 'kato', NOW(), 'accepted'),
+       ('kato', 'qatama', NOW(),'accepted'),
+       ('qatama', 'Nika', NOW(),'accepted'),
+       ('Nika', 'qatama', NOW(),'accepted'),
+       ('qatama', 'aleqsa', NOW(),'pending'),
+       ('aleqsa', 'qatama', NOW(),'pending'),
+       ('aleqsa', 'Nika', NOW(),'accepted'),
+       ('Nika', 'aleqsa', NOW(),'accepted');
 
 INSERT INTO quizzes (quiz_id, description, quiz_name, author,
                      is_random, one_page, immediate_correction,

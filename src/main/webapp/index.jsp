@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>Login Page</title>
+    <link rel="stylesheet" type="text/css" href="css/main_background.css">
 </head>
 <body>
     <h1>Welcome to Quiz Website </h1>
