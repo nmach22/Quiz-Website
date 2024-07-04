@@ -20,12 +20,10 @@ public class makeAnnouncementServlet extends HttpServlet {
         String title = request.getParameter("title");
         String description = request.getParameter("description");
         String user = request.getParameter("username");
-        System.out.println("2");
         if (title == null || title.isEmpty() || description == null || description.isEmpty()) {
             response.getWriter().write("Title and description must not be empty.");
             return;
         }
-        System.out.println("3");
         try {
             Announcement.makeAnnouncement(description, title, user);
             response.getWriter().write("Announcement created successfully.");
