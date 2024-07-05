@@ -19,15 +19,18 @@ public class TakeQuizServlet extends HttpServlet {
         TakeQuiz quiz = null;
         try {
             quiz = new TakeQuiz(quizId);
-
+            req.setAttribute("questions", quiz.getQuestions());
+            req.setAttribute("fillInTheBlankQuestions", quiz.fetchFillInTheBlankQuestions());
+            req.setAttribute("responseQuestions", quiz.fetchResponseQuestions());
+            req.setAttribute("pictureResponseQuestions", quiz.fetchPictureResponseQuestions());
+            req.setAttribute("multipleChoiceQuestions", quiz.fetchMultipleChoiceQuestions());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        req.setAttribute("questions", quiz.getQuestions());
 
-        RequestDispatcher dispatcher = req.getRequestDispatcher("takeQuiz.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("take_Quiz.jsp");
         dispatcher.forward(req, resp);
 
     }
