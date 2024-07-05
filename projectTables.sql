@@ -41,7 +41,8 @@ CREATE TABLE quizzes
     one_page             TINYINT(1) DEFAULT '0',
     immediate_correction TINYINT(1) DEFAULT '0',
     practice_mode        TINYINT(1) DEFAULT '0',
-    creation_date        TIMESTAMP  DEFAULT NOW()
+    creation_date        TIMESTAMP  DEFAULT NOW(),
+    duration             INT
 );
 
 CREATE TABLE history
@@ -242,8 +243,21 @@ VALUES ('qatama', 'kato', NOW()),
 
 INSERT INTO quizzes (quiz_id, description, quiz_name, author,
                      is_random, one_page, immediate_correction,
-                     practice_mode, creation_date)
-VALUES (1, 'PIRVELI QVIZI MTEL SAMYAROSHI', 'KATOS QUIZ', 'kato', 0, 0, 0, 0, NOW());
+                     practice_mode, creation_date, duration)
+VALUES (1, 'PIRVELI QVIZI MTEL SAMYAROSHI', 'KATOS QUIZ', 'kato', 0, 1, 0, 0, NOW(), 30);
 
 select *
 from quizzes;
+
+INSERT INTO questions (question_id, quiz_id, author, question_type)
+VALUES (1,1,'kato','questionResponse'),
+       (2,1,'kato','questionResponse'),
+       (3,1,'kato','questionResponse');
+INSERT INTO questionResponse (question_id, quiz_id, question)
+VALUES (1,1, 'romel kurszea kato?'),
+       (3,1,'ori xe tyea?'),
+       (2,1, 'sheurigdeba lalikos luka?');
+INSERT INTO questionResponseAnswers (answer_id, quiz_id, question_id, answer)
+VALUES (1,1,1,'meore'),
+       (2,1,2,'ki'),
+       (3,1,3,'arvici');
