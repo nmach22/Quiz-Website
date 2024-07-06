@@ -120,6 +120,8 @@
 
 </div>
 
+<a href="createQuiz.jsp" class="btn btn-primary">Create New Quiz</a>
+
 <script>
     function viewAchievements() {
         window.location.href = 'achievements.jsp?username=<%=username%>';
