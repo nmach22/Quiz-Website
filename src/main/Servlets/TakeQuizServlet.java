@@ -19,11 +19,11 @@ public class TakeQuizServlet extends HttpServlet {
         TakeQuiz quiz = null;
         try {
             quiz = new TakeQuiz(quizId);
-            req.setAttribute("questions", quiz.getQuestions());
-            req.setAttribute("fillInTheBlankQuestions", quiz.fetchFillInTheBlankQuestions());
-            req.setAttribute("responseQuestions", quiz.fetchResponseQuestions());
-            req.setAttribute("pictureResponseQuestions", quiz.fetchPictureResponseQuestions());
-            req.setAttribute("multipleChoiceQuestions", quiz.fetchMultipleChoiceQuestions());
+            req.getSession().setAttribute("questions", quiz.getQuestions());
+            req.getSession().setAttribute("fillInTheBlankQuestions", quiz.fetchFillInTheBlankQuestions());
+            req.getSession().setAttribute("responseQuestions", quiz.fetchResponseQuestions());
+            req.getSession().setAttribute("pictureResponseQuestions", quiz.fetchPictureResponseQuestions());
+            req.getSession().setAttribute("multipleChoiceQuestions", quiz.fetchMultipleChoiceQuestions());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {

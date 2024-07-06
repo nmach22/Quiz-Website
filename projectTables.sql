@@ -252,12 +252,47 @@ from quizzes;
 INSERT INTO questions (question_id, quiz_id, author, question_type)
 VALUES (1,1,'kato','questionResponse'),
        (2,1,'kato','questionResponse'),
-       (3,1,'kato','questionResponse');
+       (3,1,'kato','questionResponse'),
+       (4,1,'kato','questionMultipleChoice'),
+       (5,1,'kato','questionMultipleChoice'),
+       (6,1,'kato','questionPictureResponse'),
+       (7,1,'kato','questionFillInTheBlank'),
+       (8,1,'kato','questionFillInTheBlank'),
+       (9,1,'kato','questionPictureResponse'),
+       (10,1,'kato','questionPictureResponse'),
+       (11,1,'kato','questionFillInTheBlank');
 INSERT INTO questionResponse (question_id, quiz_id, question)
-VALUES (1,1, 'romel kurszea kato?'),
-       (3,1,'ori xe tyea?'),
-       (2,1, 'sheurigdeba lalikos luka?');
+VALUES (1,1, 'What is the currency of Japan called?'),
+       (2,1, 'What is the chemical symbol for gold on the periodic table?'),
+       (3,1,'Who wrote Romeo And Juliet?');
 INSERT INTO questionResponseAnswers (answer_id, quiz_id, question_id, answer)
-VALUES (1,1,1,'meore'),
-       (2,1,2,'ki'),
-       (3,1,3,'arvici');
+VALUES (1,1,1,'yen'),
+       (2,1,2,'Au'),
+       (3,1,3,'shakespear');
+INSERT INTO questionMultipleChoice (question_id, quiz_id, question)
+VALUES (4,1,'Which spelling is correct?'),
+       (5,1,'How many ring are on the Olympic flag?');
+INSERT INTO questionMultipleChoiceResponseAnswers (answer_id, quiz_id, question_id, answer, is_correct)
+VALUES (1, 1, 4, 'maintenance', 1),
+       (2, 1, 4, 'maintainence', 0),
+       (6, 1, 4, 'maintenence', 0),
+       (7, 1, 4, 'maintainance', 0),
+       (4, 1, 5, '4', 0),
+       (5, 1, 5, '5', 1),
+       (3, 1, 5, '6', 0);
+INSERT INTO questionPictureResponse (question_id, quiz_id, picture_link, question)
+VALUES (6,1,'raisins.jpg',''),
+       (9,1,'hottest-planet.jpg',''),
+       (10,1,'highest-point.jpg','');
+INSERT INTO questionPictureResponseAnswers (answer_id, quiz_id, question_id, answer)
+VALUES (1,1,6,'grape'),
+       (2,1,9,'Mercury'),
+       (3,1,10,'Mount Everest');
+INSERT INTO questionFillInTheBlank (question_id, quiz_id, question)
+VALUES (7,1,'Saturn is the _ largest planet in the solar system.'),
+       (8,1,'Antarctica is the _ place on Earth.'),
+       (11,1,'25% of _ is 75');
+INSERT INTO questionFillInTheBlankAnswers (answer_id, quiz_id, question_id, answer)
+VALUES (1,1,7,'second'),
+       (2,1,8,'coldest'),
+       (3,1,11,'300');

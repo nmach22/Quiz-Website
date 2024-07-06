@@ -1,5 +1,7 @@
 <%@ page import="java.util.Map" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Set" %>
+<%@ page import="java.util.HashSet" %><%--
   Created by IntelliJ IDEA.
   User: Kato
   Date: 05-Jul-24
@@ -15,36 +17,47 @@
 <%
     List<Map<String,Object>> questions = (List<Map<String,Object>>) request.getSession().getAttribute("questions");
     List<Map<String,Object>> multipleChoice = (List<Map<String,Object>>) request.getSession().getAttribute("multipleChoiceQuestions");
-    if(multipleChoice.isEmpty()) System.out.println("AKDNEFAIJDFBASHIDFVB");
     List<Map<String,Object>> fillInTheBlankQuestions = (List<Map<String,Object>>) request.getSession().getAttribute("fillInTheBlankQuestions");
     List<Map<String,Object>> responseQuestions = (List<Map<String,Object>>) request.getSession().getAttribute("responseQuestions");
     List<Map<String,Object>> pictureResponseQuestions = (List<Map<String,Object>>) request.getSession().getAttribute("pictureResponseQuestions");
-%>
-<% for (Map<String, Object> question : questions) { %>
+
+     for (Map<String, Object> q : questions) { %>
+<%--<form action="submitAnswers" method="post">--%>
 <div class="question">
-    <!-- Display Question Text -->
-    <p><%= question.get("question") %></p>
+    <% int id = (int) q.get("question_id");
+       int index = (int) q.get("index"); %>
     <c:choose>
         <!-- Multiple Choice Questions -->
-        <% if ("questionMultipleChoice".equals(question.get("question_type"))) { %>
-        <% for (Map.Entry<String, Object> entry : question.entrySet()) { %>
-        <% String key = entry.getKey(); %>
-        <% Object value = entry.getValue(); %>
-        <% if (!"question_id".equals(key) && !"question_type".equals(key) && !"question".equals(key) && !"correct_option".equals(key)) { %>
+        <% if ("questionMultipleChoice".equals(q.get("question_type"))) {
+            Map<String, Object> question = multipleChoice.get(index);
+            Set<String> choices = (HashSet)question.get("multipleChoices"); %>
+<%--        <% String correctAnswer = (String) question.get("correct_option"); %>--%>
         <label>
-            <input type="radio" name="question_<%= question.get("question_id") %>" value="<%= value %>" />
-            <%= value %>
+            <p><%= question.get("question")%></p>
+            <% for (String choice : choices) {%>
+                <input type="radio"  name=<%= id %>> <%= choice %>
+            <%}%>
         </label><br />
-        <% } %>
-        <% } %>
-        <% } else if ("questionFillInTheBlank".equals(question.get("question_type"))) { %>
-        <input type="text" name="question_<%= question.get("question_id") %>" /><br />
-        <% } else if ("questionResponse".equals(question.get("question_type")) || "questionPictureResponse".equals(question.get("question_type"))) { %>
-        <textarea name="question_<%= question.get("question_id") %>"></textarea><br />
+        <!-- Fill In The Blank Questions -->
+        <% } else if ("questionFillInTheBlank".equals(q.get("question_type"))) {
+           Map<String, Object> question = fillInTheBlankQuestions.get(index); %>
+        <p><%= question.get("question") %></p>
+        <input type="text" name="<%= id %>" /><br />
+        <!-- Response Questions -->
+        <% } else if ("questionResponse".equals(q.get("question_type"))) {
+           Map<String, Object> question = responseQuestions.get(index); %>
+        <p><%= question.get("question") %></p>
+        <textarea name="<%= id %>"></textarea><br />
+        <% } else if ("questionPictureResponse".equals(q.get("question_type"))) {
+           Map<String, Object> question = pictureResponseQuestions.get(index);
+           String imageUrl = (String) question.get("picture_link"); %>
+        <img src="/images/<%=imageUrl%>" alt=<%= question.get("question") %>><br />
+        <textarea name="<%= id %>"></textarea><br />
         <% } %>
     </c:choose>
 </div>
 <br />
 <% } %>
+<%--</form>--%>
 </body>
 </html>

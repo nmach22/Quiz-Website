@@ -1,14 +1,8 @@
 package main.Manager;
 
 import javax.persistence.criteria.CriteriaBuilder;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.*;
+import java.util.*;
 
 public class TakeQuiz {
     private Connection con;
@@ -38,87 +32,117 @@ public class TakeQuiz {
 
     public List<Map<String, Object>> fetchMultipleChoiceQuestions() throws SQLException {
         if (questions.isEmpty()) return new ArrayList<>();
-        String query = "SELECT * FROM questionMultipleChoiceResponseAnswers WHERE question_id = ?";
         List<Map<String, Object>> multipleChoice = new ArrayList<>();
         for (Map<String, Object> question : questions) {
-            if(question.get("question_type") != "questionMultipleChoice") continue;
+            String query = "SELECT * FROM questionMultipleChoiceResponseAnswers WHERE question_id = ?";
+            if(!question.get("question_type").equals("questionMultipleChoice")) continue;
             ps = con.prepareStatement(query);
             ps.setInt(1, (int) question.get("question_id"));
             rs = ps.executeQuery();
-            String choice = "A";
+            Set<String> choices = new HashSet<>();
+            ResultSetMetaData metaData = rs.getMetaData();
+            int numColumns = metaData.getColumnCount();
+
             while (rs.next()) {
-                question.put(choice , rs.getString("answer"));
-                question.put("question", rs.getString("question"));
-                if(rs.getBoolean("is_correct"))
-                    question.put("correct_option", rs.getString("answer"));
-                char ch = choice.charAt(0);
-                ch += 1;
-                choice = "" + ch;
+                choices.add(rs.getString(numColumns - 1));
+                if(rs.getInt(numColumns) == 1)
+                    question.put("correct_option", rs.getString(numColumns - 1));
             }
-            multipleChoice.add(question);
+            question.put("multipleChoices", choices);
+            query = "SELECT * FROM questionMultipleChoice WHERE question_id = ?";
+            ps = con.prepareStatement(query);
+            ps.setInt(1, (int) question.get("question_id"));
+            rs = ps.executeQuery();
+            if(rs.next()) {
+                question.put("question", rs.getString("question"));
+            }
+            question.put("index", multipleChoice.size());
+            multipleChoice.add(new HashMap<>(question));
         }
         return multipleChoice;
     }
     public List<Map<String, Object>> fetchFillInTheBlankQuestions() throws SQLException {
         if (questions.isEmpty()) return new ArrayList<>();
-        String query = "SELECT * FROM questionFillInTheBlankAnswers WHERE question_id = ?";
         List<Map<String, Object>> fillInTheBlank = new ArrayList<>();
         for (Map<String, Object> question : questions) {
-            if(question.get("question_type") != "questionFillInTheBlank") continue;
+            String query = "SELECT * FROM questionFillInTheBlankAnswers WHERE question_id = ?";
+            if(!question.get("question_type").equals("questionFillInTheBlank")) continue;
             ps = con.prepareStatement(query);
             ps.setInt(1, (int) question.get("question_id"));
             rs = ps.executeQuery();
-            String option = "option1";
+            Set<String> options = new HashSet<>();
+            ResultSetMetaData metaData = rs.getMetaData();
+            int numColumns = metaData.getColumnCount();
             while (rs.next()) {
-                question.put("question", rs.getString("question"));
-                question.put(option , rs.getString("answer"));
-                char ch = option.charAt(option.length() - 1);
-                ch += 1;
-                option = option.substring(0, option.length() - 1) + ch;
+                options.add(rs.getString(numColumns));
             }
-            fillInTheBlank.add(question);
+            question.put("options", options);
+            query = "SELECT * FROM questionFillInTheBlank WHERE question_id = ?";
+            ps = con.prepareStatement(query);
+            ps.setInt(1, (int) question.get("question_id"));
+            rs = ps.executeQuery();
+            if(rs.next()) {
+                question.put("question", rs.getString("question"));
+            }
+            question.put("index", fillInTheBlank.size());
+            fillInTheBlank.add(new HashMap<>(question));
         }
         return fillInTheBlank;
     }
     public List<Map<String, Object>> fetchResponseQuestions() throws SQLException {
         if (questions.isEmpty()) return new ArrayList<>();
-        String query = "SELECT * FROM questionResponseAnswers WHERE question_id = ?";
         List<Map<String, Object>> responses = new ArrayList<>();
         for (Map<String, Object> question : questions) {
-            if(question.get("question_type") != "questionResponse") continue;
+            String query = "SELECT * FROM questionResponseAnswers WHERE question_id = ?";
+            if(!question.get("question_type").equals("questionResponse")) continue;
             ps = con.prepareStatement(query);
             ps.setInt(1, (int) question.get("question_id"));
             rs = ps.executeQuery();
-            String option = "option1";
+            Set<String> options = new HashSet<>();
+            ResultSetMetaData metaData = rs.getMetaData();
+            int numColumns = metaData.getColumnCount();
             while (rs.next()) {
-                question.put("question", rs.getString("question"));
-                question.put(option , rs.getString("answer"));
-                char ch = option.charAt(option.length() - 1);
-                ch += 1;
-                option = option.substring(0, option.length() - 1) + ch;
+                options.add(rs.getString(numColumns));
             }
-            responses.add(question);
+            question.put("options", options);
+            query = "SELECT * FROM questionResponse WHERE question_id = ?";
+            ps = con.prepareStatement(query);
+            ps.setInt(1, (int) question.get("question_id"));
+            rs = ps.executeQuery();;
+            if(rs.next()) {
+                question.put("question", rs.getString("question"));
+            }
+            question.put("index", responses.size());
+            responses.add(new HashMap<>(question));
         }
         return responses;
     }
     public List<Map<String, Object>> fetchPictureResponseQuestions() throws SQLException {
         if (questions.isEmpty()) return new ArrayList<>();
-        String query = "SELECT * FROM questionPictureResponseAnswers WHERE question_id = ?";
         List<Map<String, Object>> pictureResponses = new ArrayList<>();
         for (Map<String, Object> question : questions) {
-            if(question.get("question_type") != "questionPictureResponse") continue;
+            String query = "SELECT * FROM questionPictureResponseAnswers WHERE question_id = ?";
+            if(!question.get("question_type").equals("questionPictureResponse")) continue;
             ps = con.prepareStatement(query);
             ps.setInt(1, (int) question.get("question_id"));
             rs = ps.executeQuery();
-            String option = "option1";
+            Set<String> options = new HashSet<>();
+            ResultSetMetaData metaData = rs.getMetaData();
+            int numColumns = metaData.getColumnCount();
             while (rs.next()) {
-                question.put("question", rs.getString("question"));
-                question.put(option , rs.getString("answer"));
-                char ch = option.charAt(option.length() - 1);
-                ch += 1;
-                option = option.substring(0, option.length() - 1) + ch;
+                options.add(rs.getString(numColumns));
             }
-            pictureResponses.add(question);
+            question.put("options", options);
+            query = "SELECT * FROM questionPictureResponse WHERE question_id = ?";
+            ps = con.prepareStatement(query);
+            ps.setInt(1, (int) question.get("question_id"));
+            rs = ps.executeQuery();
+            if(rs.next()) {
+                question.put("picture_link", rs.getString("picture_link"));
+                question.put("question", rs.getString("question"));
+            }
+            question.put("index", pictureResponses.size());
+            pictureResponses.add(new HashMap<>(question));
         }
         return pictureResponses;
     }
