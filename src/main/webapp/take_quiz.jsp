@@ -36,12 +36,12 @@
             if ("questionMultipleChoice".equals(q.get("question_type"))) {
             Map<String, Object> question = multipleChoice.get(index);
             Set<String> choices = (HashSet)question.get("multipleChoices");
-            request.getSession().setAttribute("correct_option"+id, question.get("correct_option"));
+            request.getSession().setAttribute("correct_answers"+id, question.get("correct_answers"));
         %>
         <label>
             <p><%= question.get("question")%></p>
             <% for (String choice : choices) {%>
-                <input type="radio"  name="submited<%= id %>"> <%= choice %>
+                <input type="radio"  name="submitted<%= id %>" value="<%= choice %>"> <%= choice %>
             <%}%>
         </label><br />
 
@@ -52,27 +52,29 @@
             String questionTemp = (String) question.get("question");
             String[] parts = questionTemp.split("_");
             out.print(parts[0]);
-            out.print("<input type='text' name='submited" + id +"'/>");
+            out.print("<input type='text' name='submitted" + id +"'>");
             out.print(parts[1]);
-            request.getSession().setAttribute("correct_option"+id, question.get("correct_option"));
+            request.getSession().setAttribute("correct_answers"+id, question.get("correct_answers"));
         %>
 
         <!-- Response Questions -->
         <%
             } else if ("questionResponse".equals(q.get("question_type"))) {
             Map<String, Object> question = responseQuestions.get(index);
+            request.getSession().setAttribute("correct_answers"+id, question.get("correct_answers"));
         %>
         <p><%= question.get("question") %></p>
-        <textarea name="submited<%= id %>"></textarea><br />
+        <textarea name="submitted<%= id %>"></textarea><br />
 
         <!-- Picture Questions -->
         <%
             } else if ("questionPictureResponse".equals(q.get("question_type"))) {
-           Map<String, Object> question = pictureResponseQuestions.get(index);
-           String imageUrl = (String) question.get("picture_link");
+            Map<String, Object> question = pictureResponseQuestions.get(index);
+            String imageUrl = (String) question.get("picture_link");
+            request.getSession().setAttribute("correct_answers"+id, question.get("correct_answers"));
         %>
         <img src="/images/<%=imageUrl%>" alt=<%= question.get("question") %>><br />
-        <textarea name="submited<%= id %>"></textarea><br />
+        <textarea name="submitted<%= id %>"></textarea><br />
         <% } %>
     </c:choose>
 </div>

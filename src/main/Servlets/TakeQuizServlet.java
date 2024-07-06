@@ -30,7 +30,7 @@ public class TakeQuizServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
 
-        RequestDispatcher dispatcher = req.getRequestDispatcher("take_Quiz.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("take_quiz.jsp");
         dispatcher.forward(req, resp);
 
     }
