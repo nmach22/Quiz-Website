@@ -20,44 +20,65 @@
     List<Map<String,Object>> fillInTheBlankQuestions = (List<Map<String,Object>>) request.getSession().getAttribute("fillInTheBlankQuestions");
     List<Map<String,Object>> responseQuestions = (List<Map<String,Object>>) request.getSession().getAttribute("responseQuestions");
     List<Map<String,Object>> pictureResponseQuestions = (List<Map<String,Object>>) request.getSession().getAttribute("pictureResponseQuestions");
-
-     for (Map<String, Object> q : questions) { %>
-<%--<form action="submitAnswers" method="post">--%>
+%>
+<form action="submitAnswers" method="post">
+     <%
+         for (Map<String, Object> q : questions) {
+     %>
 <div class="question">
     <% int id = (int) q.get("question_id");
-       int index = (int) q.get("index"); %>
+       int index = (int) q.get("index");
+    %>
     <c:choose>
+
         <!-- Multiple Choice Questions -->
-        <% if ("questionMultipleChoice".equals(q.get("question_type"))) {
+        <%
+            if ("questionMultipleChoice".equals(q.get("question_type"))) {
             Map<String, Object> question = multipleChoice.get(index);
-            Set<String> choices = (HashSet)question.get("multipleChoices"); %>
-<%--        <% String correctAnswer = (String) question.get("correct_option"); %>--%>
+            Set<String> choices = (HashSet)question.get("multipleChoices");
+            request.getSession().setAttribute("correct_option"+id, question.get("correct_option"));
+        %>
         <label>
             <p><%= question.get("question")%></p>
             <% for (String choice : choices) {%>
-                <input type="radio"  name=<%= id %>> <%= choice %>
+                <input type="radio"  name="submited<%= id %>"> <%= choice %>
             <%}%>
         </label><br />
+
         <!-- Fill In The Blank Questions -->
-        <% } else if ("questionFillInTheBlank".equals(q.get("question_type"))) {
-           Map<String, Object> question = fillInTheBlankQuestions.get(index); %>
-        <p><%= question.get("question") %></p>
-        <input type="text" name="<%= id %>" /><br />
+        <%
+            } else if ("questionFillInTheBlank".equals(q.get("question_type"))) {
+            Map<String, Object> question = fillInTheBlankQuestions.get(index);
+            String questionTemp = (String) question.get("question");
+            String[] parts = questionTemp.split("_");
+            out.print(parts[0]);
+            out.print("<input type='text' name='submited" + id +"'/>");
+            out.print(parts[1]);
+            request.getSession().setAttribute("correct_option"+id, question.get("correct_option"));
+        %>
+
         <!-- Response Questions -->
-        <% } else if ("questionResponse".equals(q.get("question_type"))) {
-           Map<String, Object> question = responseQuestions.get(index); %>
+        <%
+            } else if ("questionResponse".equals(q.get("question_type"))) {
+            Map<String, Object> question = responseQuestions.get(index);
+        %>
         <p><%= question.get("question") %></p>
-        <textarea name="<%= id %>"></textarea><br />
-        <% } else if ("questionPictureResponse".equals(q.get("question_type"))) {
+        <textarea name="submited<%= id %>"></textarea><br />
+
+        <!-- Picture Questions -->
+        <%
+            } else if ("questionPictureResponse".equals(q.get("question_type"))) {
            Map<String, Object> question = pictureResponseQuestions.get(index);
-           String imageUrl = (String) question.get("picture_link"); %>
+           String imageUrl = (String) question.get("picture_link");
+        %>
         <img src="/images/<%=imageUrl%>" alt=<%= question.get("question") %>><br />
-        <textarea name="<%= id %>"></textarea><br />
+        <textarea name="submited<%= id %>"></textarea><br />
         <% } %>
     </c:choose>
 </div>
 <br />
 <% } %>
-<%--</form>--%>
+    <input type="submit" value="Submit">
+</form>
 </body>
 </html>
