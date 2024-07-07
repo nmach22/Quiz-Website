@@ -100,7 +100,11 @@
 
 
 <a href="createQuiz.jsp" class="btn btn-primary">Create New Quiz</a>
-
+<form action="QuizSummaryServlet" method="post">
+    <input type="hidden" name="quiz_id" value="1">
+    <input type="hidden" name="username" value="kato">
+    <input type="submit" value="TAKE QUIZ">
+</form>
 <script>
     function viewAchievements() {
         window.location.href = 'achievements.jsp?username=<%=username%>';

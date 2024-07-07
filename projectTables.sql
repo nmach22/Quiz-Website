@@ -53,7 +53,7 @@ CREATE TABLE history
     quiz_id    INT,
     username   VARCHAR(50),
     score      INT,
-    time       TIMESTAMP,
+    time       timestamp,
     date_taken TIMESTAMP DEFAULT NOW(),
 
     FOREIGN KEY (quiz_id) REFERENCES quizzes (quiz_id)
@@ -359,3 +359,10 @@ select * from users;
 select * from chat;
 
 insert into chat(user_from, user_to, message) VALUES ('aleqsa', 'qatama', 'aoie');
+
+select * from quizzes
+
+Insert into history (history_id, quiz_id, username, score, time, date_taken) values (4, 1,'qatama',7, NOW(), NOW());
+select * from history
+
+
