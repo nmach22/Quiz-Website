@@ -118,24 +118,65 @@ public class CreateQuizServlet extends HttpServlet {
 
     private void addQuestion(JSONObject questionInf, int questionId, int quizId) {
         String type = questionInf.getString("type");
-        if (type.equals("openQuestion")) {
-            try {
-                Connection conn = DataBaseConnection.getConnection();
-                String sqlInsertQuestionResponse = "INSERT INTO questionResponse " +
-                        "(quiz_id, question_id, question) " +
-                        "VALUES (?, ?, ?)";
+        String question = questionInf.getString("question");
+        switch (type) {
+            case "openQuestion":
+                addQuestionInDB(question, questionId, quizId, "questionResponse");
+                break;
+            case "fillBlanks":
+                addQuestionInDB(question, questionId, quizId, "questionFillInTheBlank");
+                break;
+            case "pictureQuestion":
+                String url = questionInf.getString("url");
+                addInPictureQuestion(question, url, questionId, quizId);
+                break;
+            case "multipleChoice":
+                addQuestionInDB(question, questionId, quizId, "questionMultipleChoice");
+                break;
+            default:
+                System.out.println("Incorrect type");
+                break;
+        }
+    }
 
-                PreparedStatement ps = conn.prepareStatement(sqlInsertQuestionResponse);
-                ps.setInt(1, quizId);
-                ps.setInt(2, questionId);
-                ps.setString(3, questionInf.getString("question"));
-                ps.executeUpdate();
+    private void addInPictureQuestion(String question, String url, int questionId, int quizId) {
+        try {
+            Connection conn = DataBaseConnection.getConnection();
+            String sqlInsertQuestionResponse = "INSERT INTO questionPictureResponse " +
+                    "(question_id, quiz_id, picture_link, question) " +
+                    "VALUES (?, ?, ?, ?)";
 
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
+            PreparedStatement ps = conn.prepareStatement(sqlInsertQuestionResponse);
+            ps.setInt(1, questionId);
+            ps.setInt(2, quizId);
+            ps.setString(3, url);
+            ps.setString(4, question);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void addQuestionInDB(String question, int questionId, int quizId, String DBName) {
+        try {
+            Connection conn = DataBaseConnection.getConnection();
+            String sqlInsertQuestionResponse = "INSERT INTO " + DBName +
+                    "(quiz_id, question_id, question) " +
+                    "VALUES (?, ?, ?)";
+
+            PreparedStatement ps = conn.prepareStatement(sqlInsertQuestionResponse);
+            ps.setInt(1, quizId);
+            ps.setInt(2, questionId);
+            ps.setString(3, question);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
