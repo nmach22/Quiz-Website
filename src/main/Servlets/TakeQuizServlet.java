@@ -24,6 +24,7 @@ public class TakeQuizServlet extends HttpServlet {
             req.getSession().setAttribute("responseQuestions", quiz.fetchResponseQuestions());
             req.getSession().setAttribute("pictureResponseQuestions", quiz.fetchPictureResponseQuestions());
             req.getSession().setAttribute("multipleChoiceQuestions", quiz.fetchMultipleChoiceQuestions());
+            req.getSession().setAttribute("settings", quiz.fetchSettings());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {

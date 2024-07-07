@@ -8,9 +8,11 @@ public class TakeQuiz {
     private ResultSet rs;
     private PreparedStatement ps;
     private List<Map<String, Object>> questions;
+    private String quizId;
 
     public TakeQuiz(String quizId) throws SQLException, ClassNotFoundException {
         con = DataBaseConnection.getConnection();
+        this.quizId = quizId;
         String query = "SELECT * FROM questions WHERE quiz_id = ? ORDER BY question_id asc";
         ps = con.prepareStatement(query);
         ps.setInt(1, Integer.parseInt(quizId));
@@ -146,5 +148,19 @@ public class TakeQuiz {
             pictureResponses.add(new HashMap<>(question));
         }
         return pictureResponses;
+    }
+    public Map<String, Object> fetchSettings() throws SQLException {
+        Map<String, Object> settings = new HashMap<>();
+        String query = "SELECT * FROM quizzes WHERE quiz_id = ? ";
+        ps = con.prepareStatement(query);
+        ps.setInt(1, Integer.parseInt(quizId));
+        rs = ps.executeQuery();
+        while (rs.next()) {
+            settings.put("is_random", rs.getInt("is_random"));
+            settings.put("one_page", rs.getInt("one_page"));
+            settings.put("immediate_correction", rs.getInt("immediate_correction"));
+            settings.put("practice_mode", rs.getInt("practice_mode"));
+        }
+        return settings;
     }
 }

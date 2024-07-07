@@ -1,7 +1,4 @@
-<%@ page import="java.util.Map" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.Set" %>
-<%@ page import="java.util.HashSet" %><%--
+<%@ page import="java.util.*" %><%--
   Created by IntelliJ IDEA.
   User: Kato
   Date: 05-Jul-24
@@ -20,6 +17,11 @@
     List<Map<String,Object>> fillInTheBlankQuestions = (List<Map<String,Object>>) request.getSession().getAttribute("fillInTheBlankQuestions");
     List<Map<String,Object>> responseQuestions = (List<Map<String,Object>>) request.getSession().getAttribute("responseQuestions");
     List<Map<String,Object>> pictureResponseQuestions = (List<Map<String,Object>>) request.getSession().getAttribute("pictureResponseQuestions");
+    Map<String,Object> settings = (Map<String,Object>) request.getSession().getAttribute("settings");
+    if ((int)settings.get("is_random") == 1) {
+        Collections.shuffle(questions);
+    }
+    if ((int)settings.get("one_page") == 1) {
 %>
 <form action="submitAnswers" method="post">
      <%
@@ -83,6 +85,11 @@
     <input type="hidden" name="quiz_id" value= "<%=request.getParameter("quiz_id")%>">
     <input type="hidden" name="username" value=${username}>
     <input type="submit" value="Submit">
+    <%
+        } else {
+            response.sendRedirect("question.jsp");
+        }
+    %>
 </form>
 </body>
 </html>
