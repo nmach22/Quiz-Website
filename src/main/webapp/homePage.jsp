@@ -132,11 +132,8 @@
     }
 
 </script>
-<form action="announcements.jsp" method="get">
-    <input type="hidden" name="username" value=<%=username%>>
-    <button type="submit" class="announcementsButton">All Announcements</button>
-</form>
-</div>
+
+
 <script>
     function viewAchievements() {
         window.location.href = 'achievements.jsp?username=<%=username%>';

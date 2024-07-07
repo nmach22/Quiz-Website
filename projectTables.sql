@@ -153,11 +153,12 @@ CREATE TABLE questionResponse
     FOREIGN KEY (quiz_id) REFERENCES quizzes (quiz_id),
     FOREIGN KEY (question_id) REFERENCES questions (question_id)
 );
+select * from questionResponseAnswers;
 
 
 CREATE TABLE questionResponseAnswers
 (
-    answer_id   INT PRIMARY KEY,
+    answer_id   INT AUTO_INCREMENT PRIMARY KEY,
     quiz_id     INT,
     question_id INT,
     answer      VARCHAR(200) NOT NULL,
@@ -240,6 +241,8 @@ select *
 from history;
 select *
 from chat;
+select *
+from quizzes;
 
 SELECT user2
 FROM friends

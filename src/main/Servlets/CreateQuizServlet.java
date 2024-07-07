@@ -1,7 +1,5 @@
 package main.Servlets;
 
-import com.google.gson.Gson;
-import main.Manager.ChatMessage;
 import main.Manager.DataBaseConnection;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -13,15 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.*;
 
 
 @WebServlet("/CreateQuizServlet")
@@ -29,23 +19,146 @@ public class CreateQuizServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String random = (String) request.getParameter("random");
-        String onePage = (String) request.getParameter("onePage");
-        String immediateCorrection = (String) request.getParameter("immediateCorrection");
-        String practiceMode = (String) request.getParameter("practiceMode");
-        String questions = (String) request.getParameter("questions");
+        String username = (String) session.getAttribute("username");
 
+        int random = ((String) request.getParameter("random")) == null ? 0 : 1;
+        int onePage = ((String) request.getParameter("onePage")) == null ? 0 : 1;
+        int immediateCorrection = ((String) request.getParameter("immediateCorrection")) == null ? 0 : 1;
+        int practiceMode = ((String) request.getParameter("practiceMode")) == null ? 0 : 1;
+
+        String description = request.getParameter("description");
+        String quizTitle = request.getParameter("title");
+
+        String questions = request.getParameter("questions");
         JSONObject obj = new JSONObject(questions);
-
         JSONArray arr = obj.getJSONArray("questions");
-        for (int i = 0; i < arr.length(); i++) {
-            System.out.println(arr.get(i));
-        }
-        System.out.println(random);
-        System.out.println(onePage);
-        System.out.println(immediateCorrection);
-        System.out.println(practiceMode);
 
-        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        try {
+            int quizId = 0;
+            try {
+                Connection conn = DataBaseConnection.getConnection();
+                String sqlInsertQuizzes = "INSERT INTO quizzes " +
+                        "(description, quiz_name, author, is_random, one_page, immediate_correction, practice_mode) " +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?)";
+                try {
+                    PreparedStatement st = conn.prepareStatement(sqlInsertQuizzes, Statement.RETURN_GENERATED_KEYS);
+                    st.setString(1, description);
+                    st.setString(2, quizTitle);
+                    st.setString(3, username);
+
+                    st.setInt(4, random);
+                    st.setInt(5, onePage);
+                    st.setInt(6, immediateCorrection);
+                    st.setInt(7, practiceMode);
+                    st.executeUpdate();
+
+                    ResultSet rs = st.getGeneratedKeys();
+                    if (rs.next()) {
+                        quizId = rs.getInt(1);
+                    }
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                    return;
+                }
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+
+            try {
+                Connection conn = DataBaseConnection.getConnection();
+                for (int i = 0; i < arr.length(); i++) {
+                    String sqlInsertQuestions = "INSERT INTO questions " +
+                            "(quiz_id, question_type) " +
+                            "VALUES (?, ?)";
+                    try {
+                        PreparedStatement st = conn.prepareStatement(sqlInsertQuestions, Statement.RETURN_GENERATED_KEYS);
+                        st.setInt(1, quizId);
+
+                        JSONObject questionInf = arr.getJSONObject(i);
+                        String type = questionInf.getString("type");
+                        st.setString(2, type);
+                        st.executeUpdate();
+
+                        int questionId = 0;
+                        ResultSet rs = st.getGeneratedKeys();
+                        if (rs.next()) {
+                            questionId = rs.getInt(1);
+                        }
+
+                        fillQuestionAndAnswerTables(questionInf, questionId, quizId);
+
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        return;
+                    }
+                }
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+
+            response.setStatus(HttpServletResponse.SC_OK);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private void fillQuestionAndAnswerTables(JSONObject questionInf, int questionId, int quizId) {
+        addQuestion(questionInf, questionId, quizId);
+        addAnswer(questionInf, questionId, quizId);
+    }
+
+    private void addQuestion(JSONObject questionInf, int questionId, int quizId) {
+        String type = questionInf.getString("type");
+        if (type.equals("openQuestion")) {
+            try {
+                Connection conn = DataBaseConnection.getConnection();
+                String sqlInsertQuestionResponse = "INSERT INTO questionResponse " +
+                        "(quiz_id, question_id, question) " +
+                        "VALUES (?, ?, ?)";
+
+                PreparedStatement ps = conn.prepareStatement(sqlInsertQuestionResponse);
+                ps.setInt(1, quizId);
+                ps.setInt(2, questionId);
+                ps.setString(3, questionInf.getString("question"));
+                ps.executeUpdate();
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    private void addAnswer(JSONObject questionInf, int questionId, int quizId) {
+        String type = questionInf.getString("type");
+        if (type.equals("openQuestion")) {
+            try {
+                Connection conn = DataBaseConnection.getConnection();
+                String sqlInsertQuestionResponse = "INSERT INTO questionResponseAnswers " +
+                        "(question_id, quiz_id, answer) " +
+                        "VALUES (?, ?, ?)";
+
+                PreparedStatement st = conn.prepareStatement(sqlInsertQuestionResponse);
+                st.setInt(1, questionId);
+                st.setInt(2, quizId);
+                st.setString(3, questionInf.getString("answer"));
+                st.executeUpdate();
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

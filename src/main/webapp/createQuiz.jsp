@@ -20,18 +20,18 @@
 </script>
 <form id="myForm" action="CreateQuizServlet" method="post">
     <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Quiz Title</label>
-        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="title">
+        <label for="quizTitle" class="form-label">Quiz Title</label>
+        <input type="text" class="form-control" id="quizTitle" name="title">
     </div>
 
     <div class="mb-3">
-        <label for="exampleFormControlTextarea1" class="form-label">Description</label>
-        <input type="text" class="form-control" id="exampleFormControlTextarea1" rows="3" name="description"></input>
+        <label for="quizDescription" class="form-label">Description</label>
+        <input type="text" class="form-control" id="quizDescription" rows="3" name="description"></input>
     </div>
 
     <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Author</label>
-        <input type="text" class="form-control disabled" aria-disabled="true" id="exampleInputPassword1" name="author">
+        <label for="quizAuthor" class="form-label">Author</label>
+        <input type="text" class="form-control disabled" aria-disabled="true" id="quizAuthor" name="author">
 
     </div>
 
@@ -109,16 +109,22 @@
                 } else if (selectedValue === 'multipleChoice') {
                     const questionInput = document.createElement('input');
                     questionInput.type = 'text';
+                    questionInput.key = 'question';
                     questionInput.placeholder = 'Enter question';
 
                     const answerInput = document.createElement('input');
                     answerInput.type = 'text';
+                    answerInput.key = 'answer';
                     answerInput.placeholder = 'Enter correct answer';
+
+                    questionDiv.appendChild(questionInput);
+                    questionDiv.appendChild(answerInput);
 
                     for (let i = 1; i <= 3; i++) {
                         const possibleAns = document.createElement('input');
                         possibleAns.type = 'text';
-                        possibleAns.placeholder = `Answer ${i}`;
+                        possibleAns.key = 'possible Answer ' + i;
+                        possibleAns.placeholder = 'Answer ' + i;
                         questionDiv.appendChild(possibleAns);
                     }
                 }
