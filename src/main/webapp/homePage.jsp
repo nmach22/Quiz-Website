@@ -32,27 +32,27 @@
 <body>
 
 <%@include file="header.jsp" %>
-<div class="header">
+<div class="hp-header">
 
     <h1>Recent Announcements</h1>
-    <button class="achievements-button" onclick="viewAchievements()">
-        <i class="fas fa-trophy"></i>
-        <span class="badge"><%=achievements%></span>
-    </button>
-    <%
-        try {
-            if (AccountManager.isAdmin(username)) {
-                out.println("<button class=\"admin-button\" onclick=\"goToAdminPage()\">");
-                out.println("<i class=\"fas fa-shield-alt\"></i>");
-                out.println("</button>");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    %>
-    <form action="index.jsp" method="get">
-        <button type="submit" class="announcementsButton">Log Out</button>
-    </form>
+<%--    <button class="achievements-button" onclick="viewAchievements()">--%>
+<%--        <i class="fas fa-trophy"></i>--%>
+<%--        <span class="badge"><%=achievements%></span>--%>
+<%--    </button>--%>
+<%--    <%--%>
+<%--        try {--%>
+<%--            if (AccountManager.isAdmin(username)) {--%>
+<%--                out.println("<button class=\"admin-button\" onclick=\"goToAdminPage()\">");--%>
+<%--                out.println("<i class=\"fas fa-shield-alt\"></i>");--%>
+<%--                out.println("</button>");--%>
+<%--            }--%>
+<%--        } catch (SQLException e) {--%>
+<%--            throw new RuntimeException(e);--%>
+<%--        }--%>
+<%--    %>--%>
+<%--    <form action="index.jsp" method="get">--%>
+<%--        <button type="submit" class="announcementsButton">Log Out</button>--%>
+<%--    </form>--%>
 </div>
 <div class="announcements">
     <%
@@ -111,25 +111,13 @@
     <div id="chat-window"></div>
 
     <input type="text" id="message-input" placeholder="Type a message...">
+    <input type="hidden" id="user-name" class="logo" value="<%=loggedInUser%>">
     <button id="send-button" class="btn btn-primary" onclick="sendMessage()">Send</button>
 
 </div>
 
-<script>
-    function viewAchievements() {
-        window.location.href = 'achievements.jsp?username=<%=username%>';
-    }
 
-    function goToAdminPage() {
-        window.location.href = 'admin_home_page.jsp?username=<%=username%>';
-    }
 
-</script>
-<form action="announcements.jsp" method="get">
-    <input type="hidden" name="username" value=<%=username%>>
-    <button type="submit" class="announcementsButton">All Announcements</button>
-</form>
-</div>
 <script>
     function viewAchievements() {
         window.location.href = 'achievements.jsp?username=<%=username%>';
