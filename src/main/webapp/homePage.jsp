@@ -1,4 +1,3 @@
-<%@ page import="main.Manager.Quiz" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="main.Manager.Announcement" %>
 <%@ page import="java.util.Vector" %>
