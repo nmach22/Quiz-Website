@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded',
     const myName = document.getElementById('user-name').text;
     let currentFriend = null;
 
-    const socket = new WebSocket('ws://localhost:8080/chat?user=' + myName);
+    const socket = new WebSocket('//localhost:8081/chat?user=' + myName);
 
     socket.onmessage = function (event) {
         const data = JSON.parse(event.data);

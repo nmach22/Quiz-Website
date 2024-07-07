@@ -1,12 +1,12 @@
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #000000;
-    color: #333;
-    margin: 0;
-    padding: 0;
-}
+/*body {*/
+/*    font-family: 'Arial', sans-serif;*/
+/*    background-color: #000000;*/
+/*    color: #333;*/
+/*    margin: 0;*/
+/*    padding-top: 35px;*/
+/*}*/
 
-.hheader {
+.achivement-header {
     position: relative;
     padding: 20px;
     background-color: #fff;
@@ -23,10 +23,14 @@ h1 {
 }
 
 .achievements {
-    padding: 20px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+    font-family: 'Arial', sans-serif;
+    background-color: #000000;
+    color: #333;
+    margin: 0;
+    padding-top: 50px;
 }
 
 .achievement {
@@ -57,20 +61,20 @@ h1 {
     color: #ffffff;
 }
 
-button {
-    display: block;
-    width: 200px;
-    margin: 20px auto;
-    padding: 10px;
-    font-size: 1em;
-    color: #fff;
-    background-color: #007BFF;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
+/*button {*/
+/*    display: block;*/
+/*    width: 200px;*/
+/*    margin: 20px auto;*/
+/*    padding: 10px;*/
+/*    font-size: 1em;*/
+/*    color: #fff;*/
+/*    background-color: #007BFF;*/
+/*    border: none;*/
+/*    border-radius: 5px;*/
+/*    cursor: pointer;*/
+/*    transition: background-color 0.3s;*/
+/*}*/
 
-button:hover {
-    background-color: #0056b3;
-}
+/*button:hover {*/
+/*    background-color: #0056b3;*/
+/*}*/

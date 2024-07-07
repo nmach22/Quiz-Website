@@ -1,5 +1,5 @@
 USE mysql;
-select * from history;
+
 DROP TABLE IF EXISTS history;
 DROP TABLE IF EXISTS announcements;
 DROP TABLE IF EXISTS achievements;
@@ -18,6 +18,7 @@ DROP TABLE IF EXISTS quizChallenges;
 DROP TABLE IF EXISTS questions;
 DROP TABLE IF EXISTS quizzes;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS achievementTypes;
 
 CREATE TABLE users
 (
@@ -28,7 +29,8 @@ CREATE TABLE users
     user_last_name            VARCHAR(50),
     user_profile_picture_link VARCHAR(50),
     user_date_of_birth        TIMESTAMP,
-    date_of_registration      TIMESTAMP  DEFAULT NOW()
+    date_of_registration      TIMESTAMP  DEFAULT NOW(),
+    user_bio                  VARCHAR(250)
 );
 
 CREATE TABLE quizzes
@@ -56,6 +58,7 @@ CREATE TABLE history
 
     FOREIGN KEY (quiz_id) REFERENCES quizzes (quiz_id)
 );
+
 CREATE TABLE announcements (
                     announcement_id INT AUTO_INCREMENT PRIMARY KEY,
                     username         varchar(50),
@@ -76,14 +79,24 @@ CREATE TABLE achievements
     FOREIGN KEY (username) REFERENCES users (username)
 );
 
+CREATE TABLE achievementTypes
+(
+    type_id   INT AUTO_INCREMENT PRIMARY KEY,
+    achievement_type VARCHAR(50),
+    achievement_description   VARCHAR(200),
+    achievement_badge VARCHAR(50)
+);
+
 CREATE TABLE friends
 (
     friendship_id INT AUTO_INCREMENT PRIMARY KEY,
-    username      VARCHAR(50),
-    friend        VARCHAR(50),
+    user1      VARCHAR(50),
+    user2        VARCHAR(50),
+    status     ENUM('accepted', 'pending', 'blocked') DEFAULT 'pending',
     addDate       TIMESTAMP DEFAULT NOW(),
 
-    FOREIGN KEY (username) REFERENCES users (username)
+    FOREIGN KEY (user1) REFERENCES users (username),
+    FOREIGN KEY (user2) REFERENCES users (username)
 );
 
 CREATE TABLE friendRequests
@@ -234,16 +247,49 @@ VALUES ('kato', '34800e15707fae815d7c90d49de44aca97e2d759', 0),
        ('qatama', 'adeb6f2a18fe33af368d91b09587b68e3abcb9a7', 0),
        ('aleqsa', 'adeb6f2a18fe33af368d91b09587b68e3abcb9a7', 0);
 
-INSERT INTO friends (username, friend, addDate)
-VALUES ('qatama', 'kato', NOW()),
-       ('kato', 'qatama', NOW()),
-       ('aleqsa', 'Nika', NOW()),
-       ('Nika', 'aleqsa', NOW());
+INSERT INTO friends (user1, user2, addDate, status)
+VALUES ('qatama', 'kato', NOW(), 'accepted'),
+       ('kato', 'qatama', NOW(),'accepted'),
+       ('qatama', 'Nika', NOW(),'accepted'),
+       ('Nika', 'qatama', NOW(),'accepted'),
+       ('qatama', 'aleqsa', NOW(),'pending'),
+       ('aleqsa', 'qatama', NOW(),'pending'),
+       ('aleqsa', 'Nika', NOW(),'accepted'),
+       ('Nika', 'aleqsa', NOW(),'accepted');
 
 INSERT INTO quizzes (quiz_id, description, quiz_name, author,
                      is_random, one_page, immediate_correction,
                      practice_mode, creation_date, duration)
 VALUES (1, 'PIRVELI QVIZI MTEL SAMYAROSHI', 'KATOS QUIZ', 'kato', 0, 1, 0, 0, NOW(), 30);
+
+insert into announcements(announcement_id, username, announcement, title)
+values (1, 'Nika', 'qatamas sheveci', 'kutu');
+
+insert into achievements(username, achievement_type)
+VALUES ('aleqsa', 'yvelaze magari');
+insert into achievements(username, achievement_type)
+VALUES ('aleqsa', 'yvelaze magari 2');
+insert into achievements(username, achievement_type)
+VALUES ('aleqsa', 'yvelaze magari 3');
+insert into achievements(username, achievement_type)
+VALUES ('aleqsa', 'yvelaze magari 4');
+insert into achievements(username, achievement_type)
+VALUES ('aleqsa', 'yvelaze magari 5');
+insert into achievements(username, achievement_type)
+VALUES ('aleqsa', 'yvelaze magari 6');
+
+insert into achievementTypes(achievement_type, achievement_description, achievement_badge)
+VALUES ('yvelaze magari', 'roca yvelaze magari xar', 'fas fa-medal');
+insert into achievementTypes(achievement_type, achievement_description, achievement_badge)
+VALUES ('yvelaze magari 2', 'roca yvelaze magari xar', 'fas fa-medal');
+insert into achievementTypes(achievement_type, achievement_description, achievement_badge)
+VALUES ('yvelaze magari 3', 'roca yvelaze magari xar', 'fas fa-users');
+insert into achievementTypes(achievement_type, achievement_description, achievement_badge)
+VALUES ('yvelaze magari 4', 'roca yvelaze magari xar', 'fas fa-lightbulb');
+insert into achievementTypes(achievement_type, achievement_description, achievement_badge)
+VALUES ('yvelaze magari 5', 'roca yvelaze magari xar', 'fas fa-users');
+insert into achievementTypes(achievement_type, achievement_description, achievement_badge)
+VALUES ('yvelaze magari 6', 'roca yvelaze magari xar', 'fas fa-lightbulb');
 
 select *
 from quizzes;
@@ -295,3 +341,13 @@ INSERT INTO questionFillInTheBlankAnswers (answer_id, quiz_id, question_id, answ
 VALUES (1,1,7,'second'),
        (2,1,8,'coldest'),
        (3,1,11,'300');
+from achievements;
+
+select *
+from announcements;
+
+select * from users;
+
+select * from chat;
+
+insert into chat(user_from, user_to, message) VALUES ('aleqsa', 'qatama', 'aoie');

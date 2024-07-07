@@ -9,15 +9,17 @@
 <html>
 <head>
     <title>create new account failed</title>
+    <link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
-<body>
-    <h1> Sign in failed.</h1> <br/>
-    <h2> name: <%= request.getParameter("username") %> is taken</h2>
+<div class="background-container"></div>
+<div class = "login-popup">
+    <h1> Sign in failed</h1> <br/>
+    <h2> name "<%= request.getParameter("username") %>" is already taken</h2>
     <p> Enter another username</p>
     <form action="CreateAccountServlet" method="post">
-        User Name: <input type="text" name="username"/> <br/>
+        Username: <input type="text" name="username"/> <br/>
         Password: <input type="text" name="pas"/>
         <input type="submit" value="create"/>
     </form>
-</body>
+</div>
 </html>

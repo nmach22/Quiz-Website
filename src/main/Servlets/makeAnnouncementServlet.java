@@ -24,8 +24,13 @@ public class makeAnnouncementServlet extends HttpServlet {
             response.getWriter().write("Title and description must not be empty.");
             return;
         }
-        Announcement.makeAnnouncement(description, title, user);
-        response.getWriter().write("Announcement created successfully.");
+        try {
+            Announcement.makeAnnouncement(description, title, user);
+            response.getWriter().write("Announcement created successfully.");
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+            response.getWriter().write("Error creating announcement.");
+        }
     }
 
     @Override

@@ -7,7 +7,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 
 public class AccountManager {
-    private Connection con;
+    private static Connection con;
 
     public AccountManager() throws ClassNotFoundException, SQLException {
 
@@ -39,19 +39,38 @@ public class AccountManager {
         return buff.toString();
     }
 
-    public int isCorrect(String user , String pas) throws SQLException {
+    public static String getFN(String userName) throws SQLException {
+        String query = "SELECT user_first_name FROM users WHERE username = ?";
+        PreparedStatement st = con.prepareStatement(query);
+        st.setString(1 , userName);
+        ResultSet s = st.executeQuery();
+        if(s.next()){
+            return s.getString(1);
+        }
+        return "";
+    }
+
+    public static String getLN(String userName) throws SQLException {
+        String query = "SELECT user_last_name FROM users WHERE username = ?";
+        PreparedStatement st = con.prepareStatement(query);
+        st.setString(1 , userName);
+        ResultSet s = st.executeQuery();
+        if(s.next()){
+            return s.getString(1);
+        }
+        return "";
+    }
+
+    public boolean isCorrect(String user , String pas) throws SQLException {
         String query = "SELECT * FROM users WHERE username = ? AND password_hash = ?";
         PreparedStatement st = con.prepareStatement(query);
         st.setString(1 , user);
         st.setString(2 , generateHash(pas));
         ResultSet rs = st.executeQuery();
         if(rs.next()){
-            if (rs.getInt(3) == 1){
-                return 2;
-            }
-            return 1;
+            return true;
         }
-        return 0;
+        return false;
     }
 
     public boolean hasAcc(String user) throws SQLException {
@@ -62,14 +81,32 @@ public class AccountManager {
         return rs.next();
     }
 
-    public void createAcc(String name ,String pas) throws SQLException {
-        String query = "INSERT INTO users (username,password_hash) VALUES (? , ?)";
+    public void createAcc(String name ,String pas, String firstName, String lastName) throws SQLException {
+        String query = "INSERT INTO users (username,password_hash,user_first_name, user_last_name) VALUES (? , ?, ?, ?)";
         PreparedStatement st = con.prepareStatement(query);
         st.setString(1 , name);
         st.setString(2 , generateHash(pas));
+        st.setString(3,firstName);
+        st.setString(4, lastName);
         st.executeUpdate();
     }
-
+    public void changeBio(String bio, String username) throws SQLException {
+        String query = "UPDATE users SET user_bio = ? WHERE username = ?";
+        PreparedStatement st = con.prepareStatement(query);
+        st.setString(1 ,bio);
+        st.setString(2 ,username);
+        st.executeUpdate();
+    }
+    public static String getBio(String username) throws SQLException {
+        String query = "Select user_bio from users WHERE username = ?";
+        PreparedStatement st = con.prepareStatement(query);
+        st.setString(1,username);
+        ResultSet rs = st.executeQuery();
+        if(rs.next()){
+            return rs.getString(1);
+        }
+        return "";
+    }
     public int removeAcc(String name) throws SQLException {
         if(hasAcc(name)){
             if(!isAdmin(name)) {
@@ -84,7 +121,7 @@ public class AccountManager {
         }
         return 0;
     }
-    public boolean isAdmin(String name) throws SQLException {
+    public static boolean isAdmin(String name) throws SQLException {
         String query = "SELECT * FROM users WHERE username = ?";
         PreparedStatement st = con.prepareStatement(query);
         st.setString(1 , name);
@@ -109,4 +146,39 @@ public class AccountManager {
         }
         return 0;
     }
+
+    public void changePas(String parameter, String userName) throws SQLException {
+        String pasHash = generateHash(parameter);
+        String query = "UPDATE users SET password_hash = ? WHERE username = ?";
+        PreparedStatement st = con.prepareStatement(query);
+        st.setString(1, pasHash);
+        st.setString(2, userName);
+        st.executeUpdate();
+    }
+
+    public void changeFN(String firstname, String userName) throws SQLException {
+        String query = "UPDATE users SET user_first_name = ? where username = ?";
+        PreparedStatement st = con.prepareStatement(query);
+        st.setString(1,firstname);
+        st.setString(2,userName);
+        st.executeUpdate();
+    }
+    public void changeLN(String lastname, String userName) throws SQLException {
+        String query = "UPDATE users SET user_last_name = ? where username = ?";
+        PreparedStatement st = con.prepareStatement(query);
+        st.setString(1,lastname);
+        st.setString(2,userName);
+        st.executeUpdate();
+    }
+    public static String getMessageCount(String user) throws SQLException {
+        String query = "SELECT COUNT(*) from chat WHERE user_to = ?";
+        PreparedStatement st = con.prepareStatement(query);
+        st.setString(1, user);
+        ResultSet res = st.executeQuery();
+        if(res.next()){
+            return res.getString(1);
+        }
+        return "0";
+    }
+
 }
