@@ -16,7 +16,7 @@ h1 {
     margin: 20px 0;
 }
 
-.header {
+.ap-header {
     display: flex;
     justify-content: space-between;
     align-items: center;

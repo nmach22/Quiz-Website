@@ -6,9 +6,11 @@
 
     <script src="js/header.js"></script>
     <link rel="stylesheet" type="text/css" href="css/header.css">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<%--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">--%>
 </head>
 <body>
 <header class="header">
@@ -31,12 +33,11 @@
         <div class="navigation">
             <%
                 if (AccountManager.isAdmin(loggedInUser)) {
-                    out.println("<button class=\"admin-button\" onclick=\"goToAdminPage()\">");
+                    out.println("<a href='#' onclick = \"goToAdminPage()\" title=\"admin page\">");
                     out.println("<i class=\"fas fa-shield-alt\"></i>");
-                    out.println("</button>");
+                    out.println("</a>");
                 }
             %>
-            <a href="settings.jsp" title="settings"></a>
             <div class="achievements-notification">
                 <a href="achievements.jsp?username=<%=loggedInUser%>" title="achievements" id="achievements-link">
                     <i class="fas fa-trophy"></i>
@@ -64,5 +65,16 @@
         </div>
     </div>
 </header>
+<script>
+    function viewAchievements() {
+        window.location.href = 'achievements.jsp?username=<%=loggedInUser%>';
+    }
+
+    function goToAdminPage() {
+        window.location.href = 'admin_home_page.jsp?username=<%=loggedInUser%>';
+    }
+
+</script>
 </body>
+
 </html>
