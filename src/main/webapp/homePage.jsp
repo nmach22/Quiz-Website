@@ -30,61 +30,80 @@
 <body>
 
 <%@include file="header.jsp" %>
-<div class="hp-header">
 
-    <h1>Recent Announcements</h1>
+<div class="d-flex justify-content-between gap-4 w-100 px-5">
+    <div class="d-flex flex-column w-33">
+        <div class="d-flex justify-content-between">
+            <h2 class="mb-2 text-white whitespace-nowrap">Recent Announcements</h2>
+            <form class="mb-2" action="announcements.jsp" method="get">
+                <input type="hidden" name="username" value="<%=username%>">
+                <button class="btn btn-primary whitespace-nowrap" type="submit">See All</button>
+            </form>
+        </div>
 
-</div>
-<div class="announcements">
-    <%
-        ArrayList<Announcement> announcements = null;
-        try {
-            announcements = Announcement.getAnnouncements(5);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        if (announcements != null && announcements.size() > 0) {
-            for (Announcement announcement : announcements) {
-                out.println("<div class='announcement'>");
-                out.println("<h2>" + announcement.title + "</h2>");
-                out.println("<p><strong>By:</strong> " + announcement.user + "</p>");
-                out.println("<p><strong>Date:</strong> " + announcement.created + "</p>");
-                out.println("<p>" + announcement.description + "</p>");
-                out.println("</div>");
-                out.println("<hr>");
-            }
-        } else {
-            out.println("<p>There are no announcements</p>");
-        }
-    %>
-    <form action="announcements.jsp" method="get">
-        <input type="hidden" name="username" value="<%=username%>">
-        <button type="submit">All Announcements</button>
-    </form>
-</div>
-<div class="friend-list">
-    <h2>Friend List</h2>
-    <%
-        // Retrieve the friends
-        ArrayList<String> friendList = null;
-        try {
-            friendList = User.getFriends(request.getParameter("username"));
-        } catch (RuntimeException e) {
-            out.println("<div>Error retrieving friends: " + e.getMessage() + "</div>");
-        }
-    %>
-    <ul>
-        <%
-            if (friendList != null && !friendList.isEmpty()) {
-                for (String fr : friendList) {
-                    out.println("<li><a href='#' onclick=\"toggleMessageBox('" + fr + "', this)\">" + fr + "</a></li>");
+        <div class="announcements">
+            <%
+                ArrayList<Announcement> announcements = null;
+                try {
+                    announcements = Announcement.getAnnouncements(5);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } else {
-                out.println("<li>No friends found.</li>");
-            }
-        %>
-    </ul>
+
+                if (announcements != null && announcements.size() > 0) {
+                    for (Announcement announcement : announcements) {
+                        out.println("<div class='announcement rounded'>");
+                        out.println("<h2>" + announcement.title + "</h2>");
+                        out.println("<p><strong>By:</strong> " + announcement.user + "</p>");
+                        out.println("<p><strong>Date:</strong> " + announcement.created + "</p>");
+                        out.println("<p>" + announcement.description + "</p>");
+                        out.println("</div>");
+                    }
+                } else {
+                    out.println("<p>There are no announcements</p>");
+                }
+            %>
+        </div>
+    </div>
+    <div class="w-33">
+        <div class="d-flex justify-content-between">
+            <h3 class="text-white mb-2">All Quizes</h3>
+            <a href="createQuiz.jsp" class="btn btn-primary mb-2">Create New Quiz</a>
+        </div>
+
+        <div class="quiz-container bg-white rounded">
+            <ul class="p-3">
+                <li class="ms-3"><a>Quiz 1</a></li>
+                <li class="ms-3"><a>Quiz 2</a></li>
+                <li class="ms-3"><a>Quiz 3</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="friend-list-container w-33">
+        <h2 class="text-white">Friend List</h2>
+        <div class="friend-list rounded bg-white">
+            <%
+                // Retrieve the friends
+                ArrayList<String> friendList = null;
+                try {
+                    friendList = User.getFriends(request.getParameter("username"));
+                } catch (RuntimeException e) {
+                    out.println("<div>Error retrieving friends: " + e.getMessage() + "</div>");
+                }
+            %>
+            <ul class="list-group p-3">
+                <%
+                    if (friendList != null && !friendList.isEmpty()) {
+                        for (String fr : friendList) {
+                            out.println("<li class='ms-3'><a href='#' onclick=\"toggleMessageBox('" + fr + "', this)\">" + fr + "</a></li>");
+                        }
+                    } else {
+                        out.println("<li class='ms-3'>No friends found.</li>");
+                    }
+                %>
+            </ul>
+        </div>
+    </div>
 </div>
 
 <div id="chat-container" style="display: none;">
@@ -98,9 +117,6 @@
 
 </div>
 
-
-<a href="createQuiz.jsp" class="btn btn-primary">Create New Quiz</a>
-
 <script>
     function viewAchievements() {
         window.location.href = 'achievements.jsp?username=<%=username%>';
@@ -112,7 +128,5 @@
 
 
 </script>
-
-
 </body>
 </html>

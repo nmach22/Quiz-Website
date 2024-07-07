@@ -4,49 +4,29 @@ body {
     color: black;
     margin: 0;
     padding-top: 90px;
-    display: grid;
-    grid-template-columns: 1fr 2fr;
 }
 
-.hp-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 50px;
-    background-color: black;
-    border-bottom: 1px solid black;
-    grid-column: 1 / -1;
-}
-.hp-header h1{
-    position: fixed;
-    padding-top: 50px;
+.w-33 {
+    width: 33%
 }
 
 h1 {
-    text-align: left;
     color: #ffffff;
     font-size: 2em; /* Adjusted size */
-    margin: 20px 0;
-    padding-left: 50px; /* Added padding to align text to the left */
-    grid-column: 1 / -1;
 }
 
 .announcements {
-    grid-column: 1 / 2;
-    padding: 20px;
 }
 
 .announcement {
     background-color: #fff;
     border: 1px solid #ddd;
-    border-radius: 8px;
     padding: 20px;
     margin-bottom: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
-    color: #740fe1;
     font-size: 1.8em;
     margin-top: 0;
 }
