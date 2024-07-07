@@ -1,6 +1,9 @@
 package main.Manager;
 
+import java.sql.PreparedStatement;
+
 public class ChatMessage {
+
     private String userFrom;
     private String message;
 
@@ -24,5 +27,7 @@ public class ChatMessage {
     public void setMessage(String message) {
         this.message = message;
     }
+
+
 }
 

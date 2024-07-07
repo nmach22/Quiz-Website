@@ -21,15 +21,13 @@
 <html>
 <head>
     <title>Home Page</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="css/home-page.css">
     <link rel="stylesheet" type="text/css" href="css/friend-list.css">
     <link rel="stylesheet" type="text/css" href="css/chat.css">
-    <script src="js/MessageScript.js"></script>
 
+    <script src="js/MessageScript.js"></script>
 </head>
 <body>
 
@@ -67,24 +65,23 @@
 
         if (announcements != null && announcements.size() > 0) {
             for (Announcement announcement : announcements) {
-                out.println("<div class=" + "announcement>");
+                out.println("<div class='announcement'>");
                 out.println("<h2>" + announcement.title + "</h2>");
                 out.println("<p><strong>By:</strong> " + announcement.user + "</p>");
                 out.println("<p><strong>Date:</strong> " + announcement.created + "</p>");
                 out.println("<p>" + announcement.description + "</p>");
                 out.println("</div>");
-                out.println("</hr>");
+                out.println("<hr>");
             }
         } else {
             out.println("<p>There are no announcements</p>");
         }
     %>
     <form action="announcements.jsp" method="get">
-        <input type="hidden" name="username" value=<%=username%>>
+        <input type="hidden" name="username" value="<%=username%>">
         <button type="submit">All Announcements</button>
     </form>
 </div>
-
 <div class="friend-list">
     <h2>Friend List</h2>
     <%
@@ -110,9 +107,7 @@
 </div>
 
 <div id="chat-container" style="display: none;">
-    <div id="friend-name"><%=username%>
-    </div>
-
+    <div id="friend-name"><%=username%></div>
     <div id="chat-window"></div>
 
     <input type="text" id="message-input" placeholder="Type a message...">
@@ -146,7 +141,7 @@
 
 
 </script>
-<a href="index.jsp">Go to the Website</a>
+
 
 </body>
 </html>

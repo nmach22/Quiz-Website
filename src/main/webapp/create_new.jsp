@@ -9,17 +9,18 @@
 <html>
 <head>
     <title>Create New Account</title>
-    <link rel="stylesheet" type="text/css" href="css/main_background.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
-<body>
+<div class="background-container"> </div>
+<div class="login-popup">
     <h1> Create new account</h1>
     <p> Fill in </p>
     <form action="CreateAccountServlet" method="post">
         First Name: <input type = "text" name="firstName"/> <br/>
         Last Name: <input type = "text" name="lastName"/> <br/>
         Username: <input type="text" name="username"/> <br/>
-        password: <input type="text" name = "pas"/>
+        Password: <input type="text" name = "pas"/>
         <input type="submit" value="Create"/>
     </form>
-</body>
+</div>
 </html>
