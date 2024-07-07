@@ -43,7 +43,8 @@ CREATE TABLE quizzes
     one_page             TINYINT(1) DEFAULT '0',
     immediate_correction TINYINT(1) DEFAULT '0',
     practice_mode        TINYINT(1) DEFAULT '0',
-    creation_date        TIMESTAMP  DEFAULT NOW()
+    creation_date        TIMESTAMP  DEFAULT NOW(),
+    duration             INT
 );
 
 CREATE TABLE history
@@ -154,7 +155,6 @@ CREATE TABLE questionResponse
     FOREIGN KEY (quiz_id) REFERENCES quizzes (quiz_id),
     FOREIGN KEY (question_id) REFERENCES questions (question_id)
 );
-select * from questionResponseAnswers;
 
 
 CREATE TABLE questionResponseAnswers
@@ -267,8 +267,8 @@ VALUES ('qatama', 'kato', NOW(), 'accepted'),
 
 INSERT INTO quizzes (quiz_id, description, quiz_name, author,
                      is_random, one_page, immediate_correction,
-                     practice_mode, creation_date)
-VALUES (1, 'PIRVELI QVIZI MTEL SAMYAROSHI', 'KATOS QUIZ', 'kato', 0, 0, 0, 0, NOW());
+                     practice_mode, creation_date, duration)
+VALUES (1, 'PIRVELI QVIZI MTEL SAMYAROSHI', 'KATOS QUIZ', 'kato', 0, 1, 0, 0, NOW(), 30);
 
 insert into announcements(announcement_id, username, announcement, title)
 values (1, 'Nika', 'qatamas sheveci', 'kutu');
@@ -300,6 +300,55 @@ insert into achievementTypes(achievement_type, achievement_description, achievem
 VALUES ('yvelaze magari 6', 'roca yvelaze magari xar', 'fas fa-lightbulb');
 
 select *
+from quizzes;
+
+INSERT INTO questions (question_id, quiz_id, author, question_type)
+VALUES (1,1,'kato','questionResponse'),
+       (2,1,'kato','questionResponse'),
+       (3,1,'kato','questionResponse'),
+       (4,1,'kato','questionMultipleChoice'),
+       (5,1,'kato','questionMultipleChoice'),
+       (6,1,'kato','questionPictureResponse'),
+       (7,1,'kato','questionFillInTheBlank'),
+       (8,1,'kato','questionFillInTheBlank'),
+       (9,1,'kato','questionPictureResponse'),
+       (10,1,'kato','questionPictureResponse'),
+       (11,1,'kato','questionFillInTheBlank');
+INSERT INTO questionResponse (question_id, quiz_id, question)
+VALUES (1,1, 'What is the currency of Japan called?'),
+       (2,1, 'What is the chemical symbol for gold on the periodic table?'),
+       (3,1,'Who wrote Romeo And Juliet?');
+INSERT INTO questionResponseAnswers (answer_id, quiz_id, question_id, answer)
+VALUES (1,1,1,'yen'),
+       (2,1,2,'Au'),
+       (3,1,3,'shakespear');
+INSERT INTO questionMultipleChoice (question_id, quiz_id, question)
+VALUES (4,1,'Which spelling is correct?'),
+       (5,1,'How many ring are on the Olympic flag?');
+INSERT INTO questionMultipleChoiceResponseAnswers (answer_id, quiz_id, question_id, answer, is_correct)
+VALUES (1, 1, 4, 'maintenance', 1),
+       (2, 1, 4, 'maintainence', 0),
+       (6, 1, 4, 'maintenence', 0),
+       (7, 1, 4, 'maintainance', 0),
+       (4, 1, 5, '4', 0),
+       (5, 1, 5, '5', 1),
+       (3, 1, 5, '6', 0);
+INSERT INTO questionPictureResponse (question_id, quiz_id, picture_link, question)
+VALUES (6,1,'raisins.jpg',''),
+       (9,1,'hottest-planet.jpg',''),
+       (10,1,'highest-point.jpg','');
+INSERT INTO questionPictureResponseAnswers (answer_id, quiz_id, question_id, answer)
+VALUES (1,1,6,'grape'),
+       (2,1,9,'Mercury'),
+       (3,1,10,'Mount Everest');
+INSERT INTO questionFillInTheBlank (question_id, quiz_id, question)
+VALUES (7,1,'Saturn is the _ largest planet in the solar system.'),
+       (8,1,'Antarctica is the _ place on Earth.'),
+       (11,1,'25% of _ is 75');
+INSERT INTO questionFillInTheBlankAnswers (answer_id, quiz_id, question_id, answer)
+VALUES (1,1,7,'second'),
+       (2,1,8,'coldest'),
+       (3,1,11,'300');
 from achievements;
 
 select *

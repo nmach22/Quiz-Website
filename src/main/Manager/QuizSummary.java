@@ -1,7 +1,5 @@
 package main.Manager;
 
-import main.Manager.DataBaseConnection;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,9 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Quiz {
+public class QuizSummary {
     private Connection connection;
-    private Map<String, Object> summaryStats;
     private PreparedStatement ps;
     private ResultSet rs;
     private String quizId;
@@ -25,7 +22,7 @@ public class Quiz {
     boolean is_random;
     boolean one_page;
     boolean immediate_correction;
-    public Quiz(String quizId, String userName) throws SQLException {
+    public QuizSummary(String quizId, String userName) throws SQLException {
         this.quizId = quizId;
         this.username = userName;
         getConnection();

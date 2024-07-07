@@ -1,5 +1,5 @@
 package main.Servlets;// QuizServlet.java
-import main.Manager.Quiz;
+import main.Manager.QuizSummary;
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
-@WebServlet(urlPatterns = {"/LoginWeb/QuizSummaryServlet"})
+@WebServlet(urlPatterns = {"/QuizSummaryServlet"})
 public class QuizSummaryServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -17,11 +17,9 @@ public class QuizSummaryServlet extends HttpServlet {
             response.getWriter().println("No quiz ID provided.");
             return;
         }
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        Quiz quiz = null;
+        QuizSummary quiz = null;
         try {
-            quiz = new Quiz(quizId, getUsername(request));
+            quiz = new QuizSummary(quizId, getUsername(request));
 
             String quizName = quiz.getQuizName();
             String description = quiz.getDescription();
@@ -53,23 +51,12 @@ public class QuizSummaryServlet extends HttpServlet {
             request.getSession().setAttribute("quizName", quizName);
 
             // Forward to JSP
-            RequestDispatcher dispatcher = request.getRequestDispatcher("quizSummary.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("quiz_summary.jsp");
             dispatcher.forward(request, response);
 
         } catch (SQLException e) {
             e.printStackTrace();
             response.getWriter().println("Error retrieving quiz summary.");
-        } finally {
-            if (rs != null) try {
-                rs.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            if (ps != null) try {
-                ps.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
     }
         private String getUsername(HttpServletRequest request) {

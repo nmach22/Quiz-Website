@@ -46,6 +46,7 @@
 </head>
 <body>
 <%
+    String quiz_id = request.getParameter("quiz_id");
     String username = request.getParameter("username");
     String description = (String) request.getSession().getAttribute("description");
     String author = (String) request.getSession().getAttribute("author");
@@ -166,6 +167,10 @@
         </div>
     </div>
 </div>
-
+<form action="TakeQuizServlet" method="post">
+    <input type="hidden" name="quiz_id" value= "<%=quiz_id%>">
+    <input type="hidden" name="username" value=${username}>
+    <input type="submit" value="Take Quiz">
+</form>
 </body>
 </html>
