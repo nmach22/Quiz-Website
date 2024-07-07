@@ -189,7 +189,9 @@ CREATE TABLE questionFillInTheBlankAnswers
     FOREIGN KEY (quiz_id) REFERENCES quizzes (quiz_id),
     FOREIGN KEY (question_id) REFERENCES questions (question_id)
 );
-select * from questionPictureResponse;
+select * from quizzes;
+select * from questionMultipleChoiceResponseAnswers;
+select * from questionMultipleChoice;
 CREATE TABLE questionPictureResponse
 (
     question_id  INT PRIMARY KEY,

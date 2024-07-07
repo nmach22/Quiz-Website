@@ -11,7 +11,7 @@
 <html>
 <head>
     <title>Quiz</title>
-    <link rel="stylesheet" type="text/css" href="css/main_background.css">
+    <link rel="stylesheet" type="text/css" href="css/global.css">
     <style>
         .container {
             display: flex;

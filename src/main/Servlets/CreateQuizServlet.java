@@ -22,6 +22,8 @@ public class CreateQuizServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("username");
 
+        int duration = Integer.parseInt(request.getParameter("duration"));
+
         int random = ((String) request.getParameter("random")) == null ? 0 : 1;
         int onePage = ((String) request.getParameter("onePage")) == null ? 0 : 1;
         int immediateCorrection = ((String) request.getParameter("immediateCorrection")) == null ? 0 : 1;
@@ -39,8 +41,8 @@ public class CreateQuizServlet extends HttpServlet {
             try {
                 Connection conn = DataBaseConnection.getConnection();
                 String sqlInsertQuizzes = "INSERT INTO quizzes " +
-                        "(description, quiz_name, author, is_random, one_page, immediate_correction, practice_mode) " +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?)";
+                        "(description, quiz_name, author, is_random, one_page, immediate_correction, practice_mode, duration) " +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 try {
                     PreparedStatement st = conn.prepareStatement(sqlInsertQuizzes, Statement.RETURN_GENERATED_KEYS);
                     st.setString(1, description);
@@ -51,6 +53,7 @@ public class CreateQuizServlet extends HttpServlet {
                     st.setInt(5, onePage);
                     st.setInt(6, immediateCorrection);
                     st.setInt(7, practiceMode);
+                    st.setInt(8, duration);
                     st.executeUpdate();
 
                     ResultSet rs = st.getGeneratedKeys();
