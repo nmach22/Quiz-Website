@@ -29,7 +29,8 @@ CREATE TABLE users
     user_last_name            VARCHAR(50),
     user_profile_picture_link VARCHAR(50),
     user_date_of_birth        TIMESTAMP,
-    date_of_registration      TIMESTAMP  DEFAULT NOW()
+    date_of_registration      TIMESTAMP  DEFAULT NOW(),
+    user_bio                  VARCHAR(250)
 );
 
 CREATE TABLE quizzes
@@ -300,3 +301,12 @@ VALUES ('yvelaze magari 6', 'roca yvelaze magari xar', 'fas fa-lightbulb');
 
 select *
 from achievements;
+
+select *
+from announcements;
+
+select * from users;
+
+select * from chat;
+
+insert into chat(user_from, user_to, message) VALUES ('aleqsa', 'qatama', 'aoie');

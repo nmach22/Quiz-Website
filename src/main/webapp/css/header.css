@@ -6,17 +6,17 @@
     left: 0;
     height: 55px;
     width: 100%;
-    border-bottom: 2px solid black;
+    border-bottom: 1px solid white;
     background-color: black;
     display: flex;
-    align-items: end;
+    align-items: center;
     justify-content: space-between;
     padding: 0 20px;
-    box-sizing: border-box;
 }
 .leftContainer{
     display: flex;
     align-items: center;
+    padding: 7px;
 }
 #logo {
     float: left;
@@ -28,6 +28,7 @@
 }
 
 .logo img{
+    align-items: center;
     height: 40px;
     margin-right: 20px;
 }
@@ -35,10 +36,12 @@
 
 
 .searchBar form {
+    margin-block-end: 0;
     align-items: center;
     flex-grow: 1;
     display: flex;
     justify-content: left;
+
 }
 
 .searchBar input[type = "text"]{
@@ -65,48 +68,64 @@
     background-color: #0056b3;
 }
 
-.rightContainer{
+.rightContainer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 7px;
+}
+
+.navigation {
     display: flex;
     align-items: center;
-    font-size: large;
 }
 
-.navigation{
-    margin-left: 20px;
-    color: white;
-    font-size: 30px;
+.navigation a {
+    position: relative;
+    margin: 0 15px;
+    color: blue;
     text-decoration: none;
+    font-size: 24px;
 }
 
-.navigation i{
-    margin-left: 20px;
-}
-
-.tooltip{
-    display: none;
+.badge {
     position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: black;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 4px;
-    font-size: 12px;
-    white-space: nowrap;
-    z-index: 1;
-}
-
-.badge{
-    position: absolute;
-    top: 6px;
-    right: 120px;
+    top: -5px;
+    right: -15px;
+    padding: 2px 6px;
+    border-radius: 50%;
     background-color: red;
     color: white;
-    border-radius: 50%;
-    padding: 5px 10px;
     font-size: 12px;
-    font-weight: bold;
 }
+
+.tooltip {
+    visibility: hidden;
+    width: 100px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Position above the icon */
+    left: 50%;
+    margin-left: -50px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+
+
+.achievements-notification {
+    position: relative;
+}
+
+.inbox-notification {
+    position: relative;
+}
+
+
+
 
 

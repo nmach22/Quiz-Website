@@ -11,20 +11,21 @@
     <title>
         Please try again
     </title>
-    <link rel="stylesheet" type="text/css" href="css/main_background.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
-<body>
-<h1>
-    Please try again
-</h1>
-<p>
-    Either your username or password is incorrect. Try again
-</p>
-<form action = "LoginServlet" method = "post">
-    User Name: <input type="text" name="username"/> <br/>
-    Password: <input type="text" name="pas"/>
-    <input type="submit" value="login"/>
-</form>
-<a href="create_new.jsp">Create New Account</a>
-</body>
+<div class="background-container"></div>
+<div class="login-popup">
+    <h1>
+        Please try again
+    </h1>
+    <p>
+        Either your username or password is incorrect. Try again
+    </p>
+    <form action = "LoginServlet" method = "post">
+        Username: <input type="text" name="username"/> <br/>
+        Password: <input type="text" name="pas"/>
+        <input type="submit" value="login"/>
+    </form>
+    <a href="create_new.jsp">Create New Account</a>
+</div>
 </html>
