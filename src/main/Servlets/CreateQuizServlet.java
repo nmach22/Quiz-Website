@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 
 
 @WebServlet("/CreateQuizServlet")
@@ -121,17 +122,17 @@ public class CreateQuizServlet extends HttpServlet {
         String question = questionInf.getString("question");
         switch (type) {
             case "openQuestion":
-                addQuestionInDB(question, questionId, quizId, "questionResponse");
+                addQuestionInDB(question, questionId, quizId, "questionResponse ");
                 break;
             case "fillBlanks":
-                addQuestionInDB(question, questionId, quizId, "questionFillInTheBlank");
+                addQuestionInDB(question, questionId, quizId, "questionFillInTheBlank ");
                 break;
             case "pictureQuestion":
                 String url = questionInf.getString("url");
                 addInPictureQuestion(question, url, questionId, quizId);
                 break;
             case "multipleChoice":
-                addQuestionInDB(question, questionId, quizId, "questionMultipleChoice");
+                addQuestionInDB(question, questionId, quizId, "questionMultipleChoice ");
                 break;
             default:
                 System.out.println("Incorrect type");
@@ -182,24 +183,75 @@ public class CreateQuizServlet extends HttpServlet {
 
     private void addAnswer(JSONObject questionInf, int questionId, int quizId) {
         String type = questionInf.getString("type");
+        String answer = questionInf.getString("answer");
         if (type.equals("openQuestion")) {
-            try {
-                Connection conn = DataBaseConnection.getConnection();
-                String sqlInsertQuestionResponse = "INSERT INTO questionResponseAnswers " +
-                        "(question_id, quiz_id, answer) " +
-                        "VALUES (?, ?, ?)";
+            addAnswersInDB(answer, questionId, quizId, "questionResponseAnswers ");
+        } else if (type.equals("fillBlanks")) {
+            addAnswersInDB(answer, questionId, quizId, "questionFillInTheBlankAnswers ");
+        } else if (type.equals("pictureQuestion")) {
+            addAnswersInDB(answer, questionId, quizId, "questionPictureResponseAnswers ");
+        } else if (type.equals("multipleChoice")) {
+            addAnswersInMultipleChoice(questionInf, questionId, quizId, 1);
+        }
+    }
 
-                PreparedStatement st = conn.prepareStatement(sqlInsertQuestionResponse);
-                st.setInt(1, questionId);
-                st.setInt(2, quizId);
-                st.setString(3, questionInf.getString("answer"));
-                st.executeUpdate();
+    private void addAnswersInMultipleChoice(JSONObject questionInf, int questionId, int quizId, int numOfAnswers) {
+        try {
+            Connection conn = DataBaseConnection.getConnection();
+            String sqlInsertQuestionResponse = "INSERT INTO questionMultipleChoiceResponseAnswers " +
+                    "(quiz_id, question_id, answer, is_correct) " +
+                    "VALUES (?, ?, ?, ?)";
 
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
+            ArrayList<String> possibleAnswers = new ArrayList<>();
+            for (String key : questionInf.keySet()) {
+                String keyLower = key.toLowerCase();
+                if (keyLower.contains("possible answer")) {
+                    possibleAnswers.add(questionInf.getString(key));
+                }
             }
+
+            String correctAns = questionInf.getString("answer");
+            for (int i = 0; i < possibleAnswers.size(); i++) {
+                PreparedStatement st = conn.prepareStatement(sqlInsertQuestionResponse);
+                st.setInt(1, quizId);
+                st.setInt(2, questionId);
+                st.setString(3, possibleAnswers.get(i));
+                int tynyInt = correctAns.equals(possibleAnswers.get(i)) ? 1 : 0;
+                st.setInt(4, tynyInt);
+                if (tynyInt == 1) {
+                    numOfAnswers --;
+                }
+                st.executeUpdate();
+            }
+
+            if (numOfAnswers != 0) {
+                System.out.println("There are too many correct answers or there is no correct answer at all");
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void addAnswersInDB(String answer, int questionId, int quizId, String DBName) {
+        try {
+            Connection conn = DataBaseConnection.getConnection();
+            String sqlInsertQuestionResponse = "INSERT INTO " + DBName +
+                    "(question_id, quiz_id, answer) " +
+                    "VALUES (?, ?, ?)";
+
+            PreparedStatement st = conn.prepareStatement(sqlInsertQuestionResponse);
+            st.setInt(1, questionId);
+            st.setInt(2, quizId);
+            st.setString(3, answer);
+            st.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 }

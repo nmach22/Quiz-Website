@@ -181,7 +181,7 @@ CREATE TABLE questionFillInTheBlank
 
 CREATE TABLE questionFillInTheBlankAnswers
 (
-    answer_id   INT PRIMARY KEY,
+    answer_id   INT AUTO_INCREMENT PRIMARY KEY,
     quiz_id     INT,
     question_id INT,
     answer      VARCHAR(200) NOT NULL,
@@ -189,7 +189,7 @@ CREATE TABLE questionFillInTheBlankAnswers
     FOREIGN KEY (quiz_id) REFERENCES quizzes (quiz_id),
     FOREIGN KEY (question_id) REFERENCES questions (question_id)
 );
-
+select * from questionPictureResponse;
 CREATE TABLE questionPictureResponse
 (
     question_id  INT PRIMARY KEY,
@@ -203,7 +203,7 @@ CREATE TABLE questionPictureResponse
 );
 CREATE TABLE questionPictureResponseAnswers
 (
-    answer_id   INT PRIMARY KEY,
+    answer_id   INT AUTO_INCREMENT PRIMARY KEY,
     quiz_id     INT,
     question_id INT,
     answer      VARCHAR(200) NOT NULL,
@@ -222,7 +222,7 @@ CREATE TABLE questionMultipleChoice
 );
 CREATE TABLE questionMultipleChoiceResponseAnswers
 (
-    answer_id   INT PRIMARY KEY,
+    answer_id   INT AUTO_INCREMENT PRIMARY KEY,
     quiz_id     INT,
     question_id INT,
     answer      VARCHAR(200) NOT NULL,

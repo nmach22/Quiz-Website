@@ -43,6 +43,7 @@
         <input type="checkbox" class="form-check-input" id="onePag" name="onePage">
         <label class="form-check-label" for="onePag">One Page</label>
     </div>
+<%--    if OnePage is on, then this shouldn't be possible to check --%>
     <div class="mb-3 form-check">
         <input type="checkbox" class="form-check-input" id="immediateCorrection" name="immediateCorrection">
         <label class="form-check-label" for="immediateCorrection">Immediate Correction</label>
