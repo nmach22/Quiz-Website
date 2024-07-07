@@ -1,5 +1,5 @@
 USE mysql;
-
+select * from history;
 DROP TABLE IF EXISTS history;
 DROP TABLE IF EXISTS announcements;
 DROP TABLE IF EXISTS achievements;
@@ -56,7 +56,6 @@ CREATE TABLE history
 
     FOREIGN KEY (quiz_id) REFERENCES quizzes (quiz_id)
 );
-
 CREATE TABLE announcements (
                     announcement_id INT AUTO_INCREMENT PRIMARY KEY,
                     username         varchar(50),

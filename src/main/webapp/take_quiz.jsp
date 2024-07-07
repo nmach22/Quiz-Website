@@ -80,6 +80,8 @@
 </div>
 <br />
 <% } %>
+    <input type="hidden" name="quiz_id" value= "<%=request.getParameter("quiz_id")%>">
+    <input type="hidden" name="username" value=${username}>
     <input type="submit" value="Submit">
 </form>
 </body>

@@ -51,7 +51,7 @@ public class QuizSummaryServlet extends HttpServlet {
             request.getSession().setAttribute("quizName", quizName);
 
             // Forward to JSP
-            RequestDispatcher dispatcher = request.getRequestDispatcher("quiz_Summary.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("quiz_summary.jsp");
             dispatcher.forward(request, response);
 
         } catch (SQLException e) {
