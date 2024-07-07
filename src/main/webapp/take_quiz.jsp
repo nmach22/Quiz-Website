@@ -37,7 +37,7 @@
         <%
             if ("questionMultipleChoice".equals(q.get("question_type"))) {
             Map<String, Object> question = multipleChoice.get(index);
-            Set<String> choices = (HashSet)question.get("multipleChoices");
+            List<String> choices = (List<String>)question.get("multipleChoices");
             request.getSession().setAttribute("correct_answers"+id, question.get("correct_answers"));
         %>
         <label>
@@ -85,11 +85,16 @@
     <input type="hidden" name="quiz_id" value= "<%=request.getParameter("quiz_id")%>">
     <input type="hidden" name="username" value=${username}>
     <input type="submit" value="Submit">
+</form>
     <%
         } else {
+    %>
+     <form action="submitAnswers" method="post">
+     <input type="hidden" name="currentQuestionIndex" value= "<%=0%>">
+     <input type="hidden" name="immediateScore" value="<%=0%>">
+    <%
             response.sendRedirect("question.jsp");
         }
     %>
-</form>
 </body>
 </html>
