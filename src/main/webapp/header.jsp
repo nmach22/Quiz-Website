@@ -88,7 +88,7 @@
                     if (response.profiles && response.profiles.length > 0) {
                         const item = document.createElement('div');
                         item.className = 'search-dropdown-item';
-                        item.innerHTML = '<a href="searchProfilePage.jsp?username=' + response.profiles + '">' + response.profiles + '</a>';
+                        item.innerHTML = '<a href="profilePage.jsp?username=' + response.profiles + '">' + response.profiles + '</a>';
                         dropdown.appendChild(item);
                     }
                     if (response.quizzes && response.quizzes.length > 0) {
