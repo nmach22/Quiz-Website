@@ -11,7 +11,7 @@
     <title>Login Page</title>
 <%--    <link rel="stylesheet" type="text/css" href="css/main_background.css">--%>
     <link rel="stylesheet" type="text/css" href="css/index.css">
-    <script src="js/index.js"></script>
+    <script src="js/index.js"></script> 
 </head>
 <div class="background-container"> </div>
         <div class="login-popup">

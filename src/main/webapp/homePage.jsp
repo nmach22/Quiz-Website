@@ -1,9 +1,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="main.Manager.Announcement" %>
-<%@ page import="java.util.Vector" %>
 <%@ page import="main.Manager.User" %>
 <%@ page import="main.Manager.User" %>
-<%@ page import="main.Manager.AccountManager" %>
 <%@ page import="main.Manager.Achievement" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -20,7 +18,8 @@
 <html>
 <head>
     <title>Home Page</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="css/home-page.css">
     <link rel="stylesheet" type="text/css" href="css/friend-list.css">
@@ -34,24 +33,7 @@
 <div class="hp-header">
 
     <h1>Recent Announcements</h1>
-<%--    <button class="achievements-button" onclick="viewAchievements()">--%>
-<%--        <i class="fas fa-trophy"></i>--%>
-<%--        <span class="badge"><%=achievements%></span>--%>
-<%--    </button>--%>
-<%--    <%--%>
-<%--        try {--%>
-<%--            if (AccountManager.isAdmin(username)) {--%>
-<%--                out.println("<button class=\"admin-button\" onclick=\"goToAdminPage()\">");--%>
-<%--                out.println("<i class=\"fas fa-shield-alt\"></i>");--%>
-<%--                out.println("</button>");--%>
-<%--            }--%>
-<%--        } catch (SQLException e) {--%>
-<%--            throw new RuntimeException(e);--%>
-<%--        }--%>
-<%--    %>--%>
-<%--    <form action="index.jsp" method="get">--%>
-<%--        <button type="submit" class="announcementsButton">Log Out</button>--%>
-<%--    </form>--%>
+
 </div>
 <div class="announcements">
     <%
@@ -106,7 +88,8 @@
 </div>
 
 <div id="chat-container" style="display: none;">
-    <div id="friend-name"><%=username%></div>
+    <div id="friend-name"><%=username%>
+    </div>
     <div id="chat-window"></div>
 
     <input type="text" id="message-input" placeholder="Type a message...">
@@ -116,9 +99,12 @@
 </div>
 
 
-
 <a href="createQuiz.jsp" class="btn btn-primary">Create New Quiz</a>
-
+<form action="QuizSummaryServlet" method="post">
+    <input type="hidden" name="quiz_id" value="1">
+    <input type="hidden" name="username" value="kato">
+    <input type="submit" value="TAKE QUIZ">
+</form>
 <script>
     function viewAchievements() {
         window.location.href = 'achievements.jsp?username=<%=username%>';
