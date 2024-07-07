@@ -73,7 +73,7 @@ public class AccountManager {
         return false;
     }
 
-    public boolean hasAcc(String user) throws SQLException {
+    public static boolean hasAcc(String user) throws SQLException {
         String query = "SELECT * FROM users WHERE username = ?";
         PreparedStatement st = con.prepareStatement(query);
         st.setString(1 , user);

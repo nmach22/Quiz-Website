@@ -23,10 +23,9 @@
             </a>
         </div>
         <div class="searchBar">
-            <form action="searchResults.jsp" method="get">
-                <input type="text" placeholder="search" size="50" name="searchItem" required>
-                <button type="submit" class="searchButton">Search</button>
-            </form>
+            <input type="text" id="searchInput" placeholder="search" size="50" name="searchItem" required>
+            <button type="submit" class="searchButton" onclick="search()">Search</button>
+            <div id="searchDropdown" class="search-dropdown"></div>
         </div>
     </div>
     <div class="rightContainer">
@@ -72,6 +71,45 @@
 
     function goToAdminPage() {
         window.location.href = 'admin_home_page.jsp?username=<%=loggedInUser%>';
+    }
+
+    function search() {
+        const query = document.getElementById('searchInput').value.trim(); // Trim to remove any leading/trailing whitespace
+        if (query.length > 0) {
+            $.ajax({
+                url: 'searchResultServlet',
+                method: 'GET',
+                data: { searchItem: query },
+                success: function (response) {
+                    console.log('Response:', response); // Log the response to inspect it in browser console
+                    const dropdown = document.getElementById('searchDropdown');
+                    dropdown.innerHTML = '';
+                    dropdown.style.display = 'block';
+                    if (response.profiles && response.profiles.length > 0) {
+                        const item = document.createElement('div');
+                        item.className = 'search-dropdown-item';
+                        item.innerHTML = '<a href="searchProfilePage.jsp?username=' + response.profiles + '">' + response.profiles + '</a>';
+                        dropdown.appendChild(item);
+                    }
+                    if (response.quizzes && response.quizzes.length > 0) {
+                        response.quizzes.forEach(function(quiz) {
+                            const item = document.createElement('div');
+                            item.className = 'search-dropdown-item';
+                            item.innerHTML = '<a href="quizPage.jsp?quizId=' + quiz.quizId + '">' + quiz.title + '</a>';
+                            dropdown.appendChild(item);
+                        });
+                    }
+                    if (!response.profiles.length && !response.quizzes.length) {
+                        dropdown.innerHTML = '<div class="search-dropdown-item">No results found</div>';
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching search results:', error); // Log any errors to the console
+                }
+            });
+        } else {
+            document.getElementById('searchDropdown').style.display = 'none';
+        }
     }
 
 </script>

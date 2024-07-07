@@ -125,6 +125,23 @@
     position: relative;
 }
 
+.search-dropdown {
+    position: absolute;
+    z-index: 1000;
+    background: #ffffff;
+    border: 1px solid #000000;
+    width: 50%;
+}
+
+.search-dropdown-item {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.search-dropdown-item:hover {
+    background-color: #f0f0f0;
+}
+
 
 
 
