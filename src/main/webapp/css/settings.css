@@ -1,0 +1,48 @@
+body {
+    font-family: 'Modak', sans-serif;
+    background-color: white;
+    color: black;
+    margin: 0;
+    padding-top: 90px;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+
+}
+
+.setting-bottom{
+    position: fixed;
+    padding-top: 10px;
+}
+
+.setting-bottom label{
+    padding-top: 10px;
+    font-size: .975rem;
+    line-height: 1rem;
+    font-weight: 700;
+    margin-bottom: 7px;
+    display: flex;
+}
+.save-item{
+    align-items: center;
+    border-radius: 1%;
+}
+
+.settings-content{
+   padding-left: 10px;
+}
+
+.settings-container button{
+    margin-block: 10px;
+    position: fixed;
+    background-color:black;
+    color: white;
+    border-radius: 10%;
+}
+
+.username{
+    color: black;
+    text-decoration: none;
+    position: fixed;
+    line-height: 10px;
+
+}

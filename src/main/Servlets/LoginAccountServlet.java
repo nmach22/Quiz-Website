@@ -17,22 +17,18 @@ public class LoginAccountServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         AccountManager accMan = (AccountManager)getServletContext().getAttribute("Account Manager");
         try {
-            if(accMan.isCorrect(req.getParameter("username"), req.getParameter("pas")) == 0){
+            if(!accMan.isCorrect(req.getParameter("username"), req.getParameter("pas"))){
                 RequestDispatcher dis = req.getRequestDispatcher("login_failed.jsp");
                 dis.forward(req,resp);
-            }else if(accMan.isCorrect(req.getParameter("username"), req.getParameter("pas")) == 1){
+            }else {
                 req.getSession().setAttribute("username", req.getParameter("username"));
                 RequestDispatcher dis = req.getRequestDispatcher("homePage.jsp");
-                dis.forward(req,resp);
-            }else{
-                RequestDispatcher dis = req.getRequestDispatcher("admin_home_page.jsp");
                 dis.forward(req,resp);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doGet(req, resp);

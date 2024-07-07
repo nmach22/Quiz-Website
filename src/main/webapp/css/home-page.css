@@ -1,0 +1,111 @@
+body {
+    font-family: 'Modak', sans-serif;
+    background-color: black;
+    color: black;
+    margin: 0;
+    padding-top: 90px;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
+
+.hp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+    background-color: black;
+    border-bottom: 1px solid black;
+    grid-column: 1 / -1;
+}
+.hp-header h1{
+    position: fixed;
+    padding-top: 50px;
+}
+
+h1 {
+    text-align: left;
+    color: #ffffff;
+    font-size: 2em; /* Adjusted size */
+    margin: 20px 0;
+    padding-left: 50px; /* Added padding to align text to the left */
+    grid-column: 1 / -1;
+}
+
+.announcements {
+    grid-column: 1 / 2;
+    padding: 20px;
+}
+
+.announcement {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #740fe1;
+    font-size: 1.8em;
+    margin-top: 0;
+}
+
+p {
+    font-size: 1em;
+    line-height: 1.5;
+    color: #740fe1;
+}
+
+p strong {
+    color: #6b6a6a;
+}
+
+.announcementsButton {
+    display: block;
+    width: 200px;
+    margin: 20px auto;
+    padding: 10px;
+    font-size: 1em;
+    color: #fff;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.announcementsButton:hover {
+    background-color: #0056b3;
+}
+
+.achievements-button {
+    position: relative;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.5em;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.achievements-button i {
+    font-size: 1.2em;
+}
+
+.achievements-button .badge {
+    position: absolute;
+    top: -8px;
+    right: -4px;
+    background-color: red;
+    color: white;
+    border-radius: 100%;
+    padding: 2px 6px;
+    font-size: 0.6em;
+}

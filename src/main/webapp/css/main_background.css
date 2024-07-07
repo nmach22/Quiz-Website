@@ -1,0 +1,16 @@
+
+body {
+    height: 100vh;
+    background-color: darkcyan;
+    background-image: linear-gradient(darkcyan, cadetblue);
+    margin: 20px auto;
+    opacity: 0.8;
+    box-shadow: 0 10px 10px rgba(0,0,0,.15);
+    font-family: Arial, sans-serif;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    overflow: hidden;
+}
