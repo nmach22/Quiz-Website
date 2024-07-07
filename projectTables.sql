@@ -349,7 +349,6 @@ INSERT INTO questionFillInTheBlankAnswers (answer_id, quiz_id, question_id, answ
 VALUES (1,1,7,'second'),
        (2,1,8,'coldest'),
        (3,1,11,'300');
-from achievements;
 
 select *
 from announcements;
@@ -357,6 +356,8 @@ from announcements;
 select * from users;
 
 select * from chat;
+
+select * from quizzes;
 
 insert into chat(user_from, user_to, message) VALUES ('aleqsa', 'qatama', 'aoie');
 
