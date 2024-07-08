@@ -32,7 +32,7 @@ public class Notifications {
     public static ArrayList<String> getFriendRequests(String name) throws SQLException, ClassNotFoundException {
         ArrayList<String> requests = new ArrayList<>();
 
-        String sql = "SELECT * FROM friendRequests WHERE user_to = \""+ name +"\" AND status = 'pending' ORDER BY requestDate";
+        String sql = "SELECT * FROM friendRequests WHERE user_to = \""+ name +"\" ORDER BY requestDate";
         Connection con = DataBaseConnection.getConnection();
         Statement statement = con.createStatement();
         ResultSet rs = statement.executeQuery(sql);

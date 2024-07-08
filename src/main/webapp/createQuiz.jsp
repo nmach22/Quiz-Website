@@ -188,6 +188,10 @@
                         }
                         const questionContainer = document.getElementById('question-container');
                         const questionDivs = questionContainer.getElementsByClassName('question-div');
+                        if(questionDivs.length === 0){
+                            alert("You must add at least one question.");
+                            return;
+                        }
                         const form = document.getElementById('myForm');
                         console.log(questionDivs);
 

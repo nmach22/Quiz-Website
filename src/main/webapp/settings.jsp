@@ -52,7 +52,7 @@
                     </section>
                 </div>
                 <input type="hidden" id="username" name="username" value="<%=loggedInUser%>">
-                <button type="submit">Save Changes</button>
+                <button type="submit" class="sc-button">Save Changes</button>
             </form>
         </section>
     </div>

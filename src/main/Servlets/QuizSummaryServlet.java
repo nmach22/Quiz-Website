@@ -19,6 +19,8 @@ public class QuizSummaryServlet extends HttpServlet {
         }
         QuizSummary quiz = null;
         try {
+            System.out.println(quizId);
+            System.out.println(getUsername(request));
             quiz = new QuizSummary(quizId, getUsername(request));
 
             String quizName = quiz.getQuizName();
@@ -50,7 +52,6 @@ public class QuizSummaryServlet extends HttpServlet {
             request.getSession().setAttribute("is_random", is_random);
             request.getSession().setAttribute("quizName", quizName);
 
-            // Forward to JSP
             RequestDispatcher dispatcher = request.getRequestDispatcher("quiz_summary.jsp");
             dispatcher.forward(request, response);
 
@@ -61,5 +62,10 @@ public class QuizSummaryServlet extends HttpServlet {
     }
         private String getUsername(HttpServletRequest request) {
         return (String) request.getSession().getAttribute("username");
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doPost(req, resp);
     }
 }
