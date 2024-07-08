@@ -75,8 +75,9 @@ CREATE TABLE achievements
     username         VARCHAR(50),
     achievement_type VARCHAR(50),
     dateAchieved     TIMESTAMP DEFAULT NOW(),
+    FOREIGN KEY (username) REFERENCES users (username),
+    was_read tinyint default 0
 
-    FOREIGN KEY (username) REFERENCES users (username)
 );
 
 CREATE TABLE achievementTypes
@@ -351,4 +352,13 @@ values (2, 'Nika', 'aleqsa', 20, 1);
 select * from friendRequests;
 SELECT * FROM friendRequests WHERE user_to = 'aleqsa' AND request_id = 3 ORDER BY requestDate
 
-select * from friends where user1 = 'aleqsa'
+select * from friends where user1 = 'aleqsa';
+
+insert into announcements(announcement_id, username, announcement, title)
+values (3, 'qatama', '1', '2nd announcements');
+
+insert into achievements (achievement_id, username, achievement_type, dateAchieved)
+values (7 , 'qatama', 'yvelaze magari', NOW() );
+
+select *
+from achievements;

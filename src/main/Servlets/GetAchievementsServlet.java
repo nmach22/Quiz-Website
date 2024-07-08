@@ -16,7 +16,8 @@ public class GetAchievementsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String user = req.getParameter("username");
         try {
-            int count = Achievement.getAchievements(user).size();
+            int count = Achievement.getUnreadAchievements(user);
+            System.out.println(count);
             resp.setContentType("text/plain");
             resp.setCharacterEncoding("UTF-8");
             resp.getWriter().write(Integer.toString(count));

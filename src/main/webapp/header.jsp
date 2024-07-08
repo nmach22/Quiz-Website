@@ -76,7 +76,17 @@
 </header>
 <script>
     function viewAchievements() {
-        window.location.href = 'achievements.jsp?username=<%=loggedInUser%>';
+        $.ajax({
+            url: 'updateDbForAchievements?username=' + encodeURIComponent('<%=loggedInUser%>'),
+            method: 'GET',
+            success: function () {
+                // Call the function to refresh the achievements count in the header
+                window.location.href = 'achievements.jsp?username=' + encodeURIComponent('<%=loggedInUser%>');
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
     }
 
     function goToAdminPage() {
