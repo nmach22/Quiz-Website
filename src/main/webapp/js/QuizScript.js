@@ -1,4 +1,3 @@
-console.log("QuizScript loaded");
 
 function openQuizSummary(quizId) {
     document.getElementById('quizIdInput').value = quizId;
@@ -30,7 +29,6 @@ function fetchQuizzes(option) {
                 };
                 listItem.appendChild(link);
                 quizList.appendChild(listItem);
-                console.log(listItem);
             });
         }
     };
