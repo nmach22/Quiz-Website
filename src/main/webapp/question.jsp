@@ -111,10 +111,8 @@
         }
     }
 
-    // Initial call to set the time immediately
     countdown();
 
-    // Ensure the form updates the time left before submission
     document.getElementById('quizForm').addEventListener('submit', function(e) {
         var timeLeftField = document.createElement('input');
         timeLeftField.type = 'hidden';
@@ -131,7 +129,7 @@
         var immediateCorrection = <%= immediate_correction %>;
 
         if (immediateCorrection === 1) {
-            e.preventDefault(); // Prevent form from submitting normally
+            e.preventDefault();
 
             var formData = new FormData(this);
             var questionId = <%= id %>; // Get the current question ID from JSP
@@ -148,12 +146,10 @@
                 feedbackElement.style.color = "red";
             }
 
-            // Submit the form after a short delay to allow user to see the feedback
             setTimeout(() => {
                 this.submit();
             }, 2000);
         }
-        // If immediateCorrection is not 1, the form will submit normally
     });
 </script>
 <%

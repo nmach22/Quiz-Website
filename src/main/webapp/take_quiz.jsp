@@ -118,7 +118,6 @@
         }
     }
 
-    // Initial call to set the time immediately
     countdown();
 </script>
 </body>
