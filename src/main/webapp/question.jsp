@@ -23,17 +23,14 @@
         response.sendRedirect("finished-quiz.jsp");
     } else {
         %>
-<form action="submitAnswers" method="get">
+<form action="submitAnswers" method="get" id="quizForm">
     <%
         List<Map<String,Object>> multipleChoice = (List<Map<String,Object>>) request.getSession().getAttribute("multipleChoiceQuestions");
         List<Map<String,Object>> fillInTheBlankQuestions = (List<Map<String,Object>>) request.getSession().getAttribute("fillInTheBlankQuestions");
         List<Map<String,Object>> responseQuestions = (List<Map<String,Object>>) request.getSession().getAttribute("responseQuestions");
         List<Map<String,Object>> pictureResponseQuestions = (List<Map<String,Object>>) request.getSession().getAttribute("pictureResponseQuestions");
         Map<String,Object> settings = (Map<String,Object>) request.getSession().getAttribute("settings");
-//        if((int)settings.get("immediate_correction") == 1) {
-//            int immediateScore = (int) request.getSession().getAttribute("immediateScore");
-//        }
-//AMAS MOUBRUNDI MERE!!!
+        int immediate_correction = (int)settings.get("immediate_correction");
         Map<String, Object> q = questions.get(currentQuestionIndex);
         int id = (int) q.get("question_id");
         request.getSession().setAttribute("question_id", id);
@@ -87,6 +84,37 @@
 <% } %>
     <input type="submit" value="Submit">
 </form>
+<div id="feedback"></div>
+<script>
+    document.getElementById('quizForm').addEventListener('submit', function(e) {
+        var immediateCorrection = <%= immediate_correction %>;
+
+        if (immediateCorrection === 1) {
+            e.preventDefault(); // Prevent form from submitting normally
+
+            var formData = new FormData(this);
+            var questionId = <%= id %>; // Get the current question ID from JSP
+            var submittedAnswer = formData.get('submitted' + questionId);
+            var correctAnswers = <%= new com.google.gson.Gson().toJson(request.getSession().getAttribute("correct_answers"+id)) %>;
+
+            var feedbackElement = document.getElementById('feedback');
+
+            if (correctAnswers.includes(submittedAnswer)) {
+                feedbackElement.innerHTML = "Correct!";
+                feedbackElement.style.color = "green";
+            } else {
+                feedbackElement.innerHTML = "Incorrect. The correct answer(s) are: " + correctAnswers.join(", ");
+                feedbackElement.style.color = "red";
+            }
+
+            // Submit the form after a short delay to allow user to see the feedback
+            setTimeout(() => {
+                this.submit();
+            }, 2000);
+        }
+        // If immediateCorrection is not 1, the form will submit normally
+    });
+</script>
 <%
     }
 %>
