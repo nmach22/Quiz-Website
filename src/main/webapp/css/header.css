@@ -142,6 +142,52 @@
     background-color: #f0f0f0;
 }
 
+.notifications-box {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    width: 300px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.notifications-section {
+    margin-bottom: 20px;
+}
+
+.notifications-section h4 {
+    margin-top: 0;
+}
+
+.notifications-section ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.notifications-section li {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.notifications-section li:last-child {
+    border-bottom: none;
+}
+
+.notifications-section a {
+    text-decoration: none;
+    color: black;
+    display: block;
+}
+
+.notifications-section a:hover {
+    background-color: #f1f1f1;
+}
 
 
 

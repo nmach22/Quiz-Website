@@ -259,21 +259,48 @@ public class User {
         return info;
     }
 
-    public static boolean addFriend(String name, String friend) throws SQLException {
-        if(!getFriends(name).contains(friend)){
-            String sql = "INSERT INTO friends (username, friend) VALUES (?, ?)";
-            PreparedStatement st = con.prepareStatement(sql);
-            st.setString(1 , name);
-            st.setString(2 , friend);
-            st.executeUpdate();
-            sql = "INSERT INTO friends (username, friend) VALUES (?, ?)";
-            st = con.prepareStatement(sql);
-            st.setString(1 , friend);
-            st.setString(2 , name);
-            st.executeUpdate();
-            return true;
-        }
-        return false;
+    public static void acceptChallenge(int id) throws SQLException {
+        String sql = "UPDATE quizChallenges SET status = ? where challenge_id = ?";
+        PreparedStatement st = con.prepareStatement(sql);
+        st.setString(1, "accepted");
+        st.setInt(2, id);
+        st.executeUpdate();
+    }
+
+    public static void rejectChallenge(int id) throws SQLException {
+        String sql = "UPDATE quizChallenges SET status = ? where challenge_id = ?";
+        PreparedStatement st = con.prepareStatement(sql);
+        st.setString(1, "rejected");
+        st.setInt(2, id);
+        st.executeUpdate();
+    }
+
+    public static void addFriend(String name, String friend) throws SQLException {
+        String sql = "INSERT INTO friends (user1, user2) VALUES (?, ?)";
+        PreparedStatement st = con.prepareStatement(sql);
+        st.setString(1 , name);
+        st.setString(2 , friend);
+        st.executeUpdate();
+        sql = "INSERT INTO friends (user1, user2) VALUES (?, ?)";
+        st = con.prepareStatement(sql);
+        st.setString(1 , friend);
+        st.setString(2 , name);
+        st.executeUpdate();
+        String sql1 = "UPDATE friendRequests SET status = ? where (user_from = ? AND user_to = ?)";
+        PreparedStatement st1 = con.prepareStatement(sql1);
+        st1.setString(1, "accepted");
+        st1.setString(2, friend);
+        st1.setString(3, name);
+        st1.executeUpdate();
+    }
+
+    public static void rejectFriendRequest(String name, String friend) throws SQLException {
+        String sql = "UPDATE friendRequests SET status = ? where (user_from = ? AND user_to = ?)";
+        PreparedStatement st = con.prepareStatement(sql);
+        st.setString(1, "rejected");
+        st.setString(2, friend);
+        st.setString(3, name);
+        st.executeUpdate();
     }
 
     public static boolean sendFriendRequest(String name, String friend) throws SQLException {

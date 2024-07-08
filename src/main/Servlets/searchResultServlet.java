@@ -1,7 +1,6 @@
 package main.Servlets;
 
 import main.Manager.AccountManager;
-import main.Manager.Achievement;
 import main.Manager.SearchManager;
 import org.json.JSONArray;
 import org.json.JSONObject;

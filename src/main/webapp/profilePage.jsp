@@ -24,11 +24,11 @@
 <body>
 <%@include file="header.jsp"%>
 <%
-    Vector<Vector<String>> takenQuizzes = User.takenQuizzesByDate(loggedInUser);
-    ArrayList<Achievement> achievements = Achievement.getAchievements(loggedInUser);
-    int countFriends = User.getFriends(loggedInUser).size();
-    Vector<String> createdQuizzes = User.getCreatedQuizzes(loggedInUser);
-    String userBio = AccountManager.getBio(loggedInUser);
+    Vector<Vector<String>> takenQuizzes = User.takenQuizzesByDate(username);
+    ArrayList<Achievement> achievements = Achievement.getAchievements(username);
+    int countFriends = User.getFriends(username).size();
+    Vector<String> createdQuizzes = User.getCreatedQuizzes(username);
+    String userBio = AccountManager.getBio(username);
 %>
 <main id="centerContent">
     <div id="profile-top">
