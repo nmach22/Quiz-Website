@@ -41,17 +41,20 @@ public class TakeQuiz {
             ps.setInt(1, (int) question.get("question_id"));
             rs = ps.executeQuery();
             Set<String> choices = new HashSet<>();
-            Set<String> options = new HashSet<>();
+            Set<String> correctOptions = new HashSet<>();
             ResultSetMetaData metaData = rs.getMetaData();
             int numColumns = metaData.getColumnCount();
 
             while (rs.next()) {
                 choices.add(rs.getString(numColumns - 1));
                 if(rs.getInt(numColumns) == 1)
-                    options.add(rs.getString(numColumns - 1));
+                    correctOptions.add(rs.getString(numColumns - 1));
             }
-            question.put("multipleChoices", choices);
-            question.put("correct_answers", options);
+            List<String> choicesList = new ArrayList<>(choices);
+            List<String> correctoptions = new ArrayList<>(correctOptions);
+            Collections.shuffle(choicesList);
+            question.put("multipleChoices", new HashSet<>(choicesList));
+            question.put("correct_answers", new HashSet<>(correctoptions));
             query = "SELECT * FROM questionMultipleChoice WHERE question_id = ?";
             ps = con.prepareStatement(query);
             ps.setInt(1, (int) question.get("question_id"));
