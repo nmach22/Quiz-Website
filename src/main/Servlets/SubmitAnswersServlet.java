@@ -54,6 +54,9 @@ public class SubmitAnswersServlet extends HttpServlet {
         if(is_correct) {
             score++;
         }
+
+        int timeLeft = Integer.parseInt(request.getParameter("timeLeft"));
+        request.getSession().setAttribute("timeLeft", timeLeft);
         request.getSession().setAttribute("score", score);
         RequestDispatcher dispatcher = request.getRequestDispatcher("question.jsp");
         int currInd = (int) request.getSession().getAttribute("currentQuestionIndex");
