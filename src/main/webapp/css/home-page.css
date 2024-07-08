@@ -1,6 +1,6 @@
 body {
     font-family: 'Modak', sans-serif;
-    background-color: black;
+    background-color: #050c1b;
     color: black;
     margin: 0;
     padding-top: 90px;
@@ -15,8 +15,7 @@ h1 {
 }
 
 .announcement {
-    background-color: #fff;
-    border: 1px solid #ddd;
+    background-color: #1f202a;
     padding: 20px;
     margin-bottom: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

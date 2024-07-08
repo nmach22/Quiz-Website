@@ -76,6 +76,27 @@
                 <li class="ms-3"><a>Quiz 1</a></li>
                 <li class="ms-3"><a>Quiz 2</a></li>
                 <li class="ms-3"><a>Quiz 3</a></li>
+
+                <%
+                    // Retrieve the quizzes
+                    ArrayList<String> quizzes = null;
+                    try {
+                        quizzes = User.getPopularQuizzes();
+                    } catch (RuntimeException e) {
+                        out.println("<div>Error retrieving quizzes: " + e.getMessage() + "</div>");
+                    }
+                %>
+                <ul class="list-group p-3">
+                    <%
+                        if (quizzes != null && !quizzes.isEmpty()) {
+                            for (String quiz : quizzes) {
+                                out.println("<li class='ms-3'><a href='#' onclick=\"toggleMessageBox('" + quiz + "', this)\">" + quiz + "</a></li>");
+                            }
+                        } else {
+                            out.println("<li class='ms-3'>No friends found.</li>");
+                        }
+                    %>
+                </ul>
             </ul>
         </div>
     </div>

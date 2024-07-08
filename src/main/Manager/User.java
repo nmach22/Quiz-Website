@@ -61,6 +61,27 @@ public class User {
         return requests;
     }
 
+    public static ArrayList<String> getPopularQuizzes(){
+        ArrayList<String> quizzes = new ArrayList<>();
+        try {
+            Statement statement = con.createStatement();
+
+            String sql = "SELECT quiz_id, COUNT(quiz_id) AS occurrence " +
+                    "            FROM history " +
+                    "            GROUP BY quiz_id " +
+                    "            ORDER BY occurrence DESC " +
+                    "            LIMIT 10";
+            ResultSet rs = statement.executeQuery(sql);
+            while(rs.next()){
+                quizzes.add(rs.getString("quiz_id"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(quizzes);
+        return quizzes;
+    }
+
     public static Vector<String> getCreatedQuizzes(String name){
         Vector<String> quizzes = new Vector<>();
         try {
