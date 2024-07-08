@@ -77,8 +77,6 @@ CREATE TABLE achievements
     dateAchieved     TIMESTAMP DEFAULT NOW(),
     FOREIGN KEY (username) REFERENCES users (username),
     was_read tinyint default 0
-
-    FOREIGN KEY (username) REFERENCES users (username)
 );
 
 CREATE TABLE achievementTypes
