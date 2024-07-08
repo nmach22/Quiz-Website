@@ -24,10 +24,10 @@ public class SubmitAnswersServlet extends HttpServlet {
         for (Map<String, Object> q : questions) {
             int id = (int)q.get("question_id");
             boolean is_correct = false;
-            String submited = request.getParameter("submitted"+id);
+            String submitted = request.getParameter("submitted"+id);
             Set<String> correctAnswers = (Set<String>) request.getSession().getAttribute("correct_answers"+id);
             for (String s : correctAnswers) {
-                if(s.equals(submited)) is_correct = true;
+                if(s.equals(submitted)) is_correct = true;
             }
             if(is_correct) score++;
         }
@@ -39,8 +39,25 @@ public class SubmitAnswersServlet extends HttpServlet {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        RequestDispatcher dispatcher = request.getRequestDispatcher("finished_quiz.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("finished-quiz.jsp");
         dispatcher.forward(request, response);
     }
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        int score = (int) request.getSession().getAttribute("score");
+        boolean is_correct = false;
+        int id = (int) request.getSession().getAttribute("question_id");
+        String submitted = request.getParameter("submitted"+id);
+        Set<String> correctAnswers = (Set<String>) request.getSession().getAttribute("correct_answers"+id);
+        for (String s : correctAnswers)
+            if(s.equals(submitted)) is_correct = true;
+        if(is_correct) {
+            score++;
+        }
+        request.getSession().setAttribute("score", score);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("question.jsp");
+        int currInd = (int) request.getSession().getAttribute("currentQuestionIndex");
+        request.getSession().setAttribute("currentQuestionIndex", currInd + 1);
+        dispatcher.forward(request, response);
+    }
 }
