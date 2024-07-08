@@ -12,5 +12,11 @@
 </head>
 <body>
 <p>Your score is <%= request.getSession().getAttribute("score") %></p>
+<%--<p>It took you <%= ((int) request.getSession().getAttribute("duration")) - ((int) request.getSession().getAttribute("timeLeft"))%></p>--%>
+<form action="TakeQuizServlet" method="post">
+    <input type="hidden" name="quiz_id" value="1">
+    <input type="hidden" name="username" value="kato">
+    <input type="submit" value="Retake Quiz">
+</form>
 </body>
 </html>

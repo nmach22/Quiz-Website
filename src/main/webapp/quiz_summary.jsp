@@ -58,7 +58,7 @@
 %>
 <h1>Welcome <%= username %></h1>
 <p><strong>Description:</strong> <%= description %></p>
-<p><strong>Author:</strong> <a href="userProfile.jsp?username=<%= author %>"><%= author %></a></p>
+<p><strong>Author:</strong> <a href="profilePage.jsp?username=<%= author %>"><%= author %></a></p>
 
 <div class="container">
     <div class="left-section">

@@ -37,17 +37,17 @@ public class QuizSummaryServlet extends HttpServlet {
 
             // Set attributes for the JSP
             request.getSession().setAttribute("description", description);
-            request.setAttribute("author", author);
-            request.setAttribute("pastPerformances", pastPerformances);
-            request.setAttribute("topAllTime", topAllTime);
-            request.setAttribute("topLastDay", topLastDay);
-            request.setAttribute("recentTakers", recentTakers);
-            request.setAttribute("summaryStats", summaryStats);
-            request.setAttribute("quizId", quizId);
-            request.setAttribute("one_page", one_page);
-            request.setAttribute("immediate_correction", immediate_correction);
-            request.setAttribute("practiceMode", practiceMode);
-            request.setAttribute("is_random", is_random);
+            request.getSession().setAttribute("author", author);
+            request.getSession().setAttribute("pastPerformances", pastPerformances);
+            request.getSession().setAttribute("topAllTime", topAllTime);
+            request.getSession().setAttribute("topLastDay", topLastDay);
+            request.getSession().setAttribute("recentTakers", recentTakers);
+            request.getSession().setAttribute("summaryStats", summaryStats);
+            request.getSession().setAttribute("quizId", quizId);
+            request.getSession().setAttribute("one_page", one_page);
+            request.getSession().setAttribute("immediate_correction", immediate_correction);
+            request.getSession().setAttribute("practiceMode", practiceMode);
+            request.getSession().setAttribute("is_random", is_random);
             request.getSession().setAttribute("quizName", quizName);
 
             // Forward to JSP

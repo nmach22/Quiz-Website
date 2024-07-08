@@ -1,6 +1,8 @@
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.Set" %><%--
+<%@ page import="java.util.Set" %>
+<%@ page import="main.Manager.History" %>
+<%@ page import="java.sql.SQLException" %><%--
   Created by IntelliJ IDEA.
   User: Kato
   Date: 07-Jul-24
@@ -20,7 +22,17 @@
     }
     int currentQuestionIndex = (int) request.getSession().getAttribute("currentQuestionIndex");
     List<Map<String,Object>> questions = (List<Map<String,Object>>) request.getSession().getAttribute("questions");
-    if (currentQuestionIndex >= questions.size()) {
+    System.out.println(timeLeft);
+    if (currentQuestionIndex >= questions.size() || timeLeft <= 0) {
+        timeLeft = -1;
+        currentQuestionIndex = questions.size();
+        try {
+            History h = new History(Integer.parseInt(request.getParameter("quiz_id")),request.getParameter("username"), (int)request.getSession().getAttribute("score"));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 %>
     <input type="hidden" name="score" value="<%=request.getSession().getAttribute("score")%>"
 <%
@@ -95,7 +107,7 @@
     var timerId = setInterval(countdown, 1000);
 
     function countdown() {
-        if (timeLeft <= 0) {
+        if (timeLeft < 0) {
             clearInterval(timerId);
             document.getElementById('timeUp').value = 'true';
             document.getElementById('quizForm').submit();
@@ -112,7 +124,6 @@
     }
 
     countdown();
-
     document.getElementById('quizForm').addEventListener('submit', function(e) {
         var timeLeftField = document.createElement('input');
         timeLeftField.type = 'hidden';
