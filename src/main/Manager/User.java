@@ -18,7 +18,7 @@ public class User {
             if (con == null || con.isClosed()) {
                 throw new SQLException("Database connection is not initialized or is closed.");
             }
-            String sql = "SELECT user2 FROM friends WHERE user1 = \""+ name +"\" AND status = 'accepted' ORDER BY addDate";
+            String sql = "SELECT user2 FROM friends WHERE user1 = \""+ name +"\" ORDER BY addDate";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery(sql);
             while(rs.next()){

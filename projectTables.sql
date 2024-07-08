@@ -92,7 +92,6 @@ CREATE TABLE friends
     friendship_id INT AUTO_INCREMENT PRIMARY KEY,
     user1      VARCHAR(50),
     user2        VARCHAR(50),
-    status     ENUM('accepted', 'pending', 'blocked') DEFAULT 'pending',
     addDate       TIMESTAMP DEFAULT NOW(),
 
     FOREIGN KEY (user1) REFERENCES users (username),
@@ -190,9 +189,9 @@ CREATE TABLE questionFillInTheBlankAnswers
     FOREIGN KEY (quiz_id) REFERENCES quizzes (quiz_id),
     FOREIGN KEY (question_id) REFERENCES questions (question_id)
 );
-select * from quizzes;
-select * from questionMultipleChoiceResponseAnswers;
-select * from questionMultipleChoice;
+# select * from quizzes;
+# select * from questionMultipleChoiceResponseAnswers;
+# select * from questionMultipleChoice;
 CREATE TABLE questionPictureResponse
 (
     question_id  INT PRIMARY KEY,
@@ -235,38 +234,19 @@ CREATE TABLE questionMultipleChoiceResponseAnswers
     FOREIGN KEY (question_id) REFERENCES questions (question_id)
 );
 
-
-
-select *
-from users;
-select *
-from friends;
-select *
-from history;
-select *
-from chat;
-select *
-from quizzes;
-
-SELECT user2
-FROM friends
-WHERE user1 = 'qatama' AND status = 'accepted';
-
 INSERT INTO users (username, password_hash, is_admin)
 VALUES ('kato', '34800e15707fae815d7c90d49de44aca97e2d759', 0),
        ('Nika', '86f7e437faa5a7fce15d1ddcb9eaeaea377667b8', 1),
        ('qatama', 'adeb6f2a18fe33af368d91b09587b68e3abcb9a7', 0),
        ('aleqsa', 'adeb6f2a18fe33af368d91b09587b68e3abcb9a7', 0);
 
-INSERT INTO friends (user1, user2, addDate, status)
-VALUES ('qatama', 'kato', NOW(), 'accepted'),
-       ('kato', 'qatama', NOW(),'accepted'),
-       ('qatama', 'Nika', NOW(),'accepted'),
-       ('Nika', 'qatama', NOW(),'accepted'),
-       ('qatama', 'aleqsa', NOW(),'pending'),
-       ('aleqsa', 'qatama', NOW(),'pending'),
-       ('aleqsa', 'Nika', NOW(),'accepted'),
-       ('Nika', 'aleqsa', NOW(),'accepted');
+INSERT INTO friends (user1, user2, addDate)
+VALUES ('qatama', 'kato', NOW()),
+       ('kato', 'qatama', NOW()),
+       ('qatama', 'Nika', NOW()),
+       ('Nika', 'qatama', NOW()),
+       ('aleqsa', 'Nika', NOW()),
+       ('Nika', 'aleqsa', NOW());
 
 INSERT INTO quizzes (quiz_id, description, quiz_name, author,
                      is_random, one_page, immediate_correction,
@@ -353,18 +333,8 @@ VALUES (1,1,7,'second'),
        (2,1,8,'coldest'),
        (3,1,11,'300');
 
-select *
-from announcements;
-
-select * from users;
-
-select * from chat;
-
-select * from quizzes;
-
 insert into chat(user_from, user_to, message) VALUES ('aleqsa', 'qatama', 'aoie');
 
-select * from quizzes;
 
 Insert into history (history_id, quiz_id, username, score, time, date_taken) values (4, 1,'qatama',7, NOW(), NOW());
 select * from history;
