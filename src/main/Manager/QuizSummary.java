@@ -81,7 +81,7 @@ public class QuizSummary {
         while (performanceRs.next()) {
             Map<String, Object> performance = new HashMap<>();
             performance.put("score", performanceRs.getInt("score"));
-            performance.put("time", performanceRs.getInt("time"));
+            performance.put("time", performanceRs.getTimestamp("time"));
             performance.put("date_taken", performanceRs.getTimestamp("date_taken"));
             pastPerformances.add(performance);
         }
