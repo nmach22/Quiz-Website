@@ -96,17 +96,17 @@
                         select.classList = 'mb-1 p-1 rounded border border-0';
                         select.innerHTML = `
                 <option value="">Select question type</option>
-                <option value="openQuestion">Open Question</option>
-                <option value="fillBlanks">Fill Blanks</option>
-                <option value="pictureQuestion">Picture Question</option>
-                <option value="multipleChoice">Multiple Choice</option>
+                <option value="questionResponse">Open Question</option>
+                <option value="questionFillInTheBlank">Fill Blanks</option>
+                <option value="questionPictureResponse">Picture Question</option>
+                <option value="questionMultipleChoice">Multiple Choice</option>
             `;
                         select.addEventListener('change', function () {
                             const selectedValue = select.value;
                             questionDiv.innerHTML = '';
                             questionDiv.appendChild(select);
 
-                            if (selectedValue === 'openQuestion' || selectedValue === 'fillBlanks') {
+                            if (selectedValue === 'questionResponse' || selectedValue === 'questionFillInTheBlank') {
                                 const questionInput = document.createElement('input');
                                 questionInput.classList = 'w-100 mb-1 rounded border border-0 p-1';
                                 questionInput.type = 'text';
@@ -121,7 +121,7 @@
 
                                 questionDiv.appendChild(questionInput);
                                 questionDiv.appendChild(answerInput);
-                            } else if (selectedValue === 'pictureQuestion') {
+                            } else if (selectedValue === 'questionPictureResponse') {
                                 const questionInput = document.createElement('input');
                                 questionInput.classList = 'w-100 mb-1 rounded border border-0 p-1';
                                 questionInput.type = 'text';
@@ -144,7 +144,7 @@
                                 questionDiv.appendChild(image);
                                 questionDiv.appendChild(answerInput);
 
-                            } else if (selectedValue === 'multipleChoice') {
+                            } else if (selectedValue === 'questionMultipleChoice') {
                                 const questionInput = document.createElement('input');
                                 questionInput.classList = 'w-100 mb-1 rounded border border-0 p-1';
                                 questionInput.type = 'text';

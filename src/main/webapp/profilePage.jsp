@@ -35,6 +35,9 @@
     int countFriends = User.getFriends(username).size();
     Vector<String> createdQuizzes = User.getCreatedQuizzes(username);
     String userBio = AccountManager.getBio(username);
+    if(userBio == null){
+        userBio = "";
+    }
 %>
 <main id="centerContent">
     <div id="profile-top">
@@ -42,7 +45,7 @@
             <div class="info-top">
                 <div class="profile-user">
                     <h2><%=username%></h2>
-                    <p class="user-bio"><%=userBio%></p>
+                    <p class="user-bio" id="user-bio"><%=userBio%></p>
                     <%
                         if(loggedInUser != null){
                     %>

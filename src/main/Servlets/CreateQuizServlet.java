@@ -74,11 +74,12 @@ public class CreateQuizServlet extends HttpServlet {
             }
 
             try {
+//                TODO avtorrrr
                 Connection conn = DataBaseConnection.getConnection();
                 for (int i = 0; i < arr.length(); i++) {
                     String sqlInsertQuestions = "INSERT INTO questions " +
-                            "(quiz_id, question_type) " +
-                            "VALUES (?, ?)";
+                            "(quiz_id, question_type, author) " +
+                            "VALUES (?, ?, ?)";
                     try {
                         PreparedStatement st = conn.prepareStatement(sqlInsertQuestions, Statement.RETURN_GENERATED_KEYS);
                         st.setInt(1, quizId);
@@ -86,6 +87,7 @@ public class CreateQuizServlet extends HttpServlet {
                         JSONObject questionInf = arr.getJSONObject(i);
                         String type = questionInf.getString("type");
                         st.setString(2, type);
+                        st.setString(3, username);
                         st.executeUpdate();
 
                         int questionId = 0;
@@ -124,17 +126,17 @@ public class CreateQuizServlet extends HttpServlet {
         String type = questionInf.getString("type");
         String question = questionInf.getString("question");
         switch (type) {
-            case "openQuestion":
+            case "questionResponse":
                 addQuestionInDB(question, questionId, quizId, "questionResponse ");
                 break;
-            case "fillBlanks":
+            case "questionFillInTheBlank":
                 addQuestionInDB(question, questionId, quizId, "questionFillInTheBlank ");
                 break;
-            case "pictureQuestion":
+            case "questionPictureResponse":
                 String url = questionInf.getString("url");
                 addInPictureQuestion(question, url, questionId, quizId);
                 break;
-            case "multipleChoice":
+            case "questionMultipleChoice":
                 addQuestionInDB(question, questionId, quizId, "questionMultipleChoice ");
                 break;
             default:
@@ -187,14 +189,22 @@ public class CreateQuizServlet extends HttpServlet {
     private void addAnswer(JSONObject questionInf, int questionId, int quizId) {
         String type = questionInf.getString("type");
         String answer = questionInf.getString("answer");
-        if (type.equals("openQuestion")) {
-            addAnswersInDB(answer, questionId, quizId, "questionResponseAnswers ");
-        } else if (type.equals("fillBlanks")) {
-            addAnswersInDB(answer, questionId, quizId, "questionFillInTheBlankAnswers ");
-        } else if (type.equals("pictureQuestion")) {
-            addAnswersInDB(answer, questionId, quizId, "questionPictureResponseAnswers ");
-        } else if (type.equals("multipleChoice")) {
-            addAnswersInMultipleChoice(questionInf, questionId, quizId, 1);
+        switch (type) {
+            case "questionResponse":
+                addAnswersInDB(answer, questionId, quizId, "questionResponseAnswers");
+                break;
+            case "questionFillInTheBlank":
+                addAnswersInDB(answer, questionId, quizId, "questionFillInTheBlankAnswers");
+                break;
+            case "questionPictureResponse":
+                addAnswersInDB(answer, questionId, quizId, "questionPictureResponseAnswers");
+                break;
+            case "questionMultipleChoice":
+                addAnswersInMultipleChoice(questionInf, questionId, quizId, 1);
+                break;
+            default:
+                System.out.println("Incorrect type");
+                break;
         }
     }
 
@@ -242,7 +252,7 @@ public class CreateQuizServlet extends HttpServlet {
         try {
             Connection conn = DataBaseConnection.getConnection();
             String sqlInsertQuestionResponse = "INSERT INTO " + DBName +
-                    "(question_id, quiz_id, answer) " +
+                    " (question_id, quiz_id, answer) " +
                     "VALUES (?, ?, ?)";
 
             PreparedStatement st = conn.prepareStatement(sqlInsertQuestionResponse);

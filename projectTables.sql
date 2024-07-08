@@ -75,10 +75,7 @@ CREATE TABLE achievements
     username         VARCHAR(50),
     achievement_type VARCHAR(50),
     dateAchieved     TIMESTAMP DEFAULT NOW(),
-    FOREIGN KEY (username) REFERENCES users (username),
-    was_read tinyint default 0
-
-    FOREIGN KEY (username) REFERENCES users (username)
+    was_read tinyint default 0,
 );
 
 CREATE TABLE achievementTypes
@@ -359,6 +356,3 @@ values (3, 'qatama', '1', '2nd announcements');
 
 insert into achievements (achievement_id, username, achievement_type, dateAchieved)
 values (7 , 'qatama', 'yvelaze magari', NOW() );
-
-select *
-from achievements;

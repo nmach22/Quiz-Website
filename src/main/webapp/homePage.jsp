@@ -152,13 +152,5 @@
     }
 %>
 
-<script>
-    function viewAchievements() {
-        window.location.href = 'achievements.jsp?username=<%=username%>';
-    }
-    function goToAdminPage() {
-        window.location.href = 'admin_home_page.jsp?username=<%=username%>';
-    }
-</script>
 </body>
 </html>
