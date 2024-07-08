@@ -45,7 +45,7 @@
 </div>
     <form action="homePage.jsp" method="get">
         <input type="hidden" name="username" value=<%=username%>>
-        <button type="submit">Back to home page</button>
+        <button type="submit" class="hp-button">Back to home page</button>
     </form>
 </body>
 </html>
