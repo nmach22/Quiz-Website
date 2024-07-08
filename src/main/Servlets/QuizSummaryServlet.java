@@ -52,7 +52,7 @@ public class QuizSummaryServlet extends HttpServlet {
             request.getSession().setAttribute("is_random", is_random);
             request.getSession().setAttribute("quizName", quizName);
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher("quiz_summary.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("quiz_summary.jsp?username="+getUsername(request));
             dispatcher.forward(request, response);
 
         } catch (SQLException e) {

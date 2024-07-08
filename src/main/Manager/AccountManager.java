@@ -170,15 +170,5 @@ public class AccountManager {
         st.setString(2,userName);
         st.executeUpdate();
     }
-    public static String getMessageCount(String user) throws SQLException {
-        String query = "SELECT COUNT(*) from chat WHERE user_to = ?";
-        PreparedStatement st = con.prepareStatement(query);
-        st.setString(1, user);
-        ResultSet res = st.executeQuery();
-        if(res.next()){
-            return res.getString(1);
-        }
-        return "0";
-    }
 
 }
