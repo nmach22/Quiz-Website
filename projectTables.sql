@@ -75,7 +75,7 @@ CREATE TABLE achievements
     username         VARCHAR(50),
     achievement_type VARCHAR(50),
     dateAchieved     TIMESTAMP DEFAULT NOW(),
-    was_read tinyint default 0,
+    was_read tinyint default 0
 );
 
 CREATE TABLE achievementTypes
@@ -356,3 +356,7 @@ values (3, 'qatama', '1', '2nd announcements');
 
 insert into achievements (achievement_id, username, achievement_type, dateAchieved)
 values (7 , 'qatama', 'yvelaze magari', NOW() );
+
+select * from quizChallenges
+
+SELECT score FROM history where username = 'qatama' AND quiz_id = 1 order by score desc

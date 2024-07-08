@@ -378,13 +378,13 @@ public class User {
         st.executeUpdate();
     }
 
-    public static void sendChallenge(String from, String to, String link, int quizID) throws SQLException {
-        String sql = "INSERT INTO quizChallenges (user_from, user_to, link, quiz_id) VALUES (?, ?, ?, ?)";
+    public static void sendChallenge(String from, String to, int quizID, int highestScrore) throws SQLException {
+        String sql = "INSERT INTO quizChallenges (user_from, user_to, quiz_id,highest_score) VALUES (?, ?, ?,?)";
         PreparedStatement st = con.prepareStatement(sql);
         st.setString(1 , from);
         st.setString(2 , to);
-        st.setString(3 , link);
-        st.setInt(4 , quizID);
+        st.setInt(3 , quizID);
+        st.setInt(4,highestScrore);
         st.executeUpdate();
     }
 
@@ -403,6 +403,18 @@ public class User {
         st.setString(2 , to);
         st.setString(3 , message);
         st.executeUpdate();
+    }
+
+    public static int getUsersHighestScoreOnQuiz(String username, int quiz_id) throws SQLException {
+        String query = "SELECT score FROM history where username = ? AND quiz_id = ? order by score desc";
+        PreparedStatement st = con.prepareStatement(query);
+        st.setString(1,username);
+        st.setInt(2,quiz_id);
+        ResultSet rs = st.executeQuery();
+        if(rs.next()){
+            return rs.getInt(1);
+        }
+        return 0;
     }
 
 
