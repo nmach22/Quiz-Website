@@ -5,9 +5,26 @@ document.addEventListener('DOMContentLoaded', function() {
     xhr.open('GET', 'SaveChangesServlet?username=' + encodeURIComponent(name), true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
-            document.getElementById('user-bio').value = xhr.responseText.substring(0,xhr.responseText.indexOf("/"));
-            document.getElementById('firstname').value = xhr.responseText.substring(xhr.responseText.indexOf("/") + 1, xhr.responseText.lastIndexOf("/"));
-            document.getElementById('lastname').value = xhr.responseText.substring(xhr.responseText.lastIndexOf("/") + 1);
+            console.log(xhr.responseText)
+            if(xhr.responseText.substring(0,xhr.responseText.indexOf("/") !== "null")){
+                document.getElementById('user-bio').value = xhr.responseText.substring(0,xhr.responseText.indexOf("/"));
+            }else{
+                document.getElementById('user-bio').value = "";
+            }
+            console.log(xhr.responseText.substring(xhr.responseText.indexOf("/") + 1, xhr.responseText.lastIndexOf("/")) == "null");
+            if(xhr.responseText.substring(xhr.responseText.indexOf("/") + 1, xhr.responseText.lastIndexOf("/")) !== "null"){
+                document.getElementById('firstname').value = xhr.responseText.substring(xhr.responseText.indexOf("/") + 1, xhr.responseText.lastIndexOf("/"));
+            }else{
+                document.getElementById('firstname').value = "";
+            }
+            if(xhr.responseText.substring(xhr.responseText.lastIndexOf("/") + 1) !== "null"){
+                document.getElementById('lastname').value = xhr.responseText.substring(xhr.responseText.lastIndexOf("/") + 1);
+            }else{
+                document.getElementById('lastname').value = "";
+            }
+
+            // document.getElementById('firstname').value = xhr.responseText.substring(xhr.responseText.indexOf("/") + 1, xhr.responseText.lastIndexOf("/"));
+            // document.getElementById('lastname').value = xhr.responseText.substring(xhr.responseText.lastIndexOf("/") + 1);
 
             // Initialize character count based on the initial value of user-bio
             updateCharacterCount();

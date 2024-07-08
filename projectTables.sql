@@ -53,7 +53,7 @@ CREATE TABLE history
     quiz_id    INT,
     username   VARCHAR(50),
     score      INT,
-    time       TIMESTAMP,
+    time       timestamp,
     date_taken TIMESTAMP DEFAULT NOW(),
 
     FOREIGN KEY (quiz_id) REFERENCES quizzes (quiz_id)
@@ -105,6 +105,7 @@ CREATE TABLE friendRequests
     user_from   VARCHAR(50),
     user_to     VARCHAR(50),
     requestDate TIMESTAMP DEFAULT NOW(),
+    status       VARCHAR(20) default 'pending',
 
     FOREIGN KEY (user_from) REFERENCES users (username),
     FOREIGN KEY (user_to) REFERENCES users (username)
@@ -127,7 +128,7 @@ CREATE TABLE quizChallenges
     challenge_id INT AUTO_INCREMENT PRIMARY KEY,
     user_from    VARCHAR(50),
     user_to      VARCHAR(50),
-    link         VARCHAR(100),
+    highest_score INT,
     quiz_id      INT,
     status       VARCHAR(20) default 'pending',
     sentDate     TIMESTAMP   DEFAULT NOW(),
@@ -349,7 +350,6 @@ INSERT INTO questionFillInTheBlankAnswers (answer_id, quiz_id, question_id, answ
 VALUES (1,1,7,'second'),
        (2,1,8,'coldest'),
        (3,1,11,'300');
-from achievements;
 
 select *
 from announcements;
@@ -358,4 +358,25 @@ select * from users;
 
 select * from chat;
 
+select * from quizzes;
+
 insert into chat(user_from, user_to, message) VALUES ('aleqsa', 'qatama', 'aoie');
+
+select * from quizzes;
+
+Insert into history (history_id, quiz_id, username, score, time, date_taken) values (4, 1,'qatama',7, NOW(), NOW());
+select * from history;
+
+
+Insert into friendRequests(request_id, user_from, user_to)
+values (1, 'kato', 'aleqsa');
+Insert into friendRequests(request_id, user_from, user_to)
+values (3, 'qatama', 'aleqsa');
+
+INSERT into quizChallenges(challenge_id, user_from, user_to, highest_score, quiz_id)
+values (2, 'Nika', 'aleqsa', 20, 1);
+
+select * from friendRequests;
+SELECT * FROM friendRequests WHERE user_to = 'aleqsa' AND request_id = 3 ORDER BY requestDate
+
+select * from friends where user1 = 'aleqsa'
