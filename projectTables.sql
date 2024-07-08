@@ -75,6 +75,8 @@ CREATE TABLE achievements
     username         VARCHAR(50),
     achievement_type VARCHAR(50),
     dateAchieved     TIMESTAMP DEFAULT NOW(),
+    FOREIGN KEY (username) REFERENCES users (username),
+    was_read tinyint default 0
 
     FOREIGN KEY (username) REFERENCES users (username)
 );
@@ -104,7 +106,6 @@ CREATE TABLE friendRequests
     user_from   VARCHAR(50),
     user_to     VARCHAR(50),
     requestDate TIMESTAMP DEFAULT NOW(),
-    status       VARCHAR(20) default 'pending',
 
     FOREIGN KEY (user_from) REFERENCES users (username),
     FOREIGN KEY (user_to) REFERENCES users (username)
@@ -251,7 +252,7 @@ VALUES ('qatama', 'kato', NOW()),
 INSERT INTO quizzes (quiz_id, description, quiz_name, author,
                      is_random, one_page, immediate_correction,
                      practice_mode, creation_date, duration)
-VALUES (1, 'PIRVELI QVIZI MTEL SAMYAROSHI', 'KATOS QUIZ', 'kato', 0, 1, 0, 0, NOW(), 30);
+VALUES (1, 'PIRVELI QVIZI MTEL SAMYAROSHI', 'KATOS QUIZ', 'kato', 0, 0, 1, 0, NOW(), 30);
 
 insert into announcements(announcement_id, username, announcement, title)
 values (1, 'Nika', 'qatamas sheveci', 'kutu');
@@ -353,4 +354,11 @@ SELECT * FROM friendRequests WHERE user_to = 'aleqsa' AND request_id = 3 ORDER B
 
 select * from friends where user1 = 'aleqsa';
 
-select * from quizzes;
+insert into announcements(announcement_id, username, announcement, title)
+values (3, 'qatama', '1', '2nd announcements');
+
+insert into achievements (achievement_id, username, achievement_type, dateAchieved)
+values (7 , 'qatama', 'yvelaze magari', NOW() );
+
+select *
+from achievements;

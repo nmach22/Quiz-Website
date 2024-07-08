@@ -43,4 +43,24 @@ public class Achievement {
         }
         return achievements;
     }
+    public static int getUnreadAchievements(String user) throws SQLException, ClassNotFoundException {
+        ArrayList<Achievement> achievements = new ArrayList<>();
+        String sql = "SELECT COUNT(*) FROM achievements WHERE username = ? AND was_read = 0";
+
+        Connection con = DataBaseConnection.getConnection();
+        PreparedStatement ps1 = con.prepareStatement(sql);
+        ps1.setString(1, user);
+        ResultSet rs = ps1.executeQuery();
+        if(rs.next()){
+            return rs.getInt(1);
+        }
+        return 0;
+
+    }
+    public static void updateUnreads(String user) throws SQLException, ClassNotFoundException {
+        String query = "UPDATE achievements SET was_read = 1 WHERE username = ?";
+        PreparedStatement st = DataBaseConnection.getConnection().prepareStatement(query);
+        st.setString(1, user);
+        st.executeUpdate();
+    }
 }

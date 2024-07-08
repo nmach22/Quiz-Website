@@ -21,9 +21,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="css/home-page.css">
     <link rel="stylesheet" type="text/css" href="css/friend-list.css">
     <link rel="stylesheet" type="text/css" href="css/chat.css">
+    <link rel="stylesheet" type="text/css" href="css/home-page.css">
 
     <script src="js/MessageScript.js"></script>
     <script src="js/QuizScript.js" defer></script>
@@ -67,10 +67,16 @@
         </div>
     </div>
     <div class="w-33">
+        <%
+            if(loggedInUser != null){
+        %>
         <div class="d-flex justify-content-between">
             <h3 class="text-white mb-2">All Quizes</h3>
             <a href="createQuiz.jsp" class="btn btn-primary mb-2">Create New Quiz</a>
         </div>
+        <%
+            }
+        %>
 
         <div class="quiz-container bg-white rounded">
             <ul class="p-3">
@@ -80,9 +86,6 @@
                 </select>
 
                 <ul id="quizList">
-                    <li class="ms-3">
-                        <a href="#">test</a>
-                    </li>
                     <!-- Quiz items will be populated here -->
                 </ul>
 
@@ -94,14 +97,16 @@
             </ul>
         </div>
     </div>
+    <%
+        if(loggedInUser != null){
+    %>
     <div class="friend-list-container w-33">
         <h2 class="text-white">Friend List</h2>
         <div class="friend-list rounded bg-white">
             <%
-                // Retrieve the friends
                 ArrayList<String> friendList = null;
                 try {
-                    friendList = User.getFriends(request.getParameter("username"));
+                    friendList = User.getFriends(loggedInUser);
                 } catch (RuntimeException e) {
                     out.println("<div>Error retrieving friends: " + e.getMessage() + "</div>");
                 }
@@ -119,6 +124,9 @@
             </ul>
         </div>
     </div>
+    <%
+        }
+    %>
 </div>
 
 <div id="chat-container" style="display: none;">
@@ -132,11 +140,17 @@
 
 </div>
 
+<%
+    if(loggedInUser != null){
+%>
 <form action="QuizSummaryServlet" method="post">
     <input type="hidden" name="quiz_id" value="1">
     <input type="hidden" name="username" value="kato">
     <input type="submit" value="TAKE QUIZ">
 </form>
+<%
+    }
+%>
 
 <script>
     function viewAchievements() {

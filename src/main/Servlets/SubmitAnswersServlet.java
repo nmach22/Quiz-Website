@@ -51,13 +51,19 @@ public class SubmitAnswersServlet extends HttpServlet {
         Set<String> correctAnswers = (Set<String>) request.getSession().getAttribute("correct_answers"+id);
         for (String s : correctAnswers)
             if(s.equals(submitted)) is_correct = true;
-        if(is_correct) {
-            score++;
+        int timeLeft = Integer.parseInt(request.getParameter("timeLeft"));
+        if(timeLeft < 0) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("finished-quiz.jsp");
+            dispatcher.forward(request, response);
+        } else {
+            if (is_correct)
+                score++;
+            request.getSession().setAttribute("timeLeft", timeLeft);
+            request.getSession().setAttribute("score", score);
+            int currInd = (int) request.getSession().getAttribute("currentQuestionIndex");
+            request.getSession().setAttribute("currentQuestionIndex", currInd + 1);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("question.jsp");
+            dispatcher.forward(request, response);
         }
-        request.getSession().setAttribute("score", score);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("question.jsp");
-        int currInd = (int) request.getSession().getAttribute("currentQuestionIndex");
-        request.getSession().setAttribute("currentQuestionIndex", currInd + 1);
-        dispatcher.forward(request, response);
     }
 }

@@ -6,6 +6,8 @@ body {
     padding-top: 90px;
 }
 
+
+
 h1 {
     color: #ffffff;
     font-size: 2em; /* Adjusted size */
@@ -83,4 +85,8 @@ p strong {
     border-radius: 100%;
     padding: 2px 6px;
     font-size: 0.6em;
+}
+
+html{
+    background-color: black;
 }

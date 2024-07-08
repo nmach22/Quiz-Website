@@ -187,3 +187,7 @@
 .notifications-section a:hover {
     background-color: #f1f1f1;
 }
+
+label{
+    color: whitesmoke;
+}

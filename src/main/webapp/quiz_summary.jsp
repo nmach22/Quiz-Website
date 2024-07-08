@@ -11,38 +11,6 @@
 <html>
 <head>
     <title>Quiz</title>
-    <link rel="stylesheet" type="text/css" href="css/global.css">
-    <style>
-        .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-
-        .left-section,
-        .right-section {
-            width: 48%; /* Adjust as needed */
-        }
-
-        .section {
-            margin-bottom: 20px;
-        }
-
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
 </head>
 <body>
 <%
@@ -56,9 +24,19 @@
     List<Map<String,Object>> recentTakers = (List<Map<String,Object>>) request.getSession().getAttribute("recentTakers");
     Map<String,Object> summaryStats = (Map<String,Object>) request.getSession().getAttribute("summaryStats");
 %>
+<%
+    if(username != null){
+%>
 <h1>Welcome <%= username %></h1>
+<%
+    } else {
+%>
+<h1>Cannot Take Quiz As A Guest</h1>
+<%
+    }
+%>
 <p><strong>Description:</strong> <%= description %></p>
-<p><strong>Author:</strong> <a href="userProfile.jsp?username=<%= author %>"><%= author %></a></p>
+<p><strong>Author:</strong> <a href="profilePage.jsp?username=<%= author %>"><%= author %></a></p>
 
 <div class="container">
     <div class="left-section">
@@ -167,10 +145,16 @@
         </div>
     </div>
 </div>
+<%
+    if(username != null){
+%>
 <form action="TakeQuizServlet" method="post">
     <input type="hidden" name="quiz_id" value= "<%=quiz_id%>">
     <input type="hidden" name="username" value=${username}>
     <input type="submit" value="Take Quiz">
 </form>
+<%
+    }
+%>
 </body>
 </html>
