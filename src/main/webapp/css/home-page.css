@@ -1,6 +1,6 @@
 body {
     font-family: 'Modak', sans-serif;
-    background-color: #050c1b;
+    background-color: #050c1b !important;
     color: black;
     margin: 0;
     padding-top: 90px;
