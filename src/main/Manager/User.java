@@ -286,38 +286,32 @@ public class User {
         st.setString(1 , friend);
         st.setString(2 , name);
         st.executeUpdate();
-        String sql1 = "UPDATE friendRequests SET status = ? where (user_from = ? AND user_to = ?)";
-        PreparedStatement st1 = con.prepareStatement(sql1);
-        st1.setString(1, "accepted");
-        st1.setString(2, friend);
-        st1.setString(3, name);
-        st1.executeUpdate();
-    }
-
-    public static void rejectFriendRequest(String name, String friend) throws SQLException {
-        String sql = "UPDATE friendRequests SET status = ? where (user_from = ? AND user_to = ?)";
-        PreparedStatement st = con.prepareStatement(sql);
-        st.setString(1, "rejected");
-        st.setString(2, friend);
-        st.setString(3, name);
+        sql = "DELETE FROM friendRequests where (user_from = ? AND user_to = ?)";
+        st = con.prepareStatement(sql);
+        st.setString(1, friend);
+        st.setString(2, name);
         st.executeUpdate();
     }
 
-    public static boolean sendFriendRequest(String name, String friend) throws SQLException {
-        if(!getFriends(name).contains(friend) && !getSentFriendRequests(name).contains(friend)){
-            String sql = "INSERT INTO friendRequests (user_from, user_to) VALUES (?, ?)";
-            PreparedStatement st = con.prepareStatement(sql);
-            st.setString(1 , name);
-            st.setString(2 , friend);
-            st.executeUpdate();
-            return true;
-        }
-        return false;
+    public static void rejectFriendRequest(String name, String friend) throws SQLException {
+        String sql = "DELETE FROM friendRequests where (user_from = ? AND user_to = ?)";
+        PreparedStatement st = con.prepareStatement(sql);
+        st.setString(1, friend);
+        st.setString(2, name);
+        st.executeUpdate();
     }
 
-    public static boolean removeFriend(String name, String friend) throws SQLException {
+    public static void sendFriendRequest(String name, String friend) throws SQLException {
+        String sql = "INSERT INTO friendRequests (user_from, user_to) VALUES (?, ?)";
+        PreparedStatement st = con.prepareStatement(sql);
+        st.setString(1 , name);
+        st.setString(2 , friend);
+        st.executeUpdate();
+    }
+
+    public static void removeFriend(String name, String friend) throws SQLException {
         if(getFriends(name).contains(friend)){
-            String sql = "DELETE FROM friends WHERE username = ? AND friend = ?";
+            String sql = "DELETE FROM friends WHERE user1 = ? AND user2 = ?";
             PreparedStatement st = con.prepareStatement(sql);
             st.setString(1, name);
             st.setString(2, friend);
@@ -325,21 +319,24 @@ public class User {
             st.setString(1, friend);
             st.setString(2, name);
             st.executeUpdate();
-            return true;
         }
-        return false;
     }
 
-    public static boolean removeFriendRequest(String name, String friend) throws SQLException {
-        if(getSentFriendRequests(name).contains(friend)){
-            String sql = "DELETE FROM friendRequests WHERE user_from = ? AND user_to = ?";
-            PreparedStatement st = con.prepareStatement(sql);
-            st.setString(1, name);
-            st.setString(2, friend);
-            st.executeUpdate();
-            return true;
-        }
-        return false;
+    public static boolean doesFriendRequestExist(String name, String friend) throws SQLException {
+        String sql = "SELECT * FROM friendRequests WHERE user_from = ? AND user_to = ?";
+        PreparedStatement st = con.prepareStatement(sql);
+        st.setString(1, name);
+        st.setString(2, friend);
+        ResultSet rs = st.executeQuery();
+        return rs.next();
+    }
+
+    public static void removeFriendRequest(String name, String friend) throws SQLException {
+        String sql = "DELETE FROM friendRequests WHERE user_from = ? AND user_to = ?";
+        PreparedStatement st = con.prepareStatement(sql);
+        st.setString(1, name);
+        st.setString(2, friend);
+        st.executeUpdate();
     }
 
     public static void sendChallenge(String from, String to, String link, int quizID) throws SQLException {

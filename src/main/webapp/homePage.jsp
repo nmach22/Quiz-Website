@@ -86,7 +86,7 @@
                 // Retrieve the friends
                 ArrayList<String> friendList = null;
                 try {
-                    friendList = User.getFriends(request.getParameter("username"));
+                    friendList = User.getFriends(loggedInUser);
                 } catch (RuntimeException e) {
                     out.println("<div>Error retrieving friends: " + e.getMessage() + "</div>");
                 }

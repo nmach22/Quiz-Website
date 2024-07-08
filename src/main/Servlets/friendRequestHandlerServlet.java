@@ -19,10 +19,33 @@ public class friendRequestHandlerServlet extends HttpServlet {
         String friend = request.getParameter("friend");
         String user = request.getSession().getAttribute("username").toString();
         try {
-            if (action.equals("accept")) {
-                User.addFriend(user, friend);
-            } else if (action.equals("reject")) {
-                User.rejectFriendRequest(user, friend);
+            switch (action) {
+                case "accept":
+                    User.addFriend(user, friend);
+                    break;
+                case "reject":
+                    User.rejectFriendRequest(user, friend);
+                    break;
+                case "acceptR":
+                    User.addFriend(user, friend);
+                    response.sendRedirect("profilePage.jsp?username=" + friend);
+                    break;
+                case "rejectR":
+                    User.rejectFriendRequest(user, friend);
+                    response.sendRedirect("profilePage.jsp?username=" + friend);
+                    break;
+                case "add":
+                    User.sendFriendRequest(user, friend);
+                    response.sendRedirect("profilePage.jsp?username=" + friend);
+                    break;
+                case "remove":
+                    User.removeFriend(user, friend);
+                    response.sendRedirect("profilePage.jsp?username=" + friend);
+                    break;
+                case "cancel":
+                    User.removeFriendRequest(user, friend);
+                    response.sendRedirect("profilePage.jsp?username=" + friend);
+                    break;
             }
         } catch (SQLException e) {
             throw new ServletException(e);
