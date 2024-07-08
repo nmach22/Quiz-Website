@@ -11,38 +11,6 @@
 <html>
 <head>
     <title>Quiz</title>
-    <link rel="stylesheet" type="text/css" href="css/global.css">
-    <style>
-        .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-
-        .left-section,
-        .right-section {
-            width: 48%; /* Adjust as needed */
-        }
-
-        .section {
-            margin-bottom: 20px;
-        }
-
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
 </head>
 <body>
 <%
