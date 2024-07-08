@@ -12,6 +12,8 @@
 </head>
 <body>
 <%
+    String username = request.getParameter("username");
+    String quiz_id = request.getParameter("quiz_id");
     List<Map<String,Object>> questions = (List<Map<String,Object>>) request.getSession().getAttribute("questions");
     List<Map<String,Object>> multipleChoice = (List<Map<String,Object>>) request.getSession().getAttribute("multipleChoiceQuestions");
     List<Map<String,Object>> fillInTheBlankQuestions = (List<Map<String,Object>>) request.getSession().getAttribute("fillInTheBlankQuestions");
@@ -91,6 +93,8 @@
 </form>
 <%
     } else {
+        request.getSession().setAttribute("username", username);
+        request.getSession().setAttribute("quiz_id", quiz_id);
         request.getSession().setAttribute("immediateScore", 0);
         request.getSession().setAttribute("score", 0);
         request.getSession().setAttribute("currentQuestionIndex", 0);

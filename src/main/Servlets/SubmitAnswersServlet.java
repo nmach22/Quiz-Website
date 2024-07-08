@@ -43,7 +43,8 @@ public class SubmitAnswersServlet extends HttpServlet {
         dispatcher.forward(request, response);
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        String username = (String)request.getSession().getAttribute("username");
+        String quiz_id = (String)request.getSession().getAttribute("quiz_id");
         int score = (int) request.getSession().getAttribute("score");
         boolean is_correct = false;
         int id = (int) request.getSession().getAttribute("question_id");
@@ -62,7 +63,7 @@ public class SubmitAnswersServlet extends HttpServlet {
             request.getSession().setAttribute("score", score);
             int currInd = (int) request.getSession().getAttribute("currentQuestionIndex");
             request.getSession().setAttribute("currentQuestionIndex", currInd + 1);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("question.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("question.jsp?quiz_id=" + quiz_id + "&username=" + username);
             dispatcher.forward(request, response);
         }
     }

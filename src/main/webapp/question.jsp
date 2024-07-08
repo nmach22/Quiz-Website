@@ -27,7 +27,9 @@
         timeLeft = -1;
         currentQuestionIndex = questions.size();
         try {
-            History h = new History(Integer.parseInt(request.getParameter("quiz_id")),request.getParameter("username"), (int)request.getSession().getAttribute("score"));
+            String username = (String)request.getSession().getAttribute("username");
+            String quiz_id = (String)request.getSession().getAttribute("quiz_id");
+            History h = new History(Integer.parseInt(quiz_id),username, (int)request.getSession().getAttribute("score"));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
