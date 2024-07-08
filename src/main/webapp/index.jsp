@@ -15,7 +15,7 @@
 </head>
 <div class="background-container"> </div>
         <div class="login-popup">
-            <h1>Welcome to Quiz Website </h1>
+            <h1>Welcome to QuizzerRank </h1>
             <p> Log in </p>
             <form action="LoginServlet" method="post">
                 Username: <input type="text" name="username"/> <br/>
@@ -23,5 +23,6 @@
                 <input type="submit" value="login"/>
             </form>
             <a href="create_new.jsp">Create New Account</a>
+            <a href="homePage.jsp">Visit As A Guest</a>
         </div>
 </html>

@@ -17,6 +17,9 @@
 <html>
 <%
     String username = request.getParameter("username");
+    System.out.println("??????????");
+    System.out.println(username);
+    System.out.println("??????????????");
 %>
 <head>
     <title>Profile Page</title>
@@ -40,6 +43,9 @@
                 <div class="profile-user">
                     <h2><%=username%></h2>
                     <p class="user-bio"><%=userBio%></p>
+                    <%
+                        if(loggedInUser != null){
+                    %>
                     <%
                         if (!loggedInUser.equals(username)) {
                             if(User.getFriends(loggedInUser).contains(username)){
@@ -91,15 +97,17 @@
                             }
                         }
                     %>
+                    <%
+                        }
+                    %>
                 </div>
-                <% if (Objects.equals(username, loggedInUser)){%>
+                <% if (loggedInUser != null && Objects.equals(username, loggedInUser)){%>
                 <div class="actions">
                     <a id="settings-link" href="settings.jsp?username=<%=username%>" title="Edit Settings">
                         <i class="fas fa-edit"></i>
                     </a>
                 </div>
                 <%}%>
-
 
             </div>
             <div class="top-stats">

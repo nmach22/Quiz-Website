@@ -15,8 +15,9 @@
 </head>
 <body>
 <header class="header">
-    <% String loggedInUser = (String) session.getAttribute("username"); %>
-
+    <% String loggedInUser = (String) session.getAttribute("username");
+        System.out.println(loggedInUser);
+    %>
     <div class="leftContainer">
         <div class="logo">
             <a href="homePage.jsp?username=<%=loggedInUser%>">
@@ -31,43 +32,54 @@
     <div class="rightContainer">
         <div class="navigation">
             <%
-                if (AccountManager.isAdmin(loggedInUser)) {
-                    out.println("<a href='#' onclick = \"goToAdminPage()\" title=\"admin page\">");
-                    out.println("<i class=\"fas fa-shield-alt\"></i>");
-                    out.println("</a>");
-                }
+                if(loggedInUser != null){
+
             %>
-            <div class="achievements-notification">
-                <a href='#' onclick = viewAchievements() title= "achievements page">
-                    <i class="fas fa-trophy"></i>
-                    <span class="badge" id="unread_achievements"></span>
-                    <span class="tooltip">Achievements</span>
-                </a>
-            </div>
-            <div class="inbox-notification">
-                <a href="#" title="inbox" id="inbox-button">
-                    <i class="fas fa-inbox"></i>
-                    <span class="badge" id="unread-count"></span>
-                    <span class="tooltip">Inbox</span>
-                </a>
-                <div id="notificationsBox" class="notifications-box">
-                    <div class="notifications-section" id="friendRequests">
-                        <h4>Friend Requests</h4>
-                        <ul></ul>
-                    </div>
-                    <div class="notifications-section" id="quizChallenges">
-                        <h4>Quiz Challenges</h4>
-                        <ul></ul>
+                <%
+                    if (AccountManager.isAdmin(loggedInUser)) {
+                        out.println("<a href='#' onclick = \"goToAdminPage()\" title=\"admin page\">");
+                        out.println("<i class=\"fas fa-shield-alt\"></i>");
+                        out.println("</a>");
+                    }
+                %>
+                <div class="achievements-notification">
+                    <a href='#' onclick = viewAchievements() title= "achievements page">
+                        <i class="fas fa-trophy"></i>
+                        <span class="badge" id="unread_achievements"></span>
+                        <span class="tooltip">Achievements</span>
+                    </a>
+                </div>
+                <div class="inbox-notification">
+                    <a href="#" title="inbox" id="inbox-button">
+                        <i class="fas fa-inbox"></i>
+                        <span class="badge" id="unread-count"></span>
+                        <span class="tooltip">Inbox</span>
+                    </a>
+                    <div id="notificationsBox" class="notifications-box">
+                        <div class="notifications-section" id="friendRequests">
+                            <h4>Friend Requests</h4>
+                            <ul></ul>
+                        </div>
+                        <div class="notifications-section" id="quizChallenges">
+                            <h4>Quiz Challenges</h4>
+                            <ul></ul>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <a href="settings.jsp?username=<%=loggedInUser%>" title="settings">
-                <i class="fas fa-cog"></i>
-            </a>
-            <a href="profilePage.jsp?username=<%=loggedInUser%>" title="profile">
-                <i class="fas fa-user"></i>
-            </a>
-            <a href="index.jsp" title="logout">
+                <a href="settings.jsp?username=<%=loggedInUser%>" title="settings">
+                    <i class="fas fa-cog"></i>
+                </a>
+                <a href="profilePage.jsp?username=<%=loggedInUser%>" title="profile">
+                    <i class="fas fa-user"></i>
+                </a>
+            <%
+                } else {
+            %>
+                <label> If You Want To Take Quizzes And Partake In Other Various Activities, Please Log in:</label>
+            <%
+                }
+            %>
+            <a href="logoutServlet" title="logout">
                 <i class="fa fa-sign-out"></i>
             </a>
             <input type="hidden" id="username" value="<%= loggedInUser%>">
@@ -107,18 +119,18 @@
                     if (response.profiles && response.profiles.length > 0) {
                         const item = document.createElement('div');
                         item.className = 'search-dropdown-item';
-                        item.innerHTML = '<a href="profilePage.jsp?username=' + response.profiles + '">' + response.profiles + '</a>';
+                        item.innerHTML = '<a href="profilePage.jsp?username=' + response.profiles + '">'+ 'User: ' + response.profiles + '</a>';
                         dropdown.appendChild(item);
                     }
                     if (response.quizzes && response.quizzes.length > 0) {
                         response.quizzes.forEach(function(quiz) {
                             const item = document.createElement('div');
                             item.className = 'search-dropdown-item';
-                            item.innerHTML = '<a href="quizPage.jsp?quizId=' + quiz.quizId + '">' + quiz.title + '</a>';
+                            item.innerHTML = '<a href="QuizSummaryServlet?quiz_id=' + quiz.quizId + '">'+ 'Quiz: ' + quiz.title + '</a>';
                             dropdown.appendChild(item);
                         });
                     }
-                    if (!response.profiles && response.quizzes) {
+                    if (!response.profiles && !response.quizzes) {
                         const item = document.createElement('div');
                         item.className = 'search-dropdown-item';
                         item.innerHTML = '<label> No results found <label>';

@@ -67,10 +67,16 @@
         </div>
     </div>
     <div class="w-33">
+        <%
+            if(loggedInUser != null){
+        %>
         <div class="d-flex justify-content-between">
             <h3 class="text-white mb-2">All Quizes</h3>
             <a href="createQuiz.jsp" class="btn btn-primary mb-2">Create New Quiz</a>
         </div>
+        <%
+            }
+        %>
 
         <div class="quiz-container bg-white rounded">
             <ul class="p-3">
@@ -79,7 +85,6 @@
                 <li class="ms-3"><a>Quiz 3</a></li>
 
                 <%
-                    // Retrieve the quizzes
                     ArrayList<String> quizzes = null;
                     try {
                         quizzes = User.getPopularQuizzes();
@@ -101,11 +106,13 @@
             </ul>
         </div>
     </div>
+    <%
+        if(loggedInUser != null){
+    %>
     <div class="friend-list-container w-33">
         <h2 class="text-white">Friend List</h2>
         <div class="friend-list rounded bg-white">
             <%
-                // Retrieve the friends
                 ArrayList<String> friendList = null;
                 try {
                     friendList = User.getFriends(loggedInUser);
@@ -126,6 +133,9 @@
             </ul>
         </div>
     </div>
+    <%
+        }
+    %>
 </div>
 
 <div id="chat-container" style="display: none;">
@@ -139,11 +149,17 @@
 
 </div>
 
+<%
+    if(loggedInUser != null){
+%>
 <form action="QuizSummaryServlet" method="post">
     <input type="hidden" name="quiz_id" value="1">
     <input type="hidden" name="username" value="kato">
     <input type="submit" value="TAKE QUIZ">
 </form>
+<%
+    }
+%>
 
 <script>
     function viewAchievements() {
