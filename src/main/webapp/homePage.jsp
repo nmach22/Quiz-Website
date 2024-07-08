@@ -26,6 +26,7 @@
     <link rel="stylesheet" type="text/css" href="css/chat.css">
 
     <script src="js/MessageScript.js"></script>
+    <script src="js/QuizScript.js" defer></script>
 </head>
 <body>
 
@@ -73,30 +74,23 @@
 
         <div class="quiz-container bg-white rounded">
             <ul class="p-3">
-                <li class="ms-3"><a>Quiz 1</a></li>
-                <li class="ms-3"><a>Quiz 2</a></li>
-                <li class="ms-3"><a>Quiz 3</a></li>
+                <select class="form-select" id="quizSelector" aria-label="Default select example">
+                    <option value="1">Show the most popular quizzes</option>
+                    <option value="2">Show recently added quizzes</option>
+                </select>
 
-                <%
-                    // Retrieve the quizzes
-                    ArrayList<String> quizzes = null;
-                    try {
-                        quizzes = User.getPopularQuizzes();
-                    } catch (RuntimeException e) {
-                        out.println("<div>Error retrieving quizzes: " + e.getMessage() + "</div>");
-                    }
-                %>
-                <ul class="list-group p-3">
-                    <%
-                        if (quizzes != null && !quizzes.isEmpty()) {
-                            for (String quiz : quizzes) {
-                                out.println("<li class='ms-3'><a href='#' onclick=\"toggleMessageBox('" + quiz + "', this)\">" + quiz + "</a></li>");
-                            }
-                        } else {
-                            out.println("<li class='ms-3'>No friends found.</li>");
-                        }
-                    %>
+                <ul id="quizList">
+                    <li class="ms-3">
+                        <a href="#">test</a>
+                    </li>
+                    <!-- Quiz items will be populated here -->
                 </ul>
+
+                <form id="quizSummaryForm" action="QuizSummaryServlet" method="post">
+                    <input type="hidden" id="quizIdInput" name="quiz_id" value="">
+                    <input type="hidden" id="usernameInput" name="username" value="<%= username %>">
+                    <input type="submit" style="display:none;">
+                </form>
             </ul>
         </div>
     </div>

@@ -351,4 +351,6 @@ values (2, 'Nika', 'aleqsa', 20, 1);
 select * from friendRequests;
 SELECT * FROM friendRequests WHERE user_to = 'aleqsa' AND request_id = 3 ORDER BY requestDate
 
-select * from friends where user1 = 'aleqsa'
+select * from friends where user1 = 'aleqsa';
+
+select * from quizzes;

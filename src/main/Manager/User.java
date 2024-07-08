@@ -61,24 +61,42 @@ public class User {
         return requests;
     }
 
-    public static ArrayList<String> getPopularQuizzes(){
-        ArrayList<String> quizzes = new ArrayList<>();
+    public static ArrayList<Pair>getRecentlyAddedQuizzes(){
+        ArrayList<Pair>quizzes = new ArrayList<>();
         try {
             Statement statement = con.createStatement();
-
-            String sql = "SELECT quiz_id, COUNT(quiz_id) AS occurrence " +
-                    "            FROM history " +
-                    "            GROUP BY quiz_id " +
-                    "            ORDER BY occurrence DESC " +
-                    "            LIMIT 10";
+            String sql = "SELECT * \n" +
+                    "FROM quizzes \n" +
+                    "ORDER BY creation_date DESC \n" +
+                    "LIMIT 10";
             ResultSet rs = statement.executeQuery(sql);
             while(rs.next()){
-                quizzes.add(rs.getString("quiz_id"));
+                quizzes.add(new Pair(rs.getString("quiz_name"), rs.getString("quiz_id")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(quizzes);
+        return quizzes;
+    }
+
+    public static ArrayList<Pair>getPopularQuizzes(){
+        ArrayList<Pair>quizzes = new ArrayList<>();
+        try {
+            Statement statement = con.createStatement();
+
+            String sql = "SELECT q.quiz_name, h.quiz_id, COUNT(h.quiz_id) AS occurrence\n" +
+                    "FROM history h\n" +
+                    "JOIN quizzes q ON h.quiz_id = q.quiz_id\n" +
+                    "GROUP BY h.quiz_id, q.quiz_name\n" +
+                    "ORDER BY occurrence DESC\n" +
+                    "LIMIT 10";
+            ResultSet rs = statement.executeQuery(sql);
+            while(rs.next()){
+                quizzes.add(new Pair(rs.getString("quiz_name"), rs.getString("quiz_id")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return quizzes;
     }
 
