@@ -14,6 +14,10 @@
 </head>
 <body>
 <%
+    Integer timeLeft = (Integer) request.getSession().getAttribute("timeLeft");
+    if (timeLeft == null) {
+        timeLeft = ((int) request.getSession().getAttribute("duration"));
+    }
     int currentQuestionIndex = (int) request.getSession().getAttribute("currentQuestionIndex");
     List<Map<String,Object>> questions = (List<Map<String,Object>>) request.getSession().getAttribute("questions");
     if (currentQuestionIndex >= questions.size()) {
@@ -22,7 +26,8 @@
 <%
         response.sendRedirect("finished-quiz.jsp");
     } else {
-        %>
+%>
+<div id="timer">Time left: <span id="time"></span></div>
 <form action="submitAnswers" method="get" id="quizForm">
     <%
         List<Map<String,Object>> multipleChoice = (List<Map<String,Object>>) request.getSession().getAttribute("multipleChoiceQuestions");
@@ -86,7 +91,43 @@
 </form>
 <div id="feedback"></div>
 <script>
+    var timeLeft = <%= timeLeft %>;
+    var timerId = setInterval(countdown, 1000);
+
+    function countdown() {
+        if (timeLeft <= 0) {
+            clearInterval(timerId);
+            document.getElementById('timeUp').value = 'true';
+            document.getElementById('quizForm').submit();
+        } else {
+            var minutes = Math.floor(timeLeft / 60);
+            var seconds = timeLeft % 60;
+            var formattedTime =
+                (minutes < 10 ? "0" : "") + minutes + ":" +
+                (seconds < 10 ? "0" : "") + seconds;
+
+            document.getElementById('time').innerHTML = formattedTime;
+            timeLeft--;
+        }
+    }
+
+    // Initial call to set the time immediately
+    countdown();
+
+    // Ensure the form updates the time left before submission
     document.getElementById('quizForm').addEventListener('submit', function(e) {
+        var timeLeftField = document.createElement('input');
+        timeLeftField.type = 'hidden';
+        timeLeftField.name = 'timeLeft';
+        timeLeftField.value = timeLeft;
+        this.appendChild(timeLeftField);
+
+        var timeUpField = document.createElement('input');
+        timeUpField.type = 'hidden';
+        timeUpField.name = 'timeUp';
+        timeUpField.value = (timeLeft <= 0).toString();
+        this.appendChild(timeUpField);
+
         var immediateCorrection = <%= immediate_correction %>;
 
         if (immediateCorrection === 1) {

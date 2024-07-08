@@ -18,12 +18,14 @@
     List<Map<String,Object>> responseQuestions = (List<Map<String,Object>>) request.getSession().getAttribute("responseQuestions");
     List<Map<String,Object>> pictureResponseQuestions = (List<Map<String,Object>>) request.getSession().getAttribute("pictureResponseQuestions");
     Map<String,Object> settings = (Map<String,Object>) request.getSession().getAttribute("settings");
+    int timeLimit = ((int)settings.get("duration")) * 60; // Time in seconds
     if ((int)settings.get("is_random") == 1) {
         Collections.shuffle(questions);
     }
     if ((int)settings.get("one_page") == 1) {
 %>
 <form action="submitAnswers" method="post">
+    <div id="timer">Time left: <span id="time"><%=timeLimit%></span> seconds</div>
      <%
          for (Map<String, Object> q : questions) {
      %>
@@ -91,8 +93,33 @@
             request.getSession().setAttribute("immediateScore", 0);
             request.getSession().setAttribute("score", 0);
             request.getSession().setAttribute("currentQuestionIndex", 0);
+            request.getSession().setAttribute("duration", timeLimit);
             response.sendRedirect("question.jsp");
         }
     %>
+<script>
+    var timeLeft = <%=timeLimit%>;
+    var timerId = setInterval(countdown, 1000);
+
+    function countdown() {
+        if (timeLeft == 0) {
+            clearTimeout(timerId);
+            document.getElementById('timeUp').value = 'true';
+            document.getElementById('quizForm').submit();
+        } else {
+            var minutes = Math.floor(timeLeft / 60);
+            var seconds = timeLeft % 60;
+            var formattedTime =
+                (minutes < 10 ? "0" : "") + minutes + ":" +
+                (seconds < 10 ? "0" : "") + seconds;
+
+            document.getElementById('time').innerHTML = formattedTime;
+            timeLeft--;
+        }
+    }
+
+    // Initial call to set the time immediately
+    countdown();
+</script>
 </body>
 </html>

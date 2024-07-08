@@ -163,6 +163,7 @@ public class TakeQuiz {
             settings.put("one_page", rs.getInt("one_page"));
             settings.put("immediate_correction", rs.getInt("immediate_correction"));
             settings.put("practice_mode", rs.getInt("practice_mode"));
+            settings.put("duration", rs.getInt("duration"));
         }
         return settings;
     }
