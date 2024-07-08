@@ -21,10 +21,6 @@ public class challengeRequestHandlerServlet extends HttpServlet {
         try {
             if (action.equals("accept")) {
                 User.acceptChallenge(id);
-                request.getSession().setAttribute("username", request.getParameter("username"));
-                request.getSession().setAttribute("quiz_id", id);
-                RequestDispatcher dis = request.getRequestDispatcher("quiz_summary.jsp");
-                dis.forward(request,response);
             } else if (action.equals("reject")) {
                 User.rejectChallenge(id);
             }

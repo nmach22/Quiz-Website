@@ -170,19 +170,19 @@
                         response.challenges.forEach(function(challenge) {
                             const listItem = document.createElement('li');
                             const anchor = document.createElement('a');
-                            anchor.textContent = challenge.from;
+                            anchor.textContent = "challenged by: " + challenge.from + " score to beat: " + challenge.score;
 
                             const acceptButton = document.createElement('button');
                             acceptButton.textContent = 'Accept';
                             acceptButton.onclick = function() {
-                                handleChallengeRequest('accept', challenge.challengeID);
+                                handleChallengeRequest('accept', challenge.challengeID, challenge.quizId);
                                 listItem.remove();
                             };
 
                             const rejectButton = document.createElement('button');
                             rejectButton.textContent = 'Reject';
                             rejectButton.onclick = function() {
-                                handleChallengeRequest('reject', challenge.challengeID);
+                                handleChallengeRequest('reject', challenge.challengeID, challenge.quizId);
                                 listItem.remove();
                             };
                             listItem.appendChild(anchor);
@@ -190,8 +190,7 @@
                             listItem.appendChild(rejectButton);
 
                             quizChallenges.append(listItem);
-                            // quizChallenges.append('<li>From: ' + challenge.from + ', Quiz ID: ' + challenge.quizId + ', Score: ' + challenge.score + '</li>');
-                        });
+                            });
                     },
                     error: function(xhr, status, error) {
                         console.error('Error fetching notifications:', error);
@@ -224,7 +223,7 @@
         });
     }
 
-    function handleChallengeRequest(acOrRej, ID) {
+    function handleChallengeRequest(acOrRej, ID, quizID) {
         $.ajax({
             url: 'challengeRequestHandlerServlet',
             method: 'POST',
@@ -234,7 +233,7 @@
             },
             success: function(response) {
                 if (acOrRej === 'accept') {
-                    window.location.href = `quizPage.jsp?quizId= ` + ID;
+                    window.location.href = `quizPage.jsp?quizId= ` + quizID;
                 }
             },
             error: function(xhr, status, error) {
