@@ -118,17 +118,26 @@
                             dropdown.appendChild(item);
                         });
                     }
-                    if (!response.profiles.length && !response.quizzes.length) {
-                        dropdown.innerHTML = '<div class="search-dropdown-item">No results found</div>';
+                    if (!response.profiles && response.quizzes) {
+                        const item = document.createElement('div');
+                        item.className = 'search-dropdown-item';
+                        item.innerHTML = '<label> No results found <label>';
+                        dropdown.appendChild(item);
                     }
                 },
                 error: function (xhr, status, error) {
-                    console.error('Error fetching search results:', error); // Log any errors to the console
+                    console.error('Error fetching search results:', error);
                 }
             });
         } else {
             document.getElementById('searchDropdown').style.display = 'none';
         }
+
+        $(document).click(function(event) {
+            if (!$(event.target).closest(document.getElementById('searchDropdown')).length) {
+                $(document.getElementById('searchDropdown')).hide();
+            }
+        });
     }
 
     $(document).ready(function() {
@@ -225,7 +234,7 @@
                 friend: friend
             },
             success: function() {
-                alert(acOrRej);
+                window.location.href = `homePage.jsp`;
             },
             error: function(xhr, status, error) {
                 console.error('Error handling friend request:', error);
@@ -243,7 +252,10 @@
             },
             success: function(response) {
                 if (acOrRej === 'accept') {
-                    window.location.href = `quizPage.jsp?quizId= ` + quizID;
+                    window.location.href = `QuizSummaryServlet?quiz_id=` + quizID;
+                }
+                if (acOrRej === 'reject') {
+                    window.location.href = `homePage.jsp`;
                 }
             },
             error: function(xhr, status, error) {

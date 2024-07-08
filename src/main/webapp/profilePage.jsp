@@ -3,6 +3,8 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Vector" %>
 <%@ page import="main.Manager.QuizManager" %>
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="main.Manager.QuizManager" %>
 <%@ page import="java.util.Objects" %><%--
   Created by IntelliJ IDEA.
   main.Manager.User: main.Manager.User
@@ -38,6 +40,57 @@
                 <div class="profile-user">
                     <h2><%=username%></h2>
                     <p class="user-bio"><%=userBio%></p>
+                    <%
+                        if (!loggedInUser.equals(username)) {
+                            if(User.getFriends(loggedInUser).contains(username)){
+                    %>
+                    <form action="friendRequestHandlerServlet" method="post">
+                        <input type="hidden" name="action" value="remove" />
+                        <input type="hidden" name="friend" value="<%=username%>" />
+                        <button type="submit" class="btn btn-primary">Remove Friend</button>
+                    </form>
+                    <%
+                    }else {
+                        try {
+                            if(User.doesFriendRequestExist(loggedInUser, username)){
+
+                    %>
+                    <form action="friendRequestHandlerServlet" method="post">
+                        <input type="hidden" name="action" value="cancel" />
+                        <input type="hidden" name="friend" value="<%=username%>" />
+                        <button type="submit" class="btn btn-primary">Cancel Friend Request</button>
+                    </form>
+                    <%
+                    } else if(User.doesFriendRequestExist(username, loggedInUser)){
+
+                    %>
+                    <form action="friendRequestHandlerServlet" method="post">
+                        <input type="hidden" name="action" value="acceptR" />
+                        <input type="hidden" name="friend" value="<%=username%>" />
+                        <button type="submit" class="btn btn-primary">Accept Friend Request</button>
+                    </form>
+                    <form action="friendRequestHandlerServlet" method="post">
+                        <input type="hidden" name="action" value="rejectR" />
+                        <input type="hidden" name="friend" value="<%=username%>" />
+                        <button type="submit" class="btn btn-primary">Reject Friend Request</button>
+                    </form>
+                    <%
+                    } else {
+
+                    %>
+                    <form action="friendRequestHandlerServlet" method="post">
+                        <input type="hidden" name="action" value="add" />
+                        <input type="hidden" name="friend" value="<%=username%>" />
+                        <button type="submit" class="btn btn-primary">Add Friend</button>
+                    </form>
+                    <%
+                                    }
+                                } catch (SQLException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                        }
+                    %>
                 </div>
                 <% if (Objects.equals(username, loggedInUser)){%>
                 <div class="actions">
@@ -194,6 +247,7 @@
             icon.classList.add('rotated');
         }
     }
+
 </script>
 </body>
 </html>

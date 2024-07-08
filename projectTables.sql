@@ -105,7 +105,6 @@ CREATE TABLE friendRequests
     user_from   VARCHAR(50),
     user_to     VARCHAR(50),
     requestDate TIMESTAMP DEFAULT NOW(),
-    status       VARCHAR(20) default 'pending',
 
     FOREIGN KEY (user_from) REFERENCES users (username),
     FOREIGN KEY (user_to) REFERENCES users (username)
