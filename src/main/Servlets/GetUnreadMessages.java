@@ -2,6 +2,7 @@ package main.Servlets;
 
 import main.Manager.AccountManager;
 import main.Manager.Achievement;
+import main.Manager.Notifications;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,11 +19,14 @@ public class GetUnreadMessages extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String user = req.getParameter("username");
         try {
-            String count = AccountManager.getMessageCount(user);
+            int count1 = Notifications.getFriendRequests(user).size() + Notifications.getChallenges(user).size();
+            String count = Integer.toString(count1);
             resp.setContentType("text/plain");
             resp.setCharacterEncoding("UTF-8");
             resp.getWriter().write(count);
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }

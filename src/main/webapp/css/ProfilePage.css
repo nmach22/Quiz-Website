@@ -1,107 +1,208 @@
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 50px;
+}
+
+/* Profile Top Section */
+#profile-top {
+    background-color: #ffffff;
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+}
+
 .user-info {
-    display: flex;
-    flex-direction: column; /* Ensure child elements stack vertically */
+    text-align: center;
 }
 
 .info-top {
-    /*position: fixed;*/
-    margin-top: 50px;
-    padding-left: 7px;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    height: 125px;
-    border-bottom: 1px solid #ccc;
+    margin-bottom: 20px;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
 }
 
 .profile-user {
-
-    display: flex;
-    flex: 1;
-    align-items: center;
-    max-width: 400px;
-    overflow-wrap: break-word;
-    float: left;
-    height: inherit;
-}
-.profile-user h2{
-    font-size: 44px;
+    max-width: calc(100% - 50px); /* Ensure the profile-user div does not exceed the available width */
+    flex: 1; /* Allow the profile-user div to take available space */
 }
 
+.profile-user h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #343a40;
+    text-align: left; /* Align username to the left */
+}
+
+.profile-user .user-bio {
+    font-size: 16px;
+    color: #6c757d;
+    margin-top: 10px; /* Adjust margin to ensure spacing between username and bio */
+    margin-bottom: 20px; /* Ensure spacing between bio and the next section */
+    max-width: 100%; /* Limit the width for better readability */
+    line-height: 1.5; /* Increase line height for better readability */
+    word-wrap: break-word; /* Ensure long words break properly */
+}
+
+/* Actions Section */
 .actions {
-    height: inherit;
-    float: right;
-    width: 200px;
-    font-size: 25px;
-    display: flex;
-    align-items: center;
-    justify-content: center; /* Align actions to the right */
+    font-size: 18px;
+    margin-left: auto; /* Push actions to the right */
 }
 
+.actions a {
+    color: #343a40;
+    text-decoration: none;
+}
+
+.actions a:hover {
+    color: #007bff;
+}
+
+/* Stats Section */
 .top-stats {
     display: flex;
-    justify-content: center;
-    margin-top: 10px; /* Adjust margin as needed */
-    padding-bottom: 10px;
-    border-bottom: 1px solid #ccc;
+    justify-content: space-around;
+    margin-bottom: 20px;
 }
 
-.stats-item{
+.stats-item {
+    text-align: center;
+}
+
+.stats-item .number {
+    font-size: 24px;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.stats-item .label {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+/* Activity Section */
+.activity-body {
     text-align: left;
-    flex: 1;
-    margin: 0 10px;
 }
 
-.activity-body h2{
-
-    font-size: 35px;
+.activity-body h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #343a40;
 }
 
-.activity-body{
-    margin: 20px 0;
-    border-left-color: black;
-    padding-left: 10px;
+.activity-body .achievements,
+.activity-body .quizzes-taken,
+.activity-body .quizzes-created {
+    margin-bottom: 20px;
 }
 
-/*main{*/
-    /*    margin-top: 60px;*/
-    /*    padding-left: 15px;*/
-    /*}*/
+.activity-body h3 {
+    font-size: 18px;
+    color: #343a40;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-    /*.user-info{*/
-    /*    display: flex;*/
-    /*    flex-direction: column;*/
-    /*}*/
+.activity-body ul {
+    list-style-type: none;
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
 
-    /*.info-top{*/
-    /*    display: flex;*/
-    /*    position: fixed;*/
-    /*    height: 125px;*/
-    /*}*/
+.activity-body ul.show {
+    max-height: 500px; /* Temporary height for dropdown expansion */
+    overflow-y: auto; /* Add vertical scrollbar */
+}
 
-    /*.profile-user{*/
-    /*    flex: 1;*/
-    /*    float: left;*/
-    /*    align-items: center;*/
-    /*    display: flex;*/
-    /*    max-width: 400px;*/
-    /*    overflow-wrap: break-word;*/
+/* General Style for List Items */
+.activity-body li {
+    background-color: #e9ecef;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
 
-    /*}*/
-    /*.profile-user h2{*/
-    /*    font-size: 44px;*/
-    /*}*/
-    /*.actions{*/
-    /*    float: right;*/
-    /*    width: 200px;*/
-    /*    font-size: 25px;*/
-    /*    display: flex;*/
-    /*    align-items: center;*/
-    /*    justify-content: center;*/
-    /*}*/
+.activity-body .activity-item {
+    font-weight: bold;
+    color: #007bff;
+}
 
-    /*.top-stats{*/
-    /*    align-items: flex-start;*/
-    /*}*/
+.activity-body .time {
+    font-size: 12px;
+    color: #6c757d;
+}
 
+.activity-body .action-text {
+    font-size: 14px;
+    color: #343a40;
+}
 
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+    .info-top {
+        flex-direction: column;
+        align-items: center;
+    }
 
+    .actions {
+        margin-top: 10px;
+    }
+
+    .top-stats {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .stats-item {
+        margin-bottom: 10px;
+    }
+
+    .activity-body li {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .activity-body .time {
+        margin-top: 5px;
+    }
+
+    .profile-user h2,
+    .profile-user .user-bio {
+        text-align: center; /* Center align on smaller screens */
+    }
+
+    .activity-body .achievements,
+    .activity-body .quizzes-taken,
+    .activity-body .quizzes-created {
+        max-height: 150px; /* Adjust height for smaller screens */
+    }
+}
+
+/* Styles for Dropdown */
+ul.show {
+    max-height: none; /* Remove fixed height for showing all content */
+}
+
+.toggle-icon {
+    transition: transform 0.3s ease;
+}
+
+.toggle-icon.rotated {
+    transform: rotate(180deg);
+}

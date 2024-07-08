@@ -1,48 +1,129 @@
+/* General Styling */
 body {
-    font-family: 'Modak', sans-serif;
-    background-color: white;
-    color: black;
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
     margin: 0;
-    padding-top: 90px;
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-
+    padding: 50px;
 }
 
-.setting-bottom{
-    position: fixed;
-    padding-top: 10px;
+.settings-content {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.setting-bottom label{
-    padding-top: 10px;
-    font-size: .975rem;
-    line-height: 1rem;
-    font-weight: 700;
-    margin-bottom: 7px;
-    display: flex;
-}
-.save-item{
-    align-items: center;
-    border-radius: 1%;
+.settings-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+    color: #343a40;
 }
 
-.settings-content{
-   padding-left: 10px;
+.settings-subtitle {
+    font-size: 18px;
+    color: #6c757d;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
-.settings-container button{
-    margin-block: 10px;
-    position: fixed;
-    background-color:black;
-    color: white;
-    border-radius: 10%;
+.settings-container {
+    padding: 20px;
 }
 
-.username{
-    color: black;
+h5 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #343a40;
+}
+
+.username {
+    font-size: 16px;
+    color: #007bff;
     text-decoration: none;
-    position: fixed;
-    line-height: 10px;
+}
 
+.username:hover {
+    text-decoration: underline;
+}
+
+.setting-bottom {
+    margin-top: 20px;
+}
+
+.bio-container {
+    margin-bottom: 20px;
+}
+
+label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #343a40;
+    display: block;
+    margin-bottom: 5px;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    resize: none;
+}
+
+.info-text {
+    text-align: right;
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.account-info-container h1 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #343a40;
+}
+
+.account-info-container h3 {
+    font-size: 16px;
+    color: #6c757d;
+    margin-bottom: 20px;
+}
+
+.information-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.information-container > div {
+    flex: 1;
+    min-width: 220px;
+}
+
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #007bff;
+    color: #ffffff;
+    padding: 10px 20px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #0056b3;
 }
