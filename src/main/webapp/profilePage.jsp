@@ -2,7 +2,8 @@
 <%@ page import="main.Manager.Achievement" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Vector" %>
-<%@ page import="main.Manager.QuizManager" %><%--
+<%@ page import="main.Manager.QuizManager" %>
+<%@ page import="java.util.Objects" %><%--
   Created by IntelliJ IDEA.
   main.Manager.User: main.Manager.User
   Date: 6/9/2024
@@ -38,11 +39,14 @@
                     <h2><%=username%></h2>
                     <p class="user-bio"><%=userBio%></p>
                 </div>
+                <% if (Objects.equals(username, loggedInUser)){%>
                 <div class="actions">
                     <a id="settings-link" href="settings.jsp?username=<%=username%>" title="Edit Settings">
                         <i class="fas fa-edit"></i>
                     </a>
                 </div>
+                <%}%>
+
 
             </div>
             <div class="top-stats">
