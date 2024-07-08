@@ -23,7 +23,6 @@
 <script type="text/javascript">
     $(document).ready(function (){
         $('#promote').click(function (e){
-            console.log("Promote button clicked");
             e.preventDefault();
             var username = $('#userid').val();
             $.ajax({
@@ -37,10 +36,8 @@
                     console.error("AJAX error: " + status + " - " + error);
                 }
             });
-            console.log("AJAX request for promoting user sent");
         });
         $('#remove').click(function (e){
-            console.log("Remove button clicked");
             e.preventDefault();
             var username = $('#userid').val();
             $.ajax({
@@ -54,7 +51,6 @@
                     console.error("AJAX error: " + status + " - " + error);
                 }
             });
-            console.log("AJAX request for removing user sent");
         });
         $('#createAnnouncementButton').click(function (e){
             e.preventDefault();
@@ -82,6 +78,42 @@
                 }
             });
         });
+        $('#removeQuiz').click(function (e){
+            e.preventDefault();
+            var quizID = $('#quiz_id').val();
+            console.log(quizID);
+            $.ajax({
+                type: 'POST',
+                url: 'removeQuizServlet',
+                data: {
+                    quizID: quizID,
+                },
+                success: function (result){
+                    $('#message2').html(result);
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX error: " + status + " - " + error);
+                }
+            });
+        });
+        $('#removeQuizHistory').click(function (e){
+            e.preventDefault();
+            var quizID = $('#quiz_id').val();
+
+            $.ajax({
+                type: 'POST',
+                url: 'removeQuizHistory',
+                data: {
+                    quizID: quizID,
+                },
+                success: function (result){
+                    $('#message2').html(result);
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX error: " + status + " - " + error);
+                }
+            });
+        });
     });
 </script>
 <head>
@@ -91,7 +123,6 @@
 <body>
 <%@include file="header.jsp"%>
 <div class="ap-header">
-    <h1>Welcome <%=username%> (admin)</h1>
 
 </div>
 <div class="container">
@@ -117,9 +148,10 @@
             </div>
             <div class="action">
                 <h2>Manage Quizzes</h2>
-                <input name="quiz_id" type="text" value=""/>
-                <button type="submit">Remove Quiz</button>
-                <button type="submit">Remove Quiz History</button>
+                <input id="quiz_id" name="quiz_id" type="text" value=""/>
+                <button type="submit" id="removeQuiz">Remove Quiz</button>
+                <button type="submit" id="removeQuizHistory">Remove Quiz History</button>
+                <span id="message2"></span>
             </div>
         </div>
     </div>
@@ -187,7 +219,7 @@
         }
 
         function updateChart(chart, title, data) {
-            chart.data.labels = data.map((_, index) => `Label ${index + 1}`);
+            chart.data.labels = data.map((_, index) => ``);
             chart.data.datasets[0].label = title;
             chart.data.datasets[0].data = data;
             chart.update();

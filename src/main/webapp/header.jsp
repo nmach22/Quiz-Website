@@ -15,9 +15,7 @@
 </head>
 <body>
 <header class="header">
-    <% String loggedInUser = (String) session.getAttribute("username");
-        System.out.println(loggedInUser);
-    %>
+    <% String loggedInUser = (String) session.getAttribute("username");%>
     <div class="leftContainer">
         <div class="logo">
             <a href="homePage.jsp?username=<%=loggedInUser%>">

@@ -24,7 +24,7 @@ public class RemoveServlet extends HttpServlet {
             } else if(accMan.removeAcc(userId) == 0) {
                 resp.setContentType("text/plain");
                 PrintWriter out = resp.getWriter();
-                out.print("main.test.User " + userId +" does not exist");
+                out.print(userId + " does not exist");
             }else{
                 resp.setContentType("text/plain");
                 PrintWriter out = resp.getWriter();
