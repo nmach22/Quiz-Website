@@ -107,20 +107,49 @@ public class AccountManager {
         }
         return "";
     }
-    public int removeAcc(String name) throws SQLException {
-        if(hasAcc(name)){
-            if(!isAdmin(name)) {
-                String query = "DELETE FROM users WHERE username = ?";
-                PreparedStatement st = con.prepareStatement(query);
-                st.setString(1, name);
-                st.executeUpdate();
-                return 1;
-            }else{
-                return 2;
-            }
+    public int removeAcc(String username) throws SQLException {
+        if (!hasAcc(username)) {
+            return 0;
         }
-        return 0;
+        if (isAdmin(username)) {
+            return 2;
+        }
+        try {
+            con.setAutoCommit(false);
+            String[] relatedTablesQueries = {
+                    "DELETE FROM history WHERE username = ?",
+                    "DELETE FROM announcements WHERE username = ?",
+                    "DELETE FROM achievements WHERE username = ?",
+                    "DELETE FROM friends WHERE user1 = ? OR user2 = ?",
+                    "DELETE FROM friendRequests WHERE user_from = ? OR user_to = ?",
+                    "DELETE FROM chat WHERE user_from = ? OR user_to = ?",
+                    "DELETE FROM quizChallenges WHERE user_from = ? OR user_to = ?"
+            };
+            for (String query : relatedTablesQueries) {
+                try (PreparedStatement st = con.prepareStatement(query)) {
+                    st.setString(1, username);
+                    if (query.contains("friends") || query.contains("friendRequests") || query.contains("chat") || query.contains("quizChallenges")) {
+                        st.setString(2, username);
+                    }
+                    st.executeUpdate();
+                }
+            }
+            String deleteUserQuery = "DELETE FROM users WHERE username = ?";
+            try (PreparedStatement st = con.prepareStatement(deleteUserQuery)) {
+                st.setString(1, username);
+                st.executeUpdate();
+            }
+            con.commit();
+            return 1;
+        } catch (SQLException e) {
+            con.rollback();
+            e.printStackTrace();
+            throw e;
+        } finally {
+            con.setAutoCommit(true);
+        }
     }
+
     public static boolean isAdmin(String name) throws SQLException {
         String query = "SELECT * FROM users WHERE username = ?";
         PreparedStatement st = con.prepareStatement(query);

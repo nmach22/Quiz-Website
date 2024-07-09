@@ -125,7 +125,7 @@
                         response.quizzes.forEach(function(quiz) {
                             const item = document.createElement('div');
                             item.className = 'search-dropdown-item';
-                            item.innerHTML = '<a href="QuizSummaryServlet?quiz_id=' + quiz.quizId + '">'+ 'Quiz: ' + quiz.title + '</a>';
+                            item.innerHTML = '<a href="QuizSummaryServlet?quiz_id=' + quiz.quizId + '">'+ 'Quiz: ' + quiz.title + ' ID: ' + quiz.quizId + '</a>';
                             dropdown.appendChild(item);
                         });
                     }
