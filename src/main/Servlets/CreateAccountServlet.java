@@ -18,7 +18,7 @@ public class CreateAccountServlet extends HttpServlet {
         AccountManager accMan =(AccountManager)getServletContext().getAttribute("Account Manager");
         try {
             if(!accMan.hasAcc(req.getParameter("username"))){
-                accMan.createAcc(req.getParameter("username"), req.getParameter("pas"), req.getParameter("firstName"), req.getParameter("LastName"));
+                accMan.createAcc(req.getParameter("username"), req.getParameter("pas"), req.getParameter("firstName"), req.getParameter("lastName"));
                 req.getSession().setAttribute("username", req.getParameter("username"));
                 RequestDispatcher dis = req.getRequestDispatcher("homePage.jsp");
                 dis.forward(req,resp);
