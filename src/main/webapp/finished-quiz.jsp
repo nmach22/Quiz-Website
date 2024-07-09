@@ -19,8 +19,14 @@
 <div class="finished-info-container rounded">
     <p>Your score is <%= request.getParameter("score") %>
     </p>
+    <%
+    int timeTaken = (int) request.getSession().getAttribute("duration") - (int) request.getSession().getAttribute("timeLeft");
+    int minutes = timeTaken / 60;
+    int remainingSeconds = timeTaken % 60;
+    String result = String.format("%02d:%02d", minutes, remainingSeconds);
+    %>
     <p>It took
-        you <%= ((int) request.getSession().getAttribute("duration")) - ((int) request.getSession().getAttribute("timeLeft"))%>
+        you <%= result %>
     </p>
     <form action="TakeQuizServlet" method="post">
         <input type="hidden" name="quiz_id" id="quiz_id" value="<%=request.getParameter("quiz_id")%>">
