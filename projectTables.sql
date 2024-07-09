@@ -271,6 +271,8 @@ VALUES ('I am the Greatest', 'The user had the highest score on a quiz', 'fas fa
 select *
 from quizzes;
 
+select * from quizChallenges;
+
 INSERT INTO questions (question_id, quiz_id, author, question_type)
 VALUES (1,1,'kato','questionResponse'),
        (2,1,'kato','questionResponse'),
