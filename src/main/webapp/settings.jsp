@@ -33,10 +33,6 @@
                     <h1>Account Info</h1>
                     <h3>Update your information</h3>
                     <section class="information-container">
-                        <div id="username-input">
-                            <label for="user-name">Username</label>
-                            <input type="text" id="user-name" name="user-name" class="save-item" maxlength="50" value="<%=loggedInUser%>">
-                        </div>
                         <div id="password-input">
                             <label for="user-pas">Password</label>
                             <input type="password" id="user-pas" name="user-pas" class="save-item" maxlength="50" value="">

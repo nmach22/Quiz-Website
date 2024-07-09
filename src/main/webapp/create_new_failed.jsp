@@ -20,7 +20,7 @@
         First Name: <input type = "text" name="firstName" required/> <br/>
         Last Name: <input type = "text" name="lastName" required/> <br/>
         Username: <input type="text" name="username" required/> <br/>
-        Password: <input type="text" name = "pas" required/>
+        Password: <input type="password" name = "pas" required/>
         <input type="submit" value="create"/>
     </form>
 </div>

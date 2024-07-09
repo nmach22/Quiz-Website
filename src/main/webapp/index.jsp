@@ -19,7 +19,7 @@
             <p> Log in </p>
             <form action="LoginServlet" method="post">
                 Username: <input type="text" name="username"/> <br/>
-                Password: <input type="text" name="pas"/>
+                Password: <input type="password" name="pas"/>
                 <input type="submit" value="login"/>
             </form>
             <a href="create_new.jsp">Create New Account</a>
