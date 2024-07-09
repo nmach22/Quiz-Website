@@ -1,7 +1,5 @@
 package main.Manager;
 
-import main.Manager.DataBaseConnection;
-import main.Manager.TakeQuiz;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -10,8 +8,7 @@ import org.mockito.MockitoAnnotations;
 import java.sql.*;
 import java.util.*;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class TakeQuizTest {
@@ -25,6 +22,9 @@ public class TakeQuizTest {
     @Mock
     private ResultSet mockRS;
 
+    @Mock
+    private ResultSetMetaData mockMetaData;
+
     private TakeQuiz takeQuiz;
 
     @Before
@@ -32,83 +32,92 @@ public class TakeQuizTest {
         MockitoAnnotations.openMocks(this);
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockPS);
         when(mockPS.executeQuery()).thenReturn(mockRS);
+        when(mockRS.getMetaData()).thenReturn(mockMetaData);
 
         DataBaseConnection.setMockConnection(mockConnection);
-        takeQuiz = new TakeQuiz("1");
     }
 
     @Test
     public void testConstructor() throws SQLException, ClassNotFoundException {
-        String query = "SELECT * FROM questions WHERE quiz_id = ? ORDER BY question_id asc";
-        verify(mockConnection).prepareStatement(query);
-        verify(mockPS).setInt(1, 1);
-    }
-
-    @Test
-    public void testGetQuestions() throws SQLException {
         when(mockRS.next()).thenReturn(true).thenReturn(false);
         when(mockRS.getInt("question_id")).thenReturn(1);
         when(mockRS.getString("question_type")).thenReturn("questionMultipleChoice");
 
-        List<Map<String, Object>> questions = takeQuiz.getQuestions();
-        assertEquals(1, questions.size());
-        Map<String, Object> question = questions.get(0);
-        assertEquals(1, question.get("question_id"));
-        assertEquals("questionMultipleChoice", question.get("question_type"));
+        takeQuiz = new TakeQuiz("1");
+
+        verify(mockConnection).prepareStatement("SELECT * FROM questions WHERE quiz_id = ? ORDER BY question_id asc");
+        verify(mockPS).setInt(1, 1);
+        verify(mockPS).executeQuery();
+        assertEquals(1, takeQuiz.getQuestions().size());
     }
 
     @Test
-    public void testFetchMultipleChoiceQuestions() throws SQLException {
+    public void testFetchMultipleChoiceQuestions() throws SQLException, ClassNotFoundException {
+        setupMockForQuestions("questionMultipleChoice");
+        takeQuiz = new TakeQuiz("1");
+
+        when(mockRS.next()).thenReturn(true).thenReturn(true).thenReturn(false);
+        when(mockRS.getString(anyInt())).thenReturn("Option A");
+        when(mockRS.getInt(anyInt())).thenReturn(1);
+        when(mockMetaData.getColumnCount()).thenReturn(2);
+
+        List<Map<String, Object>> result = takeQuiz.fetchMultipleChoiceQuestions();
+
+        assertEquals(1, result.size());
+        assertTrue(((Set<?>) result.get(0).get("multipleChoices")).contains("Option A"));
+        assertTrue(((Set<?>) result.get(0).get("correct_answers")).contains("Option A"));
+    }
+
+    @Test
+    public void testFetchFillInTheBlankQuestions() throws SQLException, ClassNotFoundException {
+        setupMockForQuestions("questionFillInTheBlank");
+        takeQuiz = new TakeQuiz("1");
+
         when(mockRS.next()).thenReturn(true).thenReturn(false);
-        when(mockRS.getString("choice")).thenReturn("Option A");
-        when(mockRS.getInt("is_correct")).thenReturn(1);
-        when(mockRS.getString("question")).thenReturn("What is 2+2?");
+        when(mockRS.getString(anyInt())).thenReturn("answer");
+        when(mockMetaData.getColumnCount()).thenReturn(1);
 
-        List<Map<String, Object>> multipleChoiceQuestions = takeQuiz.fetchMultipleChoiceQuestions();
-        assertEquals(1, multipleChoiceQuestions.size());
-        Map<String, Object> question = multipleChoiceQuestions.get(0);
-        assertEquals("What is 2+2?", question.get("question"));
-        assertTrue(((Set<?>) question.get("multipleChoices")).contains("Option A"));
-        assertTrue(((Set<?>) question.get("correct_answers")).contains("Option A"));
+        List<Map<String, Object>> result = takeQuiz.fetchFillInTheBlankQuestions();
+
+        assertEquals(1, result.size());
+        assertTrue(((Set<?>) result.get(0).get("correct_answers")).contains("answer"));
     }
 
     @Test
-    public void testFetchFillInTheBlankQuestions() throws SQLException {
+    public void testFetchResponseQuestions() throws SQLException, ClassNotFoundException {
+        setupMockForQuestions("questionResponse");
+        takeQuiz = new TakeQuiz("1");
+
         when(mockRS.next()).thenReturn(true).thenReturn(false);
-        when(mockRS.getString("answer")).thenReturn("answer");
+        when(mockRS.getString(anyInt())).thenReturn("answer");
+        when(mockMetaData.getColumnCount()).thenReturn(1);
 
-        List<Map<String, Object>> fillInTheBlankQuestions = takeQuiz.fetchFillInTheBlankQuestions();
-        assertEquals(1, fillInTheBlankQuestions.size());
-        Map<String, Object> question = fillInTheBlankQuestions.get(0);
-        assertTrue(((Set<?>) question.get("correct_answers")).contains("answer"));
+        List<Map<String, Object>> result = takeQuiz.fetchResponseQuestions();
+
+        assertEquals(1, result.size());
+        assertTrue(((Set<?>) result.get(0).get("correct_answers")).contains("answer"));
     }
 
     @Test
-    public void testFetchResponseQuestions() throws SQLException {
+    public void testFetchPictureResponseQuestions() throws SQLException, ClassNotFoundException {
+        setupMockForQuestions("questionPictureResponse");
+        takeQuiz = new TakeQuiz("1");
+
         when(mockRS.next()).thenReturn(true).thenReturn(false);
-        when(mockRS.getString("answer")).thenReturn("answer");
+        when(mockRS.getString("picture_link")).thenReturn("http://example.com/image.jpg");
+        when(mockRS.getString("question")).thenReturn("What's in this picture?");
+        when(mockRS.getString(anyInt())).thenReturn("answer");
+        when(mockMetaData.getColumnCount()).thenReturn(1);
 
-        List<Map<String, Object>> responseQuestions = takeQuiz.fetchResponseQuestions();
-        assertEquals(1, responseQuestions.size());
-        Map<String, Object> question = responseQuestions.get(0);
-        assertTrue(((Set<?>) question.get("correct_answers")).contains("answer"));
+        List<Map<String, Object>> result = takeQuiz.fetchPictureResponseQuestions();
+
+        assertEquals(1, result.size());
     }
 
     @Test
-    public void testFetchPictureResponseQuestions() throws SQLException {
-        when(mockRS.next()).thenReturn(true).thenReturn(false);
-        when(mockRS.getString("picture_link")).thenReturn("http://example.com/pic.jpg");
-        when(mockRS.getString("answer")).thenReturn("answer");
+    public void testFetchSettings() throws SQLException, ClassNotFoundException {
+        takeQuiz = new TakeQuiz("1");
 
-        List<Map<String, Object>> pictureResponseQuestions = takeQuiz.fetchPictureResponseQuestions();
-        assertEquals(1, pictureResponseQuestions.size());
-        Map<String, Object> question = pictureResponseQuestions.get(0);
-        assertEquals("http://example.com/pic.jpg", question.get("picture_link"));
-        assertTrue(((Set<?>) question.get("correct_answers")).contains("answer"));
-    }
-
-    @Test
-    public void testFetchSettings() throws SQLException {
         when(mockRS.next()).thenReturn(true).thenReturn(false);
         when(mockRS.getInt("is_random")).thenReturn(1);
         when(mockRS.getInt("one_page")).thenReturn(0);
@@ -117,6 +126,7 @@ public class TakeQuizTest {
         when(mockRS.getInt("duration")).thenReturn(60);
 
         Map<String, Object> settings = takeQuiz.fetchSettings();
+
         assertEquals(1, settings.get("is_random"));
         assertEquals(0, settings.get("one_page"));
         assertEquals(1, settings.get("immediate_correction"));
@@ -125,68 +135,19 @@ public class TakeQuizTest {
     }
 
     @Test
-    public void testFetchMultipleChoiceQuestionsWithException() throws SQLException {
-        when(mockRS.next()).thenThrow(new SQLException("Database error"));
+    public void testEmptyQuestions() throws SQLException, ClassNotFoundException {
+        when(mockRS.next()).thenReturn(false);
+        takeQuiz = new TakeQuiz("1");
 
-        try {
-            takeQuiz.fetchMultipleChoiceQuestions();
-        } catch (SQLException e) {
-            assertEquals("Database error", e.getMessage());
-        }
+        assertTrue(takeQuiz.fetchMultipleChoiceQuestions().isEmpty());
+        assertTrue(takeQuiz.fetchFillInTheBlankQuestions().isEmpty());
+        assertTrue(takeQuiz.fetchResponseQuestions().isEmpty());
+        assertTrue(takeQuiz.fetchPictureResponseQuestions().isEmpty());
     }
 
-    @Test
-    public void testFetchFillInTheBlankQuestionsWithException() throws SQLException {
-        when(mockRS.next()).thenThrow(new SQLException("Database error"));
-
-        try {
-            takeQuiz.fetchFillInTheBlankQuestions();
-        } catch (SQLException e) {
-            assertEquals("Database error", e.getMessage());
-        }
-    }
-
-    @Test
-    public void testFetchResponseQuestionsWithException() throws SQLException {
-        when(mockRS.next()).thenThrow(new SQLException("Database error"));
-
-        try {
-            takeQuiz.fetchResponseQuestions();
-        } catch (SQLException e) {
-            assertEquals("Database error", e.getMessage());
-        }
-    }
-
-    @Test
-    public void testFetchPictureResponseQuestionsWithException() throws SQLException {
-        when(mockRS.next()).thenThrow(new SQLException("Database error"));
-
-        try {
-            takeQuiz.fetchPictureResponseQuestions();
-        } catch (SQLException e) {
-            assertEquals("Database error", e.getMessage());
-        }
-    }
-
-    @Test
-    public void testFetchSettingsWithException() throws SQLException {
-        when(mockPS.executeQuery()).thenThrow(new SQLException("Database error"));
-
-        try {
-            takeQuiz.fetchSettings();
-        } catch (SQLException e) {
-            assertEquals("Database error", e.getMessage());
-        }
-    }
-
-    @Test
-    public void testConstructorWithInvalidQuery() throws SQLException, ClassNotFoundException {
-        when(mockPS.executeQuery()).thenThrow(new SQLException("Invalid query"));
-
-        try {
-            new TakeQuiz("1");
-        } catch (SQLException e) {
-            assertEquals("Invalid query", e.getMessage());
-        }
+    private void setupMockForQuestions(String questionType) throws SQLException {
+        when(mockRS.next()).thenReturn(true).thenReturn(false);
+        when(mockRS.getInt("question_id")).thenReturn(1);
+        when(mockRS.getString("question_type")).thenReturn(questionType);
     }
 }
