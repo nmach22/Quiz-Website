@@ -1,6 +1,7 @@
 package main.Servlets;
 
 import main.Manager.History;
+import main.Manager.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,7 +19,6 @@ import java.util.Set;
 @WebServlet(urlPatterns = {"/submitAnswers"})
 public class SubmitAnswersServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         int score = 0;
         List<Map<String, Object>> questions = (List<Map<String, Object>>)request.getSession().getAttribute("questions");
         for (Map<String, Object> q : questions) {
@@ -33,7 +33,17 @@ public class SubmitAnswersServlet extends HttpServlet {
         }
         request.getSession().setAttribute("score", score);
         try {
-            History h = new History(Integer.parseInt(request.getParameter("quiz_id")),request.getParameter("username"), score);
+            int ID = Integer.parseInt(request.getParameter("quiz_id"));
+            String name = request.getParameter("username");
+            int prev = User.highestScore(ID);
+            History h = new History(ID,name, score);
+            if(score > prev){
+                User.addAchievement(name, "I am the Greatest");
+            }
+            int takes = User.takenQuizzesAmount(name, ID);
+            if(takes == 10){
+                User.addAchievement(name, "Quiz Machine");
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
