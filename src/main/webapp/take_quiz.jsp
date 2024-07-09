@@ -9,7 +9,10 @@
 <html>
 <head>
     <title>Take Quiz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="css/global.css">
+    <link rel="stylesheet" type="text/css" href="css/one-page-quiz.css">
 </head>
 <body>
 <%
@@ -27,7 +30,7 @@
     }
     if ((int) settings.get("one_page") == 1) {
 %>
-<div class="question-container p-3 rounded align-items-center">
+<div class="rounded one-page-quiz-center take-quiz-container">
     <form id="quizForm" action="submitAnswers" method="post">
         <div id="timer">Time left: <span id="time"><%=timeLimit%></span> seconds</div>
         <%
@@ -95,7 +98,7 @@
         <input type="hidden" id="timeLeftInput" name="timeLeft">
         <input type="hidden" name="currentQuestionIndex" value="0">
         <%request.getSession().setAttribute("duration", timeLimit);%>
-        <input type="submit" value="Submit">
+        <button class="btn btn-primary submit-quiz-btn" type="submit">Submit</button>
     </form>
 </div>
 <%

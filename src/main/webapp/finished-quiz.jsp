@@ -15,49 +15,54 @@
     <link rel="stylesheet" type="text/css" href="css/global.css">
 </head>
 <body>
-<%@include file="header.jsp"%>
-<p>Your score is <%= request.getParameter("score") %></p>
-<p>It took you <%= ((int) request.getSession().getAttribute("duration")) - ((int) request.getSession().getAttribute("timeLeft"))%></p>
-<form action="TakeQuizServlet" method="post">
-    <input type="hidden" name="quiz_id" id="quiz_id" value="<%=request.getSession().getAttribute("quiz_id")%>">
-    <input type="hidden" name="username" id="username" value="<%=request.getSession().getAttribute("username")%>">
-    <input type="submit" value="Retake Quiz">
-</form>
-    <button id="challengeFriendsBtn">Challenge Friends</button>
-<div id="challengeModal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Challenge Friends</h2>
-        <div id="friendsList">
-            <%
-                String username = (String) request.getSession().getAttribute("username");
-                ArrayList<String> friends = User.getFriends(loggedInUser);
-                for (String friend : friends) {
-            %>
-            <div class="friend-item">
-                <span><%= friend %></span>
-                <button onclick="challengeFriend('<%= friend %>')">Challenge</button>
+<%@include file="header.jsp" %>
+<div class="finished-info-container rounded">
+    <p>Your score is <%= request.getParameter("score") %>
+    </p>
+    <p>It took
+        you <%= ((int) request.getSession().getAttribute("duration")) - ((int) request.getSession().getAttribute("timeLeft"))%>
+    </p>
+    <form action="TakeQuizServlet" method="post">
+        <input type="hidden" name="quiz_id" id="quiz_id" value="<%=request.getSession().getAttribute("quiz_id")%>">
+        <input type="hidden" name="username" id="username" value="<%=request.getSession().getAttribute("username")%>">
+        <button class="btn btn-secondary challenge-quiz-btn" type="submit">Retake Quiz</button>
+    </form>
+    <button class="btn btn-primary challenge-quiz-btn" id="challengeFriendsBtn">Challenge Friends</button>
+    <div id="challengeModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Challenge Friends</h2>
+            <div id="friendsList">
+                <%
+                    String username = (String) request.getSession().getAttribute("username");
+                    ArrayList<String> friends = User.getFriends(loggedInUser);
+                    for (String friend : friends) {
+                %>
+                <div class="friend-item">
+                    <span><%= friend %></span>
+                    <button onclick="challengeFriend('<%= friend %>')">Challenge</button>
+                </div>
+                <%
+                    }
+                %>
             </div>
-            <%
-                }
-            %>
         </div>
     </div>
 </div>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
 
-        $('#challengeFriendsBtn').click(function() {
+        $('#challengeFriendsBtn').click(function () {
             $('#challengeModal').show();
         });
 
 
-        $('.close').click(function() {
+        $('.close').click(function () {
             $('#challengeModal').hide();
         });
 
 
-        $(window).click(function(event) {
+        $(window).click(function (event) {
             if ($(event.target).is('#challengeModal')) {
                 $('#challengeModal').hide();
             }
@@ -72,13 +77,13 @@
             data: {
                 friendName: friendName,
                 quizId: document.getElementById("quiz_id").value,
-                username:  document.getElementById("username").value
+                username: document.getElementById("username").value
             },
-            success: function(response) {
+            success: function (response) {
                 console.log('Challenge sent to ' + friendName); // Debugging statement
                 alert('Challenge sent to ' + friendName);
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 console.error('Error sending challenge:', error); // Debugging statement
             }
         });

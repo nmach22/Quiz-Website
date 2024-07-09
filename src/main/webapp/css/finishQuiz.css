@@ -45,3 +45,20 @@ body{
     margin-bottom: 10px;
     color: black;
 }
+
+.finished-info-container {
+    background-color: #1f202a;
+
+    margin: 0 auto !important;
+    width: 20%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.challenge-quiz-btn {
+    margin: 0 auto;
+    display: block;
+}
