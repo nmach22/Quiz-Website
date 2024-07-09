@@ -1,4 +1,4 @@
-package main.test;
+package main.Manager;
 
 import main.Manager.DataBaseConnection;
 import main.Manager.QuizSummary;

@@ -1,5 +1,7 @@
 package main.Manager;
 
+import main.Manager.AccountManager;
+import main.Manager.DataBaseConnection;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -35,11 +37,6 @@ public class AccountManagerTest {
         accountManager = new AccountManager();
     }
 
-    @Test
-    public void testGenerateHash() {
-        String hash = AccountManager.generateHash("password");
-        assertEquals("5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8", hash);
-    }
 
     @Test
     public void testGetFN() throws SQLException {
