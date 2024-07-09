@@ -1,6 +1,7 @@
 package main.Servlets;
 
 import main.Manager.DataBaseConnection;
+import main.Manager.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -108,6 +109,19 @@ public class CreateQuizServlet extends HttpServlet {
                 throw new RuntimeException(e);
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
+            }
+
+            int quizzesCreated = User.getCreatedQuizzes(username).size();
+            switch (quizzesCreated) {
+                case 1:
+                    User.addAchievement(username, "Amateur Author");
+                    break;
+                case 5:
+                    User.addAchievement(username, "Prolific Author");
+                    break;
+                case 10:
+                    User.addAchievement(username, "Prodigious Author");
+                    break;
             }
 
             response.setStatus(HttpServletResponse.SC_OK);

@@ -60,12 +60,12 @@ CREATE TABLE history
 );
 
 CREATE TABLE announcements (
-                    announcement_id INT AUTO_INCREMENT PRIMARY KEY,
-                    username         varchar(50),
-                    announcement    varchar(1000),
-                    title varchar(200),
-                    creation_date   TIMESTAMP DEFAULT NOW(),
-                    FOREIGN KEY (username) REFERENCES users (username)
+                               announcement_id INT AUTO_INCREMENT PRIMARY KEY,
+                               username         varchar(50),
+                               announcement    varchar(1000),
+                               title varchar(200),
+                               creation_date   TIMESTAMP DEFAULT NOW(),
+                               FOREIGN KEY (username) REFERENCES users (username)
 
 );
 
@@ -250,36 +250,26 @@ VALUES ('qatama', 'kato', NOW()),
 INSERT INTO quizzes (quiz_id, description, quiz_name, author,
                      is_random, one_page, immediate_correction,
                      practice_mode, creation_date, duration)
-VALUES (1, 'PIRVELI QVIZI MTEL SAMYAROSHI', 'KATOS QUIZ', 'kato', 0, 0, 0, 0, NOW(), 30);
+VALUES (1, 'PIRVELI QVIZI MTEL SAMYAROSHI', 'KATOS QUIZ', 'kato', 0, 0, 1, 0, NOW(), 30);
 
 insert into announcements(announcement_id, username, announcement, title)
 values (1, 'Nika', 'qatamas sheveci', 'kutu');
 
 insert into achievements(username, achievement_type)
-VALUES ('aleqsa', 'yvelaze magari');
-insert into achievements(username, achievement_type)
-VALUES ('aleqsa', 'yvelaze magari 2');
-insert into achievements(username, achievement_type)
-VALUES ('aleqsa', 'yvelaze magari 3');
-insert into achievements(username, achievement_type)
-VALUES ('aleqsa', 'yvelaze magari 4');
-insert into achievements(username, achievement_type)
-VALUES ('aleqsa', 'yvelaze magari 5');
-insert into achievements(username, achievement_type)
-VALUES ('aleqsa', 'yvelaze magari 6');
+VALUES ('aleqsa', 'I am the Greatest');
+
 
 insert into achievementTypes(achievement_type, achievement_description, achievement_badge)
-VALUES ('yvelaze magari', 'roca yvelaze magari xar', 'fas fa-medal');
+VALUES ('Amateur Author', 'The user created a quiz', 'fas fa-lightbulb');
 insert into achievementTypes(achievement_type, achievement_description, achievement_badge)
-VALUES ('yvelaze magari 2', 'roca yvelaze magari xar', 'fas fa-medal');
+VALUES ('Prolific Author', 'The user created five quizzes', 'fas fa-pencil');
 insert into achievementTypes(achievement_type, achievement_description, achievement_badge)
-VALUES ('yvelaze magari 3', 'roca yvelaze magari xar', 'fas fa-users');
+VALUES ('Prodigious Author', 'The user created ten quizzes', 'fas fa-book');
 insert into achievementTypes(achievement_type, achievement_description, achievement_badge)
-VALUES ('yvelaze magari 4', 'roca yvelaze magari xar', 'fas fa-lightbulb');
+VALUES ('Quiz Machine', 'The user took ten quizzes', 'fas fa-medal');
 insert into achievementTypes(achievement_type, achievement_description, achievement_badge)
-VALUES ('yvelaze magari 5', 'roca yvelaze magari xar', 'fas fa-users');
-insert into achievementTypes(achievement_type, achievement_description, achievement_badge)
-VALUES ('yvelaze magari 6', 'roca yvelaze magari xar', 'fas fa-lightbulb');
+VALUES ('I am the Greatest', 'The user had the highest score on a quiz', 'fas fa-crown');
+
 
 select *
 from quizzes;
@@ -335,7 +325,7 @@ VALUES (1,1,7,'second'),
 insert into chat(user_from, user_to, message) VALUES ('aleqsa', 'qatama', 'aoie');
 
 
-Insert into history (history_id, quiz_id, username, score, time, date_taken) values (4, 1,'qatama',7, 40, NOW());
+Insert into history (history_id, quiz_id, username, score, time, date_taken) values (4, 1,'qatama',1, 5, NOW());
 select * from history;
 
 
@@ -370,5 +360,6 @@ update users set user_first_name = 'aleqsa' where username = 'aleqsa';
 update users set user_last_name = 'surmava' where username = 'aleqsa'
 update users set user_bio = 'bio' where username = 'aleqsa'
 
-
+select *
+from history;
 

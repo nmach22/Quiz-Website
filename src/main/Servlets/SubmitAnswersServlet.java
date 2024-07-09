@@ -38,7 +38,6 @@ public class SubmitAnswersServlet extends HttpServlet {
         if (timeLeftStr != null)
             timeLeft = Integer.parseInt(timeLeftStr);
         try {
-            int duration = (int)request.getSession().getAttribute("duration");
             int ID = Integer.parseInt(request.getParameter("quiz_id"));
             String name = request.getParameter("username");
             int prev = User.highestScore(ID);

@@ -20,10 +20,8 @@ public class GetQuizzesServlet extends HttpServlet {
 
         try {
             if ("1".equals(option)) {
-                // Get the most popular quizzes
                 quizzes = User.getPopularQuizzes();
             } else {
-                // Get the recently added quizzes
                 quizzes = User.getRecentlyAddedQuizzes();
             }
         } catch (Exception e) {
