@@ -17,35 +17,40 @@
 </head>
 <body>
 <%
+    String score = request.getParameter("score");
     Integer timeLeft = (Integer) request.getSession().getAttribute("timeLeft");
     int duration = ((int) request.getSession().getAttribute("duration"));
-    int currentQuestionIndex = (int) request.getSession().getAttribute("currentQuestionIndex");
+    int currentQuestionIndex = Integer.parseInt(request.getParameter("currentQuestionIndex"));
     List<Map<String,Object>> questions = (List<Map<String,Object>>) request.getSession().getAttribute("questions");
     if (currentQuestionIndex >= questions.size() || timeLeft <= 0) {
-        try {
-            String username = (String)request.getSession().getAttribute("username");
-            String quiz_id = (String)request.getSession().getAttribute("quiz_id");
-            request.getSession().setAttribute("duration", duration);
-            int ID = Integer.parseInt(quiz_id);
-            int score = (int)request.getSession().getAttribute("score");
-            int prev = User.highestScore(ID);
-            History h = new History(ID ,username, score,((int) request.getSession().getAttribute("duration")) - ((int) request.getSession().getAttribute("timeLeft")));
-            if(score > prev){
-                User.addAchievement(username, "I am the Greatest");
+//        if(timeLeft == -100) {
+//            response.sendRedirect("finished-quiz.jsp");
+//
+//        }else{
+            System.out.println(timeLeft);
+            try {
+                String username = (String)request.getSession().getAttribute("username");
+                String quiz_id = (String)request.getSession().getAttribute("quiz_id");
+                request.getSession().setAttribute("duration", duration);
+                int ID = Integer.parseInt(quiz_id);
+                int scoreint = Integer.parseInt(request.getParameter("score"));
+                int prev = User.highestScore(ID);
+                History h = new History(ID ,username, scoreint,((int) request.getSession().getAttribute("duration")) - timeLeft);
+                if(scoreint > prev){
+                    User.addAchievement(username, "I am the Greatest");
+                }
+                int takes = User.takenQuizzesAmount(username, ID);
+                if(takes == 10){
+                    User.addAchievement(username, "Quiz Machine");
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
             }
-            int takes = User.takenQuizzesAmount(username, ID);
-            if(takes == 10){
-                User.addAchievement(username, "Quiz Machine");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-%>
-    <input type="hidden" name="score" value="<%=request.getSession().getAttribute("score")%>"
+%>    <input type="hidden" name="currentQuestionIndex" value="<%=request.getParameter("currentQuestionIndex")%>">
 <%
-        response.sendRedirect("finished-quiz.jsp");
+        response.sendRedirect("finished-quiz.jsp?score=" + score);
     } else {
 %>
 <div id="timer">Time left: <span id="time"></span></div>
@@ -108,7 +113,10 @@
 <img src="<%=imageUrl%>" alt=<%= question.get("question") %>><br />
 <textarea name="submitted<%= id %>"></textarea><br />
 <% }
-    request.getSession().setAttribute("is_submitted"+id, false);%>
+    request.getSession().setAttribute("is_submitted"+id, false);
+%>
+    <input type="hidden" name="score" value="<%=request.getParameter("score")%>">
+    <input type="hidden" name="currentQuestionIndex" value="<%=request.getParameter("currentQuestionIndex")%>">
     <input type="submit" value="Submit">
 </form>
 <div id="feedback"></div>
@@ -163,7 +171,7 @@
                 feedbackElement.innerHTML = "Correct!";
                 feedbackElement.style.color = "green";
             } else {
-                feedbackElement.innerHTML = "Incorrect. The correct answer(s) are: " + correctAnswers.join(", ");
+                feedbackElement.innerHTML = "Incorrect. The correct answer is: " + correctAnswers.join(", ");
                 feedbackElement.style.color = "red";
             }
 
@@ -174,7 +182,7 @@
     });
 </script>
 <%
-    }
+        }
 %>
 </body>
 </html>

@@ -60,28 +60,31 @@ public class SubmitAnswersServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = (String)request.getSession().getAttribute("username");
         String quiz_id = (String)request.getSession().getAttribute("quiz_id");
-        int score = (int) request.getSession().getAttribute("score");
+        int score = Integer.parseInt(request.getParameter("score"));;
         boolean is_correct = false;
         int id = (int) request.getSession().getAttribute("question_id");
         String submitted = request.getParameter("submitted"+id);
         boolean issubmitted = (boolean)    request.getSession().getAttribute("is_submitted"+id);
         request.getSession().setAttribute("is_submitted"+id, true);
         Set<String> correctAnswers = (Set<String>) request.getSession().getAttribute("correct_answers"+id);
-        for (String s : correctAnswers)
+        for (String s : correctAnswers) {
+            System.out.println(s + "      " + submitted);
             if(s.equals(submitted)) is_correct = true;
+        }
         int timeLeft = Integer.parseInt(request.getParameter("timeLeft"));
         if(timeLeft < 0) {
             RequestDispatcher dispatcher = request.getRequestDispatcher("finished-quiz.jsp");
             dispatcher.forward(request, response);
         } else {
-            if (is_correct && !issubmitted)
+//            if (is_correct && !issubmitted)
+            if(is_correct)
                 score++;
+
             request.getSession().setAttribute("timeLeft", timeLeft);
-            request.getSession().setAttribute("score", score);
-            int currInd = (int) request.getSession().getAttribute("currentQuestionIndex");
-            request.getSession().setAttribute("currentQuestionIndex", currInd + 1);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("question.jsp?quiz_id=" + quiz_id + "&username=" + username);
-            dispatcher.forward(request, response);
+//            request.getSession().setAttribute("score", score);
+            int currInd = Integer.parseInt(request.getParameter("currentQuestionIndex")) + 1;
+
+                    response.sendRedirect("question.jsp?quiz_id=" + quiz_id + "&username=" + username + "&currentQuestionIndex=" + currInd + "&score=" + score);
         }
     }
 }

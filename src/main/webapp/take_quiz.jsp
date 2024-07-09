@@ -89,6 +89,7 @@
     <input type="hidden" name="quiz_id" value= "<%=request.getParameter("quiz_id")%>">
     <input type="hidden" name="username" value=${username}>
     <input type="hidden" id="timeLeftInput" name="timeLeft">
+    <input type="hidden" name="currentQuestionIndex" value="0">
     <%request.getSession().setAttribute("duration", timeLimit);%>
     <input type="submit" value="Submit">
 </form>
@@ -97,11 +98,9 @@
         request.getSession().setAttribute("username", username);
         request.getSession().setAttribute("quiz_id", quiz_id);
         request.getSession().setAttribute("immediateScore", 0);
-        request.getSession().setAttribute("score", 0);
-        request.getSession().setAttribute("currentQuestionIndex", 0);
         request.getSession().setAttribute("timeLeft", timeLimit);
         request.getSession().setAttribute("duration", timeLimit);
-        response.sendRedirect("question.jsp");
+        response.sendRedirect("question.jsp?quiz_id=" + quiz_id + "&username=" + username + "&currentQuestionIndex=" + 0+"&score="+0);
     }
 %>
 <script>
