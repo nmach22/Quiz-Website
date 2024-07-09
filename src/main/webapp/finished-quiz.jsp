@@ -17,9 +17,6 @@
 <%@include file="header.jsp"%>
 <p>Your score is <%= request.getParameter("score") %></p>
 <p>It took you <%= ((int) request.getSession().getAttribute("duration")) - ((int) request.getSession().getAttribute("timeLeft"))%></p>
-<%
-    request.getSession().setAttribute("timeLeft", -100);
-%>
 <form action="TakeQuizServlet" method="post">
     <input type="hidden" name="quiz_id" id="quiz_id" value="<%=request.getSession().getAttribute("quiz_id")%>">
     <input type="hidden" name="username" id="username" value="<%=request.getSession().getAttribute("username")%>">
