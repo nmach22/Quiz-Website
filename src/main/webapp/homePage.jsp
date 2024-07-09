@@ -27,6 +27,7 @@
 
     <script src="js/MessageScript.js"></script>
     <script src="js/QuizScript.js" defer></script>
+    <script src="js/QuizCreated.js" defer></script>
 </head>
 <body>
 

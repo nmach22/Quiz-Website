@@ -25,15 +25,15 @@
             <div class="left-form-container w-33">
                 <div class="mb-3">
                     <label for="quizTitle" class="form-label">Quiz Title</label>
-                    <input type="text" class="form-control" id="quizTitle" name="title">
+                    <input type="text" class="form-control" id="quizTitle" name="title" placeholder="Enter quiz title">
                 </div>
                 <div class="mb-3">
                     <label for="quizDuration" class="form-label">Quiz Duration (minutes)</label>
-                    <input type="number" value="3" class="form-control" id="quizDuration" name="duration">
+                    <input type="number" value="3" class="form-control" id="quizDuration" name="duration" placeholder="Enter quiz duration">
                 </div>
                 <div class="mb-3">
                     <label for="quizDescription" class="form-label">Description</label>
-                    <textarea class="form-control" id="quizDescription" rows="3" name="description"></textarea>
+                    <textarea class="form-control" id="quizDescription" rows="3" name="description" placeholder="Enter quiz description"></textarea>
                 </div>
 
                 <div class="d-flex flex-wrap">
@@ -49,7 +49,7 @@
                         <input type="checkbox" class="form-check-input" id="immediateCorrection" name="immediateCorrection">
                         <label class="form-check-label" for="immediateCorrection">Immediate Correction</label>
                     </div>
-                    <div class="mb-3 form-check w-50">
+                    <div class="mb-3 form-check w-50" style="visibility: hidden">
                         <input type="checkbox" class="form-check-input" id="practiceMode" name="practiceMode">
                         <label class="form-check-label" for="practiceMode">Practice Mode</label>
                     </div>
@@ -81,11 +81,6 @@
                         answerContainer.appendChild(possibleAns)
                         answerContainer.appendChild(addAnswerBtn)
 
-                        addAnswerBtn.addEventListener('click', () => {
-                            // const newAnswer = addQuestionDynamically();
-                            // const prevAnswer = document.getElementById('answerContainer-' + parseInt(id)-1)
-                            // questionDiv.insertBefore(prevAnswer, newAnswer)
-                        })
                         return answerContainer;
                     };
                     document.getElementById('add-question-btn').addEventListener('click', function () {
@@ -111,7 +106,11 @@
                                 questionInput.classList = 'w-100 mb-1 rounded border border-0 p-1';
                                 questionInput.type = 'text';
                                 questionInput.key = 'question';
-                                questionInput.placeholder = 'Enter question';
+                                if (selectedValue === 'questionResponse') {
+                                    questionInput.placeholder = 'Enter question';
+                                } else {
+                                    questionInput.placeholder = 'Enter question (use "_" instead of blank space)';
+                                }
 
                                 const answerInput = document.createElement('input');
                                 answerInput.classList = 'w-100 mb-3 rounded border border-0 p-1';
@@ -164,7 +163,6 @@
                                 questionDiv.appendChild(answerInput);
 
                             }
-                            // You can add more cases for other question types here
                         });
 
                         questionDiv.appendChild(select);
