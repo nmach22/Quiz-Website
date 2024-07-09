@@ -1,7 +1,6 @@
 package main.Servlets;
 
 import com.google.gson.Gson;
-import main.Manager.ChatMessage;
 import main.Manager.DataBaseConnection;
 
 import javax.servlet.ServletException;
@@ -18,7 +17,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 

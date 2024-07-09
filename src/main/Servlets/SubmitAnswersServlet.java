@@ -1,6 +1,7 @@
 package main.Servlets;
 
 import main.Manager.History;
+import main.Manager.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -39,6 +40,17 @@ public class SubmitAnswersServlet extends HttpServlet {
         try {
             int duration = (int)request.getSession().getAttribute("duration");
             History h = new History(Integer.parseInt(request.getParameter("quiz_id")),request.getParameter("username"), score, ((int) request.getSession().getAttribute("duration")) - ((int) request.getSession().getAttribute("timeLeft")));
+            int ID = Integer.parseInt(request.getParameter("quiz_id"));
+            String name = request.getParameter("username");
+            int prev = User.highestScore(ID);
+            History h = new History(ID,name, score);
+            if(score > prev){
+                User.addAchievement(name, "I am the Greatest");
+            }
+            int takes = User.takenQuizzesAmount(name, ID);
+            if(takes == 10){
+                User.addAchievement(name, "Quiz Machine");
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {

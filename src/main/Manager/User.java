@@ -11,17 +11,17 @@ public class User {
         con = DataBaseConnection.getConnection();
     }
 
+    public static void setConnection(Connection connection) {
+        con = connection;
+    }
+
     public static ArrayList<String> getFriends(String name){
         ArrayList<String> friends = new ArrayList<>();
-
-        try {
-            if (con == null || con.isClosed()) {
-                throw new SQLException("Database connection is not initialized or is closed.");
-            }
-            String sql = "SELECT user2 FROM friends WHERE user1 = \""+ name +"\" ORDER BY addDate";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery(sql);
-            while(rs.next()){
+        String sql = "SELECT user2 FROM friends WHERE user1 = ? ORDER BY addDate";
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setString(1, name);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
                 friends.add(rs.getString(1));
             }
         } catch (SQLException e) {
@@ -396,6 +396,18 @@ public class User {
         st.executeUpdate();
     }
 
+    public static int highestScore(int quiz_id) throws SQLException {
+        int highest = 0;
+        String sql = "SELECT * FROM history WHERE quiz_id = ? ORDER BY score DESC";
+        PreparedStatement st = con.prepareStatement(sql);
+        st.setInt(1, quiz_id);
+        ResultSet rs = st.executeQuery();
+        if(rs.next()){
+            highest = rs.getInt("score");
+        }
+        return highest;
+    }
+
     public static void sendMessage(String from, String to, String message) throws SQLException {
         String sql = "INSERT INTO chat (user_from, user_to, message) VALUES (?, ?, ?)";
         PreparedStatement st = con.prepareStatement(sql);
@@ -415,6 +427,23 @@ public class User {
             return rs.getInt(1);
         }
         return 0;
+    }
+
+    public static int takenQuizzesAmount(String name, int quiz_id){
+        int res = 0;
+        try {
+            String sql = "SELECT COUNT(*) FROM history WHERE (username = ? AND quiz_id = ?)";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, name);
+            st.setInt(2, quiz_id);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()){
+                res = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return res;
     }
 
 

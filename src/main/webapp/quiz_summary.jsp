@@ -120,7 +120,7 @@
                 <% } %>
             </table>
             <% } else { %>
-            <p>No recent test takers found.</p>
+            <p>No recent main.test takers found.</p>
             <% } %>
         </div>
 

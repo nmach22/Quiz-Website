@@ -2,7 +2,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Set" %>
 <%@ page import="main.Manager.History" %>
-<%@ page import="java.sql.SQLException" %><%--
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="main.Manager.User" %><%--
   Created by IntelliJ IDEA.
   User: Kato
   Date: 07-Jul-24
@@ -22,17 +23,28 @@
     List<Map<String,Object>> questions = (List<Map<String,Object>>) request.getSession().getAttribute("questions");
     if (currentQuestionIndex >= questions.size() || timeLeft <= 0) {
         try {
-                String username = (String)request.getSession().getAttribute("username");
+            String username = (String)request.getSession().getAttribute("username");
             String quiz_id = (String)request.getSession().getAttribute("quiz_id");
             request.getSession().setAttribute("duration", duration);
             History h = new History(Integer.parseInt(quiz_id),username, (int)request.getSession().getAttribute("score"), ((int) request.getSession().getAttribute("duration")) - ((int) request.getSession().getAttribute("timeLeft")));
+            int ID = Integer.parseInt(quiz_id);
+            int score = (int)request.getSession().getAttribute("score");
+            int prev = User.highestScore(ID);
+            History h = new History(ID ,username, score);
+            if(score > prev){
+                User.addAchievement(username, "I am the Greatest");
+            }
+            int takes = User.takenQuizzesAmount(username, ID);
+            if(takes == 10){
+                User.addAchievement(username, "Quiz Machine");
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
 %>
-<%--    <input type="hidden" name="score" value="<%=request.getSession().getAttribute("score")%>"--%>
+    <input type="hidden" name="score" value="<%=request.getSession().getAttribute("score")%>"
 <%
         response.sendRedirect("finished-quiz.jsp");
     } else {
