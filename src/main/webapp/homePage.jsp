@@ -21,9 +21,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="css/global.css">
     <link rel="stylesheet" type="text/css" href="css/friend-list.css">
     <link rel="stylesheet" type="text/css" href="css/chat.css">
     <link rel="stylesheet" type="text/css" href="css/home-page.css">
+    <link rel="stylesheet" type="text/css" href="css/global.css">
 
     <script src="js/MessageScript.js"></script>
     <script src="js/QuizScript.js" defer></script>
@@ -33,7 +35,7 @@
 
 <%@include file="header.jsp" %>
 
-<div class="d-flex justify-content-between gap-4 w-100 px-5">
+<div class="d-flex justify-content-evenly gap-4 w-100 px-5">
     <div class="d-flex flex-column w-33">
         <div class="d-flex justify-content-between">
             <h2 class="mb-2 text-white whitespace-nowrap">Recent Announcements</h2>
@@ -54,8 +56,8 @@
 
                 if (announcements != null && announcements.size() > 0) {
                     for (Announcement announcement : announcements) {
-                        out.println("<div class='announcement rounded'>");
-                        out.println("<h2>" + announcement.title + "</h2>");
+                        out.println("<div class='announcement rounded text-white'>");
+                        out.println("<h4 class='text-white'>" + announcement.title + "</h2>");
                         out.println("<p><strong>By:</strong> " + announcement.user + "</p>");
                         out.println("<p><strong>Date:</strong> " + announcement.created + "</p>");
                         out.println("<p>" + announcement.description + "</p>");
@@ -72,21 +74,21 @@
             if(loggedInUser != null){
         %>
         <div class="d-flex justify-content-between">
-            <h3 class="text-white mb-2">All Quizes</h3>
+            <h2 class="text-white mb-2">All Quizes</h2>
             <a href="createQuiz.jsp" class="btn btn-primary mb-2">Create New Quiz</a>
         </div>
         <%
             }
         %>
 
-        <div class="quiz-container bg-white rounded">
-            <ul class="p-3">
-                <select class="form-select" id="quizSelector" aria-label="Default select example">
+        <div class="quiz-container rounded">
+            <div class="p-3">
+                <select class="form-select mb-3" id="quizSelector" aria-label="Default select example">
                     <option value="1">Show the most popular quizzes</option>
                     <option value="2">Show recently added quizzes</option>
                 </select>
 
-                <ul id="quizList">
+                <ul id="quizList" class="quiz-list-contianer link-container mb-0">
                     <!-- Quiz items will be populated here -->
                 </ul>
 
@@ -95,7 +97,7 @@
                     <input type="hidden" id="usernameInput" name="username" value="<%= username %>">
                     <input type="submit" style="display:none;">
                 </form>
-            </ul>
+            </div>
         </div>
     </div>
     <%
@@ -103,7 +105,7 @@
     %>
     <div class="friend-list-container w-33">
         <h2 class="text-white">Friend List</h2>
-        <div class="friend-list rounded bg-white">
+        <div class="friend-list rounded">
             <%
                 ArrayList<String> friendList = null;
                 try {
@@ -116,10 +118,10 @@
                 <%
                     if (friendList != null && !friendList.isEmpty()) {
                         for (String fr : friendList) {
-                            out.println("<li class='ms-3'><a href='#' onclick=\"toggleMessageBox('" + fr + "', this)\">" + fr + "</a></li>");
+                            out.println("<li class='link-container'><a href='#' onclick=\"toggleMessageBox('" + fr + "', this)\">" + fr + "</a></li>");
                         }
                     } else {
-                        out.println("<li class='ms-3'>No friends found.</li>");
+                        out.println("<li class=''>No friends found.</li>");
                     }
                 %>
             </ul>
@@ -140,18 +142,6 @@
     <button id="send-button" class="btn btn-primary" onclick="sendMessage()">Send</button>
 
 </div>
-
-<%
-    if(loggedInUser != null){
-%>
-<form action="QuizSummaryServlet" method="post">
-    <input type="hidden" name="quiz_id" value="1">
-    <input type="hidden" name="username" value="kato">
-    <input type="submit" value="TAKE QUIZ">
-</form>
-<%
-    }
-%>
 
 </body>
 </html>

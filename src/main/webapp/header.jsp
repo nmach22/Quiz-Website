@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+    <link rel="stylesheet" type="text/css" href="css/global.css">
 </head>
 <body>
 <header class="header">
@@ -54,13 +54,13 @@
                         <span class="badge" id="unread-count"></span>
                         <span class="tooltip">Inbox</span>
                     </a>
-                    <div id="notificationsBox" class="notifications-box">
+                    <div id="notificationsBox" class="notifications-box rounded">
                         <div class="notifications-section" id="friendRequests">
-                            <h4>Friend Requests</h4>
+                            <h6 class="text-white">Friend Requests</h6>
                             <ul></ul>
                         </div>
                         <div class="notifications-section" id="quizChallenges">
-                            <h4>Quiz Challenges</h4>
+                            <h6>Quiz Challenges</h6>
                             <ul></ul>
                         </div>
                     </div>
@@ -117,14 +117,14 @@
                     dropdown.style.display = 'block';
                     if (response.profiles && response.profiles.length > 0) {
                         const item = document.createElement('div');
-                        item.className = 'search-dropdown-item';
+                        item.className = 'search-dropdown-item link-container';
                         item.innerHTML = '<a href="profilePage.jsp?username=' + response.profiles + '">'+ 'User: ' + response.profiles + '</a>';
                         dropdown.appendChild(item);
                     }
                     if (response.quizzes && response.quizzes.length > 0) {
                         response.quizzes.forEach(function(quiz) {
                             const item = document.createElement('div');
-                            item.className = 'search-dropdown-item';
+                            item.className = 'search-dropdown-item link-container';
                             item.innerHTML = '<a href="QuizSummaryServlet?quiz_id=' + quiz.quizId + '">'+ 'Quiz: ' + quiz.title + ' ID: ' + quiz.quizId + '</a>';
                             dropdown.appendChild(item);
                         });
@@ -173,10 +173,12 @@
                         response.friendRequests.forEach(function(request) {
                             const listItem = document.createElement('li');
                             const anchor = document.createElement('a');
+                            listItem.classList.add('link-container')
                             anchor.href = `profilePage.jsp?username=${request.friend}`;
                             anchor.textContent = request.friend;
 
                             const acceptButton = document.createElement('button');
+                            acceptButton.classList.add("btn", "btn-success", "btn-sm", "me-1")
                             acceptButton.textContent = 'Accept';
                             acceptButton.onclick = function() {
                                 handleFriendRequest('accept', request.friend);
@@ -184,6 +186,8 @@
                             };
 
                             const rejectButton = document.createElement('button');
+                            rejectButton.classList.add("btn", "btn-secondary", "btn-sm",)
+
                             rejectButton.textContent = 'Reject';
                             rejectButton.onclick = function() {
                                 handleFriendRequest('reject', request.friend);
@@ -203,6 +207,7 @@
                             anchor.textContent = "challenged by: " + challenge.from + " score to beat: " + challenge.score;
 
                             const acceptButton = document.createElement('button');
+                            acceptButton.classList.add("btn", "btn-success","btn-sm", "me-1")
                             acceptButton.textContent = 'Accept';
                             acceptButton.onclick = function() {
                                 handleChallengeRequest('accept', challenge.challengeID, challenge.quizId);
@@ -210,6 +215,7 @@
                             };
 
                             const rejectButton = document.createElement('button');
+                            rejectButton.classList.add("btn", "btn-secondary", "btn-sm")
                             rejectButton.textContent = 'Reject';
                             rejectButton.onclick = function() {
                                 handleChallengeRequest('reject', challenge.challengeID, challenge.quizId);

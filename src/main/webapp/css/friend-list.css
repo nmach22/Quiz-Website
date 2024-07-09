@@ -1,9 +1,20 @@
+.friend-list {
+    background-color: #1f202a;
+}
+
 .friend-list ul {
     list-style-type: none;
 }
 
+.list-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px
+}
+
 .friend-list li {
-    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Simple styles for the modal */

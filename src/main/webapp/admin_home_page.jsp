@@ -117,23 +117,24 @@
     });
 </script>
 <head>
-    <title>Admin Page</title>
+    <title>Admin Page</title><link rel="stylesheet" type="text/css" href="css/global.css"><link rel="stylesheet" type="text/css" href="css/global.css">
+    <link rel="stylesheet" type="text/css" href="css/global.css">
 
 </head>
 <body>
 <%@include file="header.jsp"%>
-<div class="ap-header">
 
-</div>
 <div class="container">
     <div class="left">
         <div class="actions">
             <div class="action">
                 <h2>Create Announcement</h2>
                 <form>
-                    <input id="announcementTitle" type="text" placeholder="Announcement Title" required />
-                    <textarea id="announcementText" placeholder="Announcement Text" required></textarea>
-                    <button type="submit" id="createAnnouncementButton">Create Announcement</button>
+                    <div class="wrapper">
+                        <input id="announcementTitle" type="text" placeholder="Announcement Title" required />
+                        <textarea class="textarea-container" id="announcementText" placeholder="Announcement Text" required></textarea>
+                    </div>
+                    <button class="btn btn-primary mt-3" type="submit" id="createAnnouncementButton">Create Announcement</button>
                 </form>
             </div>
 
@@ -141,16 +142,20 @@
                 <h2>Manage Users</h2>
                 <form id="removeUserForm">
                     <input id="userid" name="user_id" type="text" value=""/>
-                    <button type="submit" id="remove">Remove User</button>
-                    <button type="submit" id ="promote">Promote User to Admin</button>
+                    <div class="mt-3">
+                        <button  class="btn btn-primary" type="submit" id="remove">Remove User</button>
+                        <button  class="btn btn-primary" type="submit" id ="promote">Promote User to Admin</button>
+                    </div>
                     <span id="message"></span>
                 </form>
             </div>
             <div class="action">
                 <h2>Manage Quizzes</h2>
                 <input id="quiz_id" name="quiz_id" type="text" value=""/>
-                <button type="submit" id="removeQuiz">Remove Quiz</button>
-                <button type="submit" id="removeQuizHistory">Remove Quiz History</button>
+                <div class="mt-3">
+                    <button class="btn btn-primary" type="submit" id="removeQuiz">Remove Quiz</button>
+                    <button class="btn btn-primary" type="submit" id="removeQuizHistory">Remove Quiz History</button>
+                </div>
                 <span id="message2"></span>
             </div>
         </div>

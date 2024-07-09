@@ -12,6 +12,7 @@
 <head>
     <title>Score</title>
     <link rel="stylesheet" type="text/css" href="css/finishQuiz.css">
+    <link rel="stylesheet" type="text/css" href="css/global.css">
 </head>
 <body>
 <%@include file="header.jsp"%>

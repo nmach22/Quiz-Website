@@ -33,7 +33,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="quizDescription" class="form-label">Description</label>
-                    <textarea class="form-control" id="quizDescription" rows="3" name="description" placeholder="Enter quiz description"></textarea>
+                    <textarea class="form-control textarea-container" id="quizDescription" rows="3" name="description" placeholder="Enter quiz description"></textarea>
                 </div>
 
                 <div class="d-flex flex-wrap">

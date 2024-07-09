@@ -16,6 +16,7 @@
 <head>
     <title>All Announcements</title>
     <link rel="stylesheet" type="text/css" href="css/allAnnouncements.css">
+    <link rel="stylesheet" type="text/css" href="css/global.css">
 </head>
 <body>
 <h1>All Announcements</h1>

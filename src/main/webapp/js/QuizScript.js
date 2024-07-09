@@ -20,7 +20,6 @@ function fetchQuizzes(option) {
 
             quizzes.forEach(function(quiz) {
                 var listItem = document.createElement('li');
-                listItem.className = 'ms-3';
                 var link = document.createElement('a');
                 link.href = '#';
                 link.innerHTML = quiz.first;
