@@ -23,11 +23,6 @@
     int currentQuestionIndex = Integer.parseInt(request.getParameter("currentQuestionIndex"));
     List<Map<String,Object>> questions = (List<Map<String,Object>>) request.getSession().getAttribute("questions");
     if (currentQuestionIndex >= questions.size() || timeLeft <= 0) {
-//        if(timeLeft == -100) {
-//            response.sendRedirect("finished-quiz.jsp");
-//
-//        }else{
-            System.out.println(timeLeft);
             try {
                 String username = (String)request.getSession().getAttribute("username");
                 String quiz_id = (String)request.getSession().getAttribute("quiz_id");

@@ -33,10 +33,10 @@ public class SubmitAnswersServlet extends HttpServlet {
             if(is_correct) score++;
         }
         request.getSession().setAttribute("score", score);
-        String timeLeftStr = request.getParameter("timeLeft");
-        int timeLeft = 0;
-        if (timeLeftStr != null)
-            timeLeft = Integer.parseInt(timeLeftStr);
+//        String timeLeftStr = request.getParameter("timeLeft");
+////        int timeLeft = 0;
+////        if (timeLeftStr != null)
+////            timeLeft = Integer.parseInt(timeLeftStr);
         try {
             int ID = Integer.parseInt(request.getParameter("quiz_id"));
             String name = request.getParameter("username");
@@ -64,7 +64,6 @@ public class SubmitAnswersServlet extends HttpServlet {
         boolean is_correct = false;
         int id = (int) request.getSession().getAttribute("question_id");
         String submitted = request.getParameter("submitted"+id);
-        boolean issubmitted = (boolean)    request.getSession().getAttribute("is_submitted"+id);
         request.getSession().setAttribute("is_submitted"+id, true);
         Set<String> correctAnswers = (Set<String>) request.getSession().getAttribute("correct_answers"+id);
         for (String s : correctAnswers) {
@@ -76,15 +75,12 @@ public class SubmitAnswersServlet extends HttpServlet {
             RequestDispatcher dispatcher = request.getRequestDispatcher("finished-quiz.jsp");
             dispatcher.forward(request, response);
         } else {
-//            if (is_correct && !issubmitted)
             if(is_correct)
                 score++;
 
             request.getSession().setAttribute("timeLeft", timeLeft);
-//            request.getSession().setAttribute("score", score);
             int currInd = Integer.parseInt(request.getParameter("currentQuestionIndex")) + 1;
-
-                    response.sendRedirect("question.jsp?quiz_id=" + quiz_id + "&username=" + username + "&currentQuestionIndex=" + currInd + "&score=" + score);
+            response.sendRedirect("question.jsp?quiz_id=" + quiz_id + "&username=" + username + "&currentQuestionIndex=" + currInd + "&score=" + score);
         }
     }
 }
