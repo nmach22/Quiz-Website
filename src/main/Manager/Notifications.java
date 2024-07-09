@@ -22,7 +22,7 @@ public class Notifications {
         String sql = "SELECT * FROM quizChallenges WHERE user_to = \""+ user + "\"AND status = 'pending' ORDER BY sentDate";
         Connection con = DataBaseConnection.getConnection();
         PreparedStatement st = con.prepareStatement(sql);
-        ResultSet rs = st.executeQuery(sql);
+        ResultSet rs = st.executeQuery();
         while(rs.next()){
             res.add(new Notifications(rs.getString("user_from"), rs.getInt("quiz_id"), rs.getInt("highest_score"), rs.getInt("challenge_id")));
         }
@@ -34,8 +34,8 @@ public class Notifications {
 
         String sql = "SELECT * FROM friendRequests WHERE user_to = \""+ name +"\" ORDER BY requestDate";
         Connection con = DataBaseConnection.getConnection();
-        Statement statement = con.createStatement();
-        ResultSet rs = statement.executeQuery(sql);
+        PreparedStatement st = con.prepareStatement(sql);
+        ResultSet rs = st.executeQuery();
         while(rs.next()){
             requests.add(rs.getString("user_from"));
         }
