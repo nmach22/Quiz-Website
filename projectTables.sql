@@ -356,10 +356,7 @@ from quizzes;
 
 select * from users;
 
-update users set user_first_name = 'aleqsa' where username = 'aleqsa';
-update users set user_last_name = 'surmava' where username = 'aleqsa'
-update users set user_bio = 'bio' where username = 'aleqsa'
+SELECT SUM(score)   from history where username = 'qatama'
 
-select *
-from history;
+
 

@@ -445,6 +445,17 @@ public class User {
         }
         return res;
     }
+    public static int getUsersScore(String user) throws SQLException {
+        String query = "SELECT SUM(score)   from history where username = ?";
+        PreparedStatement st = con.prepareStatement(query);
+        st.setString(1, user);
+        ResultSet rs = st.executeQuery();
+        if(rs.next()){
+            return rs.getInt(1);
+        }
+        return 0;
+    }
+
 
 
 }

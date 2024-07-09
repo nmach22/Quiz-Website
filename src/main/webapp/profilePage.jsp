@@ -35,6 +35,9 @@
     if(userBio == null){
         userBio = "";
     }
+    String firstName = AccountManager.getFN(username);
+    String lastName = AccountManager.getLN(username);
+    int score = User.getUsersScore(username);
 %>
 <main id="centerContent">
     <div id="profile-top">
@@ -42,6 +45,7 @@
             <div class="info-top">
                 <div class="profile-user">
                     <h2><%=username%></h2>
+                    <p class="user-name"><%=firstName%> <%=lastName%></p>
                     <p class="user-bio" id="user-bio"><%=userBio%></p>
                     <%
                         if(loggedInUser != null){
@@ -131,7 +135,7 @@
                 </div>
                 <div class="stats-item">
                     <div class="number">
-                        0
+                        <%=score%>
                     </div>
                     <div class="label">Score</div>
                 </div>
