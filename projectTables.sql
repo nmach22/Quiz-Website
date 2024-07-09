@@ -233,11 +233,11 @@ CREATE TABLE questionMultipleChoiceResponseAnswers
     FOREIGN KEY (question_id) REFERENCES questions (question_id)
 );
 
-INSERT INTO users (username, password_hash, is_admin)
-VALUES ('kato', '34800e15707fae815d7c90d49de44aca97e2d759', 0),
-       ('Nika', '86f7e437faa5a7fce15d1ddcb9eaeaea377667b8', 1),
-       ('qatama', 'adeb6f2a18fe33af368d91b09587b68e3abcb9a7', 0),
-       ('aleqsa', 'adeb6f2a18fe33af368d91b09587b68e3abcb9a7', 0);
+INSERT INTO users (username, password_hash, is_admin, user_first_name, user_last_name)
+VALUES ('kato', '34800e15707fae815d7c90d49de44aca97e2d759', 0, 'Kato', 'Ghibradze'),
+       ('Nika', '86f7e437faa5a7fce15d1ddcb9eaeaea377667b8', 1, 'Nika', 'Macharadze'),
+       ('qatama', 'adeb6f2a18fe33af368d91b09587b68e3abcb9a7', 0, 'Luka', 'Qatamade'),
+       ('aleqsa', 'adeb6f2a18fe33af368d91b09587b68e3abcb9a7', 0, 'Alex', 'Surmava');
 
 INSERT INTO friends (user1, user2, addDate)
 VALUES ('qatama', 'kato', NOW()),
@@ -343,7 +343,7 @@ insert into announcements(announcement_id, username, announcement, title)
 values (3, 'qatama', '1', '2nd announcements');
 
 insert into achievements (achievement_id, username, achievement_type, dateAchieved)
-values (7 , 'qatama', 'yvelaze magari', NOW() );
+values (1 , 'Kato', 'Amateur Author', NOW() );
 
 select *
 from achievements;

@@ -112,7 +112,9 @@
             request.getSession().setAttribute("correct_answers" + id, question.get("correct_answers"));
         %>
         <p class="h4 text-center">'<%= question.get("question") %>'</p>
-        <img src="<%=imageUrl%>" alt='<%= question.get("question") %>'><br/>
+        <div class="image-border">
+            <img src="<%=imageUrl%>" alt='<%= question.get("question") %>'><br/>
+        </div>
         <textarea class="textarea-container rounded w-100 text-white p-2" name="submitted<%= id %>"></textarea><br/>
         <% }
             request.getSession().setAttribute("is_submitted" + id, false);

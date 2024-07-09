@@ -35,6 +35,21 @@ body, html {
     width: 33%
 }
 
+.image-border {
+    align-items: center;
+    display: block;
+    margin: 0 auto;
+    max-width: 20%;
+    height: auto;
+    width: 300px;
+}
+
+.image-border img {
+
+    max-width: 300%;
+    height: auto;
+    width: 300px;
+}
 @font-face {
     font-family: 'Neue Montreal Medium';
     src: url('../fonts/NeueMontreal-Medium.eot');

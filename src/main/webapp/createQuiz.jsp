@@ -14,6 +14,7 @@
     <link rel="stylesheet" type="text/css" href="css/global.css">
 </head>
 <body>
+<%@include file="header.jsp" %>
 <script>
     function addQuestion() {
         console.log("adding question");
