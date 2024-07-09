@@ -250,10 +250,7 @@ VALUES ('qatama', 'kato', NOW()),
 INSERT INTO quizzes (quiz_id, description, quiz_name, author,
                      is_random, one_page, immediate_correction,
                      practice_mode, creation_date, duration)
-VALUES (1, 'PIRVELI QVIZI MTEL SAMYAROSHI', 'KATOS QUIZ', 'kato', 0, 0, 1, 0, NOW(), 30);
-
-insert into announcements(announcement_id, username, announcement, title)
-values (1, 'Nika', 'qatamas sheveci', 'kutu');
+VALUES (1, 'PIRVELI QVIZI MTEL SAMYAROSHI', 'KATOS QUIZ', 'kato', 0, 1, 0, 0, NOW(), 30);
 
 insert into achievements(username, achievement_type)
 VALUES ('aleqsa', 'I am the Greatest');
