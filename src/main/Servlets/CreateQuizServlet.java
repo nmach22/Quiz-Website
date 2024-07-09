@@ -74,7 +74,6 @@ public class CreateQuizServlet extends HttpServlet {
             }
 
             try {
-//                TODO avtorrrr
                 Connection conn = DataBaseConnection.getConnection();
                 for (int i = 0; i < arr.length(); i++) {
                     String sqlInsertQuestions = "INSERT INTO questions " +
@@ -112,8 +111,10 @@ public class CreateQuizServlet extends HttpServlet {
             }
 
             response.setStatus(HttpServletResponse.SC_OK);
+            response.sendRedirect("homePage.jsp?alert=Quiz%20created%20successfully");
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendRedirect("homePage.jsp?alert=Quiz%20wasn't%20created");
         }
     }
 
