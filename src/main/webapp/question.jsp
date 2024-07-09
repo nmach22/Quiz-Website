@@ -107,7 +107,8 @@
 %>
 <img src="<%=imageUrl%>" alt=<%= question.get("question") %>><br />
 <textarea name="submitted<%= id %>"></textarea><br />
-<% } %>
+<% }
+    request.getSession().setAttribute("is_submitted"+id, false);%>
     <input type="submit" value="Submit">
 </form>
 <div id="feedback"></div>

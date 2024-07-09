@@ -64,6 +64,8 @@ public class SubmitAnswersServlet extends HttpServlet {
         boolean is_correct = false;
         int id = (int) request.getSession().getAttribute("question_id");
         String submitted = request.getParameter("submitted"+id);
+        boolean issubmitted = (boolean)    request.getSession().getAttribute("is_submitted"+id);
+        request.getSession().setAttribute("is_submitted"+id, true);
         Set<String> correctAnswers = (Set<String>) request.getSession().getAttribute("correct_answers"+id);
         for (String s : correctAnswers)
             if(s.equals(submitted)) is_correct = true;
@@ -72,7 +74,7 @@ public class SubmitAnswersServlet extends HttpServlet {
             RequestDispatcher dispatcher = request.getRequestDispatcher("finished-quiz.jsp");
             dispatcher.forward(request, response);
         } else {
-            if (is_correct)
+            if (is_correct && !issubmitted)
                 score++;
             request.getSession().setAttribute("timeLeft", timeLeft);
             request.getSession().setAttribute("score", score);
