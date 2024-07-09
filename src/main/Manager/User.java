@@ -11,17 +11,17 @@ public class User {
         con = DataBaseConnection.getConnection();
     }
 
+    public static void setConnection(Connection connection) {
+        con = connection;
+    }
+
     public static ArrayList<String> getFriends(String name){
         ArrayList<String> friends = new ArrayList<>();
-
-        try {
-            if (con == null || con.isClosed()) {
-                throw new SQLException("Database connection is not initialized or is closed.");
-            }
-            String sql = "SELECT user2 FROM friends WHERE user1 = \""+ name +"\" ORDER BY addDate";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery(sql);
-            while(rs.next()){
+        String sql = "SELECT user2 FROM friends WHERE user1 = ? ORDER BY addDate";
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setString(1, name);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
                 friends.add(rs.getString(1));
             }
         } catch (SQLException e) {

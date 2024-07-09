@@ -25,11 +25,11 @@ public class PromoteServlet extends HttpServlet {
             }else if(accMan.promoteToAdmin(username) == 2){
                 resp.setContentType("text/plain");
                 PrintWriter out = resp.getWriter();
-                out.print("main.test.User " + username + " is already admin");
+                out.print("main.main.test.User " + username + " is already admin");
             }else{
                 resp.setContentType("text/plain");
                 PrintWriter out = resp.getWriter();
-                out.print("main.test.User " + username + " does not exist");
+                out.print("main.main.test.User " + username + " does not exist");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
