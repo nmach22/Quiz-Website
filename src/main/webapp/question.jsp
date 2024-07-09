@@ -22,7 +22,6 @@
     }
     int currentQuestionIndex = (int) request.getSession().getAttribute("currentQuestionIndex");
     List<Map<String,Object>> questions = (List<Map<String,Object>>) request.getSession().getAttribute("questions");
-    System.out.println(timeLeft);
     if (currentQuestionIndex >= questions.size() || timeLeft <= 0) {
         timeLeft = -1;
         currentQuestionIndex = questions.size();

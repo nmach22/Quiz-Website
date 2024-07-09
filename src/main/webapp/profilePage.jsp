@@ -17,9 +17,6 @@
 <html>
 <%
     String username = request.getParameter("username");
-    System.out.println("??????????");
-    System.out.println(username);
-    System.out.println("??????????????");
 %>
 <head>
     <title>Profile Page</title>

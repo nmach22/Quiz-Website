@@ -25,7 +25,7 @@
     Map<String,Object> summaryStats = (Map<String,Object>) request.getSession().getAttribute("summaryStats");
 %>
 <%
-    if(username != null){
+    if(!username.equals("null")){
 %>
 <h1>Welcome <%= username %></h1>
 <%
@@ -146,7 +146,7 @@
     </div>
 </div>
 <%
-    if(username != null){
+    if(!username.equals("null")){
 %>
 <form action="TakeQuizServlet" method="post">
     <input type="hidden" name="quiz_id" value= "<%=quiz_id%>">

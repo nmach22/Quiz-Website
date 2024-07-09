@@ -22,7 +22,7 @@ public class ChatEndpoint {
         if (username != null && username.contains("=")) {
             username = username.substring(username.indexOf('=') + 1);
 
-            System.out.println("WebSocket opened for user: " + username);
+
         }
 
         clients.put(username, session);
@@ -34,7 +34,6 @@ public class ChatEndpoint {
         if (username != null && username.contains("=")) {
             username = username.substring(username.indexOf('=') + 1);
             clients.remove(username);
-            System.out.println("WebSocket closed for user: " + username);
         } else {
             System.out.println("Error in onClose() method");
         }
@@ -44,7 +43,6 @@ public class ChatEndpoint {
     public void onMessage(String message, Session session) throws IOException {
         String username = session.getQueryString();
         username = username.substring(username.indexOf('=') + 1);
-        System.out.println("Message from " + username + ": " + message);
         JSONObject senderMessage = (JSONObject) JSONValue.parse(message);
         String receiver = (String) senderMessage.get("to");
         try {

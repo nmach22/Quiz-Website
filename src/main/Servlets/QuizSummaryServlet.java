@@ -19,8 +19,6 @@ public class QuizSummaryServlet extends HttpServlet {
         }
         QuizSummary quiz = null;
         try {
-            System.out.println(quizId);
-            System.out.println(getUsername(request));
             quiz = new QuizSummary(quizId, getUsername(request));
 
             String quizName = quiz.getQuizName();
@@ -37,7 +35,6 @@ public class QuizSummaryServlet extends HttpServlet {
             List<Map<String, Object>> recentTakers = quiz.getRecentTestTakers();
             Map<String, Object> summaryStats = quiz.getSummarySats();
 
-            // Set attributes for the JSP
             request.getSession().setAttribute("description", description);
             request.getSession().setAttribute("author", author);
             request.getSession().setAttribute("pastPerformances", pastPerformances);

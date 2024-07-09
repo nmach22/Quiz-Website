@@ -16,7 +16,6 @@ public class CreateAccountServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         AccountManager accMan =(AccountManager)getServletContext().getAttribute("Account Manager");
-        System.out.println(accMan == null);
         try {
             if(!accMan.hasAcc(req.getParameter("username"))){
                 accMan.createAcc(req.getParameter("username"), req.getParameter("pas"), req.getParameter("firstName"), req.getParameter("LastName"));

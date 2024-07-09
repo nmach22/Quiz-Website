@@ -17,7 +17,6 @@ public class GetAchievementsServlet extends HttpServlet {
         String user = req.getParameter("username");
         try {
             int count = Achievement.getUnreadAchievements(user);
-            System.out.println(count);
             resp.setContentType("text/plain");
             resp.setCharacterEncoding("UTF-8");
             resp.getWriter().write(Integer.toString(count));

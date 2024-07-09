@@ -42,4 +42,48 @@ public class QuizManager {
         }
         return "";
     }
+
+    public static void removeQuiz(int quiz_id) throws SQLException {
+        PreparedStatement st = null;
+        try {
+            con.setAutoCommit(false);
+            String[] queries = {
+                    "DELETE FROM history WHERE quiz_id = ?",
+                    "DELETE FROM quizChallenges WHERE quiz_id = ?",
+                    "DELETE FROM questionResponseAnswers WHERE quiz_id = ?",
+                    "DELETE FROM questionFillInTheBlankAnswers WHERE quiz_id = ?",
+                    "DELETE FROM questionMultipleChoiceResponseAnswers WHERE quiz_id = ?",
+                    "DELETE FROM questionPictureResponseAnswers WHERE quiz_id = ?",
+                    "DELETE FROM questionResponse WHERE quiz_id = ?",
+                    "DELETE FROM questionFillInTheBlank WHERE quiz_id = ?",
+                    "DELETE FROM questionMultipleChoice WHERE quiz_id = ?",
+                    "DELETE FROM questionPictureResponse WHERE quiz_id = ?",
+                    "DELETE FROM questions WHERE quiz_id = ?",
+                    "DELETE FROM quizzes WHERE quiz_id = ?"
+            };
+            for (String query : queries) {
+                st = con.prepareStatement(query);
+                st.setInt(1, quiz_id);
+                st.executeUpdate();
+                st.close();
+            }
+            con.commit();
+        } catch (SQLException e) {
+            try {
+                con.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+
+    public static void removeQuizHistory(int quiz_id) throws SQLException {
+        String query = "DELETE FROM history WHERE quiz_id = ?";
+        PreparedStatement st = con.prepareStatement(query);
+        st.setInt(1, quiz_id);
+        st.executeUpdate();
+    }
 }
