@@ -37,7 +37,9 @@ public class SubmitAnswersServlet extends HttpServlet {
         request.getSession().setAttribute("score", score);
         try {
             int prev = User.highestScore(ID);
-            History h = new History(ID,name, score,((int) request.getSession().getAttribute("duration")) - ((int) request.getSession().getAttribute("timeLeft")));
+            int timeLeft = Integer.parseInt(request.getParameter("timeLeft"));
+            request.getSession().setAttribute("timeLeft", timeLeft);
+            History h = new History(ID,name, score,((int) request.getSession().getAttribute("duration")) - timeLeft);
             if(score > prev){
                 User.addAchievement(name, "I am the Greatest");
             }

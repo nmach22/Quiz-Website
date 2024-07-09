@@ -35,7 +35,8 @@
                 int ID = Integer.parseInt(quiz_id);
                 int scoreint = Integer.parseInt(request.getParameter("score"));
                 int prev = User.highestScore(ID);
-                History h = new History(ID, username, scoreint, ((int) request.getSession().getAttribute("duration")) - timeLeft);
+                int dur = (int) request.getSession().getAttribute("duration");
+                History h = new History(ID, username, scoreint, dur - timeLeft);
                 if (scoreint > prev) {
                     User.addAchievement(username, "I am the Greatest");
                 }
