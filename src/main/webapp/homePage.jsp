@@ -132,10 +132,10 @@
     %>
 </div>
 
-<div id="chat-container" style="display: none;">
-    <div id="friend-name"><%=username%>
+<div class="quiz-container rounded"  id="chat-container" style="display: none;">
+    <div class="textarea-container"  id="friend-name"><%=username%>
     </div>
-    <div id="chat-window"></div>
+    <div class="quiz-container rounded" id="chat-window"></div>
 
     <input type="text" id="message-input" placeholder="Type a message...">
     <input type="hidden" id="user-name" class="logo" value="<%=loggedInUser%>">

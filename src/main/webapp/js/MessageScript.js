@@ -69,6 +69,7 @@ document.addEventListener('DOMContentLoaded',
     // Function to display a message
     function displayMessage(sender, message) {
         const messageElement = document.createElement('div');
+
         messageElement.classList.add('message');
 
         const senderElement = document.createElement('strong');

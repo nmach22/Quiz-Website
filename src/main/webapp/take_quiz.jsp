@@ -15,85 +15,89 @@
 <%
     String username = request.getParameter("username");
     String quiz_id = request.getParameter("quiz_id");
-    List<Map<String,Object>> questions = (List<Map<String,Object>>) request.getSession().getAttribute("questions");
-    List<Map<String,Object>> multipleChoice = (List<Map<String,Object>>) request.getSession().getAttribute("multipleChoiceQuestions");
-    List<Map<String,Object>> fillInTheBlankQuestions = (List<Map<String,Object>>) request.getSession().getAttribute("fillInTheBlankQuestions");
-    List<Map<String,Object>> responseQuestions = (List<Map<String,Object>>) request.getSession().getAttribute("responseQuestions");
-    List<Map<String,Object>> pictureResponseQuestions = (List<Map<String,Object>>) request.getSession().getAttribute("pictureResponseQuestions");
-    Map<String,Object> settings = (Map<String,Object>) request.getSession().getAttribute("settings");
-    int timeLimit = ((int)settings.get("duration")) * 60; // Time in seconds
-    if ((int)settings.get("is_random") == 1) {
+    List<Map<String, Object>> questions = (List<Map<String, Object>>) request.getSession().getAttribute("questions");
+    List<Map<String, Object>> multipleChoice = (List<Map<String, Object>>) request.getSession().getAttribute("multipleChoiceQuestions");
+    List<Map<String, Object>> fillInTheBlankQuestions = (List<Map<String, Object>>) request.getSession().getAttribute("fillInTheBlankQuestions");
+    List<Map<String, Object>> responseQuestions = (List<Map<String, Object>>) request.getSession().getAttribute("responseQuestions");
+    List<Map<String, Object>> pictureResponseQuestions = (List<Map<String, Object>>) request.getSession().getAttribute("pictureResponseQuestions");
+    Map<String, Object> settings = (Map<String, Object>) request.getSession().getAttribute("settings");
+    int timeLimit = ((int) settings.get("duration")) * 60; // Time in seconds
+    if ((int) settings.get("is_random") == 1) {
         Collections.shuffle(questions);
     }
-    if ((int)settings.get("one_page") == 1) {
+    if ((int) settings.get("one_page") == 1) {
 %>
-<form id="quizForm" action="submitAnswers" method="post">
-    <div id="timer">Time left: <span id="time"><%=timeLimit%></span> seconds</div>
-    <%
-        for (Map<String, Object> q : questions) {
-    %>
-    <div class="question">
-        <% int id = (int) q.get("question_id");
-            int index = (int) q.get("index");
+<div class="question-container p-3 rounded align-items-center">
+    <form id="quizForm" action="submitAnswers" method="post">
+        <div id="timer">Time left: <span id="time"><%=timeLimit%></span> seconds</div>
+        <%
+            for (Map<String, Object> q : questions) {
         %>
-        <c:choose>
-
-            <!-- Multiple Choice Questions -->
-            <%
-                if ("questionMultipleChoice".equals(q.get("question_type"))) {
-                    Map<String, Object> question = multipleChoice.get(index);
-                    Set<String> choices = (Set<String>)question.get("multipleChoices");
-                    request.getSession().setAttribute("correct_answers"+id, question.get("correct_answers"));
+        <div class="question">
+            <% int id = (int) q.get("question_id");
+                int index = (int) q.get("index");
             %>
-            <label>
-                <p><%= question.get("question")%></p>
-                <% for (String choice : choices) {%>
-                <input type="radio"  name="submitted<%= id %>" value="<%= choice %>"> <%= choice %>
-                <%}%>
-            </label><br />
+            <c:choose>
 
-            <!-- Fill In The Blank Questions -->
-            <%
-            } else if ("questionFillInTheBlank".equals(q.get("question_type"))) {
-                Map<String, Object> question = fillInTheBlankQuestions.get(index);
-                String questionTemp = (String) question.get("question");
-                String[] parts = questionTemp.split("_");
-                out.print(parts[0]);
-                out.print("<input type='text' name='submitted" + id +"'>");
-                out.print(parts[1]);
-                request.getSession().setAttribute("correct_answers"+id, question.get("correct_answers"));
-            %>
+                <!-- Multiple Choice Questions -->
+                <%
+                    if ("questionMultipleChoice".equals(q.get("question_type"))) {
+                        Map<String, Object> question = multipleChoice.get(index);
+                        Set<String> choices = (Set<String>) question.get("multipleChoices");
+                        request.getSession().setAttribute("correct_answers" + id, question.get("correct_answers"));
+                %>
+                <label>
+                    <p><%= question.get("question")%>
+                    </p>
+                    <% for (String choice : choices) {%>
+                    <input type="radio" name="submitted<%= id %>" value="<%= choice %>"> <%= choice %>
+                    <%}%>
+                </label><br/>
 
-            <!-- Response Questions -->
-            <%
-            } else if ("questionResponse".equals(q.get("question_type"))) {
-                Map<String, Object> question = responseQuestions.get(index);
-                request.getSession().setAttribute("correct_answers"+id, question.get("correct_answers"));
-            %>
-            <p><%= question.get("question") %></p>
-            <textarea class="textarea-container" name="submitted<%= id %>"></textarea><br />
+                <!-- Fill In The Blank Questions -->
+                <%
+                } else if ("questionFillInTheBlank".equals(q.get("question_type"))) {
+                    Map<String, Object> question = fillInTheBlankQuestions.get(index);
+                    String questionTemp = (String) question.get("question");
+                    String[] parts = questionTemp.split("_");
+                    out.print(parts[0]);
+                    out.print("<input type='text' name='submitted" + id + "'>");
+                    out.print(parts[1]);
+                    request.getSession().setAttribute("correct_answers" + id, question.get("correct_answers"));
+                %>
 
-            <!-- Picture Questions -->
-            <%
-            } else if ("questionPictureResponse".equals(q.get("question_type"))) {
-                Map<String, Object> question = pictureResponseQuestions.get(index);
-                String imageUrl = (String) question.get("picture_link");
-                request.getSession().setAttribute("correct_answers"+id, question.get("correct_answers"));
-            %>
-            <img src="<%=imageUrl%>" alt='<%=question.get("question") %>'><br />
-            <textarea class="textarea-container" name="submitted<%= id %>"></textarea><br />
-            <% } %>
-        </c:choose>
-    </div>
-    <br />
-    <% } %>
-    <input type="hidden" name="quiz_id" value= "<%=request.getParameter("quiz_id")%>">
-    <input type="hidden" name="username" value=${username}>
-    <input type="hidden" id="timeLeftInput" name="timeLeft">
-    <input type="hidden" name="currentQuestionIndex" value="0">
-    <%request.getSession().setAttribute("duration", timeLimit);%>
-    <input type="submit" value="Submit">
-</form>
+                <!-- Response Questions -->
+                <%
+                } else if ("questionResponse".equals(q.get("question_type"))) {
+                    Map<String, Object> question = responseQuestions.get(index);
+                    request.getSession().setAttribute("correct_answers" + id, question.get("correct_answers"));
+                %>
+                <p><%= question.get("question") %>
+                </p>
+                <textarea class="textarea-container" name="submitted<%= id %>"></textarea><br/>
+
+                <!-- Picture Questions -->
+                <%
+                } else if ("questionPictureResponse".equals(q.get("question_type"))) {
+                    Map<String, Object> question = pictureResponseQuestions.get(index);
+                    String imageUrl = (String) question.get("picture_link");
+                    request.getSession().setAttribute("correct_answers" + id, question.get("correct_answers"));
+                %>
+                <img src="<%=imageUrl%>" alt='<%=question.get("question") %>'><br/>
+                <textarea class="textarea-container" name="submitted<%= id %>"></textarea><br/>
+                <% } %>
+            </c:choose>
+        </div>
+        <br/>
+        <% } %>
+        <input type="hidden" name="quiz_id" value="<%=request.getParameter("quiz_id")%>">
+        <input type="hidden" name="username" value=${username}>
+        <input type="hidden" id="timeLeftInput" name="timeLeft">
+        <input type="hidden" name="currentQuestionIndex" value="0">
+        <%request.getSession().setAttribute("duration", timeLimit);%>
+        <input type="submit" value="Submit">
+    </form>
+</div>
 <%
     } else {
         request.getSession().setAttribute("username", username);
@@ -101,7 +105,7 @@
         request.getSession().setAttribute("immediateScore", 0);
         request.getSession().setAttribute("timeLeft", timeLimit);
         request.getSession().setAttribute("duration", timeLimit);
-        response.sendRedirect("question.jsp?quiz_id=" + quiz_id + "&username=" + username + "&currentQuestionIndex=" + 0+"&score="+0);
+        response.sendRedirect("question.jsp?quiz_id=" + quiz_id + "&username=" + username + "&currentQuestionIndex=" + 0 + "&score=" + 0);
     }
 %>
 <script>
@@ -126,7 +130,7 @@
 
     countdown();
 
-    document.getElementById('quizForm').addEventListener('submit', function() {
+    document.getElementById('quizForm').addEventListener('submit', function () {
         document.getElementById('timeLeftInput').value = timeLeft;
     });
 </script>

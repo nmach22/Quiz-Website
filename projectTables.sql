@@ -250,7 +250,7 @@ VALUES ('qatama', 'kato', NOW()),
 INSERT INTO quizzes (quiz_id, description, quiz_name, author,
                      is_random, one_page, immediate_correction,
                      practice_mode, creation_date, duration)
-VALUES (1, 'PIRVELI QVIZI MTEL SAMYAROSHI', 'KATOS QUIZ', 'kato', 0, 1, 0, 0, NOW(), 30);
+VALUES (1, 'PIRVELI QVIZI MTEL SAMYAROSHI', 'KATOS QUIZ', 'kato', 0, 0, 0, 0, NOW(), 30);
 
 insert into achievements(username, achievement_type)
 VALUES ('aleqsa', 'I am the Greatest');
@@ -344,8 +344,8 @@ select * from friends where user1 = 'aleqsa';
 insert into announcements(announcement_id, username, announcement, title)
 values (3, 'qatama', '1', '2nd announcements');
 
-insert into achievements (achievement_id, username, achievement_type, dateAchieved)
-values (1 , 'Kato', 'Amateur Author', NOW() );
+insert into achievements (username, achievement_type, dateAchieved)
+values ('Kato', 'Amateur Author', NOW() );
 
 select *
 from achievements;
