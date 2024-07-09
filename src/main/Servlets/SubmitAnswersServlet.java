@@ -37,7 +37,7 @@ public class SubmitAnswersServlet extends HttpServlet {
         request.getSession().setAttribute("score", score);
         try {
             int prev = User.highestScore(ID);
-            int timeLeft = Integer.parseInt(request.getParameter("timeLeft"));
+            int timeLeft = (int)request.getSession().getAttribute("timeLeft");
             request.getSession().setAttribute("timeLeft", timeLeft);
             History h = new History(ID,name, score,((int) request.getSession().getAttribute("duration")) - timeLeft);
             if(score > prev){
@@ -58,7 +58,10 @@ public class SubmitAnswersServlet extends HttpServlet {
         String username = (String)request.getSession().getAttribute("username");
         String quiz_id = (String)request.getSession().getAttribute("quiz_id");
         int score = Integer.parseInt(request.getParameter("score"));;
+        int ID = Integer.parseInt(quiz_id);
+        List<Map<String, Object>> questions = (List<Map<String, Object>>) request.getSession().getAttribute("questions");
         boolean is_correct = false;
+        int currInd = Integer.parseInt(request.getParameter("currentQuestionIndex")) + 1;
         int id = (int) request.getSession().getAttribute("question_id");
         String submitted = request.getParameter("submitted"+id);
         request.getSession().setAttribute("is_submitted"+id, true);
@@ -66,16 +69,31 @@ public class SubmitAnswersServlet extends HttpServlet {
         for (String s : correctAnswers) {
             if(s.equals(submitted)) is_correct = true;
         }
-        int timeLeft = Integer.parseInt(request.getParameter("timeLeft"));
-        if(timeLeft < 0) {
-            RequestDispatcher dispatcher = request.getRequestDispatcher("finished-quiz.jsp");
-            dispatcher.forward(request, response);
+        int timeLeft = (int)request.getSession().getAttribute("timeLeft");
+        request.getSession().setAttribute("duration", request.getSession().getAttribute("duration"));
+        if(timeLeft < 0 || currInd >= questions.size()) {
+            try{
+                int prev = User.highestScore(ID);
+                int dur = (int) request.getSession().getAttribute("duration");
+                History h = new History(ID, username, score, dur - timeLeft);
+                if (score > prev) {
+                    User.addAchievement(username, "I am the Greatest");
+                }
+                int takes = User.takenQuizzesAmount(username, ID);
+                if (takes == 10) {
+                    User.addAchievement(username, "Quiz Machine");
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+            request.getSession().setAttribute("timeLeft", -1);
+            response.sendRedirect("finished-quiz.jsp?quiz_id=" + quiz_id + "&username=" + username + "&currentQuestionIndex=" + currInd + "&score=" + score);
         } else {
-            if(is_correct)
+            if (is_correct)
                 score++;
-
             request.getSession().setAttribute("timeLeft", timeLeft);
-            int currInd = Integer.parseInt(request.getParameter("currentQuestionIndex")) + 1;
             response.sendRedirect("question.jsp?quiz_id=" + quiz_id + "&username=" + username + "&currentQuestionIndex=" + currInd + "&score=" + score);
         }
     }

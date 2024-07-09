@@ -23,37 +23,11 @@
 <div class="question-container p-3 rounded align-items-center">
     <%
         String score = request.getParameter("score");
-        Integer timeLeft = (Integer) request.getSession().getAttribute("timeLeft");
+        int timeLeft = (int) request.getSession().getAttribute("timeLeft");
         int duration = ((int) request.getSession().getAttribute("duration"));
         int currentQuestionIndex = Integer.parseInt(request.getParameter("currentQuestionIndex"));
         List<Map<String, Object>> questions = (List<Map<String, Object>>) request.getSession().getAttribute("questions");
-        if (currentQuestionIndex >= questions.size() || timeLeft <= 0) {
-            try {
-                String username = (String) request.getSession().getAttribute("username");
-                String quiz_id = (String) request.getSession().getAttribute("quiz_id");
-                request.getSession().setAttribute("duration", duration);
-                int ID = Integer.parseInt(quiz_id);
-                int scoreint = Integer.parseInt(request.getParameter("score"));
-                int prev = User.highestScore(ID);
-                int dur = (int) request.getSession().getAttribute("duration");
-                History h = new History(ID, username, scoreint, dur - timeLeft);
-                if (scoreint > prev) {
-                    User.addAchievement(username, "I am the Greatest");
-                }
-                int takes = User.takenQuizzesAmount(username, ID);
-                if (takes == 10) {
-                    User.addAchievement(username, "Quiz Machine");
-                }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-    %> <input type="hidden" name="currentQuestionIndex" value="<%=request.getParameter("currentQuestionIndex")%>">
-    <%
-        response.sendRedirect("finished-quiz.jsp?score=" + score);
-    } else {
-    %>
+%>
     <div id="timer">Time left: <span id="time"></span></div>
     <form action="submitAnswers" method="get" id="quizForm">
         <%
@@ -119,6 +93,8 @@
         <textarea class="textarea-container rounded w-100 text-white p-2" name="submitted<%= id %>"></textarea><br/>
         <% }
             request.getSession().setAttribute("is_submitted" + id, false);
+            request.getSession().setAttribute("duration", duration);
+            request.getSession().setAttribute("timeLeft", timeLeft);
         %>
         <input type="hidden" name="score" value="<%=request.getParameter("score")%>">
         <input type="hidden" name="currentQuestionIndex" value="<%=request.getParameter("currentQuestionIndex")%>">
@@ -186,9 +162,9 @@
             }
         });
     </script>
-    <%
-        }
-    %>
+<%--    <%--%>
+<%--        }--%>
+<%--    %>--%>
 </div>
 
 </body>

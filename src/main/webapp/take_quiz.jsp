@@ -105,7 +105,7 @@
     } else {
         request.getSession().setAttribute("username", username);
         request.getSession().setAttribute("quiz_id", quiz_id);
-        request.getSession().setAttribute("immediateScore", 0);
+//        request.getSession().setAttribute("immediateScore", 0);
         request.getSession().setAttribute("timeLeft", timeLimit);
         request.getSession().setAttribute("duration", timeLimit);
         response.sendRedirect("question.jsp?quiz_id=" + quiz_id + "&username=" + username + "&currentQuestionIndex=" + 0 + "&score=" + 0);
