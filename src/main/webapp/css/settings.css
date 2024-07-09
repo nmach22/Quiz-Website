@@ -1,6 +1,5 @@
 /* General Styling */
 body {
-    font-family: Arial, sans-serif;
     background-color: #f8f9fa;
     margin: 0;
     padding: 50px;
@@ -9,7 +8,8 @@ body {
 .settings-content {
     max-width: 800px;
     margin: 20px auto;
-    background-color: #ffffff;
+    background-color: #1f202a;
+    color: white;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -20,7 +20,6 @@ body {
     font-weight: bold;
     margin-bottom: 10px;
     text-align: center;
-    color: #343a40;
 }
 
 .settings-subtitle {
@@ -32,6 +31,7 @@ body {
 
 .settings-container {
     padding: 20px;
+    background-color: #1f202a;
 }
 
 h5 {

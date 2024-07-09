@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>Take Quiz</title>
+    <link rel="stylesheet" type="text/css" href="css/global.css">
 </head>
 <body>
 <%
@@ -70,7 +71,7 @@
                 request.getSession().setAttribute("correct_answers"+id, question.get("correct_answers"));
             %>
             <p><%= question.get("question") %></p>
-            <textarea name="submitted<%= id %>"></textarea><br />
+            <textarea class="textarea-container" name="submitted<%= id %>"></textarea><br />
 
             <!-- Picture Questions -->
             <%
@@ -79,8 +80,8 @@
                 String imageUrl = (String) question.get("picture_link");
                 request.getSession().setAttribute("correct_answers"+id, question.get("correct_answers"));
             %>
-            <img src="<%=imageUrl%>" alt=<%= question.get("question") %>><br />
-            <textarea name="submitted<%= id %>"></textarea><br />
+            <img src="<%=imageUrl%>" alt='<%=question.get("question") %>'><br />
+            <textarea class="textarea-container" name="submitted<%= id %>"></textarea><br />
             <% } %>
         </c:choose>
     </div>

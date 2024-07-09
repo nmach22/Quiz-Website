@@ -1,5 +1,4 @@
 body {
-    font-family: 'Modak', sans-serif;
     background-color: #111111;
     color: #b05a24;
     margin: 0;
@@ -46,12 +45,17 @@ h1 {
 }
 
 .action {
-    background-color: #fff;
-    border: 1px solid #ddd;
+    background-color: #1f202a;
+    border: 1px solid #1f202a;
     border-radius: 8px;
     padding: 20px;
     margin-bottom: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: -moz-inline-stack;
+}
+
+.wrapper {
+    display: flex;
 }
 
 h2 {

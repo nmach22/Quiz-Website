@@ -1,10 +1,49 @@
-body {
-    font-family: 'Modak', sans-serif;
+body, html {
+    font-family: 'Neue Montreal Medium', monospace !important;
     background-color: #050c1b;
     margin: 0;
     padding: 0;
+    padding-top: 50px;
+    color: white;
+}
+
+.textarea-container, input {
+    background-color: #1f202a;
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 5px 10px;
+}
+
+.question-container input {
+    margin: 0 5px;
+}
+
+.question-container textarea {
+    margin: 0 auto;
+}
+
+.link-container a{
+    color: white;
+    text-decoration: none;
+}
+
+.link-container a:hover{
+    text-decoration: underline;
 }
 
 .w-33 {
     width: 33%
+}
+
+@font-face {
+    font-family: 'Neue Montreal Medium';
+    src: url('../fonts/NeueMontreal-Medium.eot');
+    src: url('../fonts/NeueMontreal-Medium.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/NeueMontreal-Medium.woff2') format('woff2'),
+    url('../fonts/NeueMontreal-Medium.woff') format('woff'),
+    url('../fonts/NeueMontreal-Medium.ttf') format('truetype'),
+    url('../fonts/NeueMontreal-Medium.svg#NeueMontreal-Medium') format('svg');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
 }

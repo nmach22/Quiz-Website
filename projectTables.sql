@@ -303,9 +303,9 @@ VALUES (1, 1, 4, 'maintenance', 1),
        (5, 1, 5, '5', 1),
        (3, 1, 5, '6', 0);
 INSERT INTO questionPictureResponse (question_id, quiz_id, picture_link, question)
-VALUES (6,1,'raisins.jpg',''),
-       (9,1,'hottest-planet.jpg',''),
-       (10,1,'highest-point.jpg','');
+VALUES (6,1,'https://i.etsystatic.com/13434992/r/il/a03018/3219595549/il_fullxfull.3219595549_ju9h.jpg','what is this?'),
+       (9,1,'https://i.pinimg.com/736x/f4/5f/e5/f45fe5f3730c6bb9dfbdd9a619f31212.jpg','hottest planet'),
+       (10,1,'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCqOpfEenkgZGqhvM8iMFA75sJ-Mc0YSc_cw&s','where is highest point on earth?');
 INSERT INTO questionPictureResponseAnswers (answer_id, quiz_id, question_id, answer)
 VALUES (1,1,6,'grape'),
        (2,1,9,'Mercury'),

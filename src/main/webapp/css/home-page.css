@@ -1,5 +1,4 @@
 body {
-    font-family: 'Modak', sans-serif;
     background-color: #050c1b !important;
     color: black;
     margin: 0;
@@ -23,6 +22,12 @@ h1 {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.form-select {
+    background-color: #1f202a !important;
+    color: white !important;
+    border: 0.5px solid rgba(255, 255, 255, 0.1) !important;
+}
+
 h2 {
     font-size: 1.8em;
     margin-top: 0;
@@ -31,7 +36,6 @@ h2 {
 p {
     font-size: 1em;
     line-height: 1.5;
-    color: #740fe1;
 }
 
 p strong {
@@ -87,6 +91,13 @@ p strong {
     font-size: 0.6em;
 }
 
-html{
-    background-color: black;
+.quiz-list-contianer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: white !important;
+}
+
+.quiz-container {
+    background-color: #1f202a;
 }

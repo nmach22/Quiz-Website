@@ -1,0 +1,15 @@
+.quiz-summary-container, .question-container {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    max-width: 40%;
+    margin: 0 auto;
+    gap: 10px;
+    background-color: #1f202a;
+}
+
+.table-container * {
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+    padding: 5px 10px;
+}
