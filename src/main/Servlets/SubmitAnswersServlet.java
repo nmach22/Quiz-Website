@@ -32,15 +32,12 @@ public class SubmitAnswersServlet extends HttpServlet {
             }
             if(is_correct) score++;
         }
+        int ID = Integer.parseInt(request.getParameter("quiz_id"));
+        String name = request.getParameter("username");
         request.getSession().setAttribute("score", score);
-//        String timeLeftStr = request.getParameter("timeLeft");
-////        int timeLeft = 0;
-////        if (timeLeftStr != null)
-////            timeLeft = Integer.parseInt(timeLeftStr);
         try {
-            int ID = Integer.parseInt(request.getParameter("quiz_id"));
-            String name = request.getParameter("username");
             int prev = User.highestScore(ID);
+            System.out.println(((int) request.getSession().getAttribute("duration")) - ((int) request.getSession().getAttribute("timeLeft")));
             History h = new History(ID,name, score,((int) request.getSession().getAttribute("duration")) - ((int) request.getSession().getAttribute("timeLeft")));
             if(score > prev){
                 User.addAchievement(name, "I am the Greatest");
@@ -54,8 +51,7 @@ public class SubmitAnswersServlet extends HttpServlet {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        RequestDispatcher dispatcher = request.getRequestDispatcher("finished-quiz.jsp");
-        dispatcher.forward(request, response);
+        response.sendRedirect("finished-quiz.jsp?quiz_id=" + ID + "&username=" + name + "&score=" + score);
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = (String)request.getSession().getAttribute("username");
@@ -67,7 +63,6 @@ public class SubmitAnswersServlet extends HttpServlet {
         request.getSession().setAttribute("is_submitted"+id, true);
         Set<String> correctAnswers = (Set<String>) request.getSession().getAttribute("correct_answers"+id);
         for (String s : correctAnswers) {
-            System.out.println(s + "      " + submitted);
             if(s.equals(submitted)) is_correct = true;
         }
         int timeLeft = Integer.parseInt(request.getParameter("timeLeft"));
