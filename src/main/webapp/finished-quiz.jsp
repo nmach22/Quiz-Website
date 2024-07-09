@@ -23,8 +23,8 @@
         you <%= ((int) request.getSession().getAttribute("duration")) - ((int) request.getSession().getAttribute("timeLeft"))%>
     </p>
     <form action="TakeQuizServlet" method="post">
-        <input type="hidden" name="quiz_id" id="quiz_id" value="<%=request.getSession().getAttribute("quiz_id")%>">
-        <input type="hidden" name="username" id="username" value="<%=request.getSession().getAttribute("username")%>">
+        <input type="hidden" name="quiz_id" id="quiz_id" value="<%=request.getParameter("quiz_id")%>">
+        <input type="hidden" name="username" id="username" value="<%=request.getParameter("username")%>">
         <button class="btn btn-secondary challenge-quiz-btn" type="submit">Retake Quiz</button>
     </form>
     <button class="btn btn-primary challenge-quiz-btn" id="challengeFriendsBtn">Challenge Friends</button>
@@ -34,7 +34,6 @@
             <h2>Challenge Friends</h2>
             <div id="friendsList">
                 <%
-                    String username = (String) request.getSession().getAttribute("username");
                     ArrayList<String> friends = User.getFriends(loggedInUser);
                     for (String friend : friends) {
                 %>

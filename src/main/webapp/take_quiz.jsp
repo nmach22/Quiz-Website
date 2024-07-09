@@ -105,7 +105,6 @@
     } else {
         request.getSession().setAttribute("username", username);
         request.getSession().setAttribute("quiz_id", quiz_id);
-//        request.getSession().setAttribute("immediateScore", 0);
         request.getSession().setAttribute("timeLeft", timeLimit);
         request.getSession().setAttribute("duration", timeLimit);
         response.sendRedirect("question.jsp?quiz_id=" + quiz_id + "&username=" + username + "&currentQuestionIndex=" + 0 + "&score=" + 0);
@@ -116,8 +115,9 @@
     var timerId = setInterval(countdown, 1000);
 
     function countdown() {
-        if (timeLeft <= 0) {
-            clearTimeout(timerId);
+        if (timeLeft < 0) {
+            clearInterval(timerId);
+            document.getElementById('timeUp').value = 'true';
             document.getElementById('quizForm').submit();
         } else {
             var minutes = Math.floor(timeLeft / 60);
@@ -133,7 +133,19 @@
 
     countdown();
 
-    document.getElementById('quizForm').addEventListener('submit', function () {
+    document.getElementById('quizForm').addEventListener('submit', function (e) {
+        var timeLeftField = document.createElement('input');
+        timeLeftField.type = 'hidden';
+        timeLeftField.name = 'timeLeft';
+        timeLeftField.value = timeLeft;
+        this.appendChild(timeLeftField);
+
+        var timeUpField = document.createElement('input');
+        timeUpField.type = 'hidden';
+        timeUpField.name = 'timeUp';
+        timeUpField.value = (timeLeft <= 0).toString();
+        this.appendChild(timeUpField);
+
         document.getElementById('timeLeftInput').value = timeLeft;
     });
 </script>

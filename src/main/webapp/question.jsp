@@ -93,8 +93,6 @@
         <textarea class="textarea-container rounded w-100 text-white p-2" name="submitted<%= id %>"></textarea><br/>
         <% }
             request.getSession().setAttribute("is_submitted" + id, false);
-            request.getSession().setAttribute("duration", duration);
-            request.getSession().setAttribute("timeLeft", timeLeft);
         %>
         <input type="hidden" name="score" value="<%=request.getParameter("score")%>">
         <input type="hidden" name="currentQuestionIndex" value="<%=request.getParameter("currentQuestionIndex")%>">
@@ -162,9 +160,6 @@
             }
         });
     </script>
-<%--    <%--%>
-<%--        }--%>
-<%--    %>--%>
 </div>
 
 </body>
