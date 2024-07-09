@@ -2,14 +2,14 @@ package main.Manager;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Vector;
 
 public class User {
     private static Connection con;
 
-    public User() throws ClassNotFoundException, SQLException {
-        con = DataBaseConnection.getConnection();
-    }
+    public User() throws ClassNotFoundException, SQLException {con = DataBaseConnection.getConnection();}
 
     public static void setConnection(Connection connection) {
         con = connection;
@@ -24,41 +24,8 @@ public class User {
             while (rs.next()) {
                 friends.add(rs.getString(1));
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Error retrieving friends from the database: " + e.getMessage());
-        }
+        } catch (SQLException e) {throw new RuntimeException("Error retrieving friends from the database: " + e.getMessage());}
         return friends;
-    }
-
-    public static Vector<String> getSentFriendRequests(String name){
-        Vector<String> requests = new Vector<>();
-        try {
-            Statement statement = con.createStatement();
-            String sql = "SELECT * FROM friendRequests WHERE user_from = \""+ name +"\" ORDER BY requestDate";
-            ResultSet rs = statement.executeQuery(sql);
-            while(rs.next()){
-                requests.add(rs.getString("user_to"));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return requests;
-    }
-
-    public static Vector<String> getFriendRequests(String name){
-        Vector<String> requests = new Vector<>();
-        try {
-            Statement statement = con.createStatement();
-            String sql = "SELECT * FROM friendRequests WHERE user_to = \""+ name +"\" ORDER BY requestDate";
-            ResultSet rs = statement.executeQuery(sql);
-            while(rs.next()){
-                requests.add(rs.getString("user_from"));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return requests;
     }
 
     public static ArrayList<Pair>getRecentlyAddedQuizzes(){
@@ -73,9 +40,7 @@ public class User {
             while(rs.next()){
                 quizzes.add(new Pair(rs.getString("quiz_name"), rs.getString("quiz_id")));
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        } catch (SQLException e) {throw new RuntimeException(e);}
         return quizzes;
     }
 
@@ -94,9 +59,7 @@ public class User {
             while(rs.next()){
                 quizzes.add(new Pair(rs.getString("quiz_name"), rs.getString("quiz_id")));
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        } catch (SQLException e) {throw new RuntimeException(e);}
         return quizzes;
     }
 
@@ -128,174 +91,8 @@ public class User {
                 quiz.add(Integer.toString(rs.getInt("time")));
                 quizzes.add(quiz);
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        } catch (SQLException e) {throw new RuntimeException(e);}
         return quizzes;
-    }
-
-    public static Vector<Vector<String>> takenQuizzesByTime(String name){
-        Vector<Vector<String>> quizzes = new Vector<>();
-        try {
-            Statement statement = con.createStatement();
-            String sql = "SELECT * FROM history WHERE username = \""+ name +"\" ORDER BY time";
-            ResultSet rs = statement.executeQuery(sql);
-            while(rs.next()){
-                Vector<String> quiz = new Vector<>();
-                quiz.add(rs.getString("quiz_id"));
-                quiz.add(rs.getString("score"));
-                quiz.add(Integer.toString(rs.getInt("time")));
-                quizzes.add(quiz);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return quizzes;
-    }
-
-    public static Vector<Vector<String>> takenQuizzesByScore(String name){
-        Vector<Vector<String>> quizzes = new Vector<>();
-        try {
-            Statement statement = con.createStatement();
-            String sql = "SELECT * FROM history WHERE username = \""+ name +"\" ORDER BY score";
-            ResultSet rs = statement.executeQuery(sql);
-            while(rs.next()){
-                Vector<String> quiz = new Vector<>();
-                quiz.add(rs.getString("quiz_id"));
-                quiz.add(rs.getString("score"));
-                quiz.add(Integer.toString(rs.getInt("time")));
-                quizzes.add(quiz);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return quizzes;
-    }
-
-    public static Vector<String> getSentMessages(String user_from, String user_to){
-        Vector<String> chat = new Vector<>();
-        try {
-            Statement statement = con.createStatement();
-            String sql = "SELECT * FROM chat WHERE user_from = \""+ user_from +"\" AND user_to = \"" + user_to + "\"ORDER BY sentDate";
-            ResultSet rs = statement.executeQuery(sql);
-            while(rs.next()){
-                chat.add(rs.getString("chat_id"));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return chat;
-    }
-
-    public static Vector<String> getMessageWithID(int chatID){
-        Vector<String> info = new Vector<>();
-        try {
-            Statement statement = con.createStatement();
-            String sql = "SELECT * FROM chat WHERE chat_id = \""+ chatID + "\"ORDER BY sentDate";
-            ResultSet rs = statement.executeQuery(sql);
-            while(rs.next()){
-                info.add(rs.getString("user_from"));
-                info.add(rs.getString("user_to"));
-                info.add(rs.getString("message"));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return info;
-    }
-
-    public static Vector<String> getAllSentMessages(String user_from){
-        Vector<String> chat = new Vector<>();
-        try {
-            Statement statement = con.createStatement();
-            String sql = "SELECT * FROM chat WHERE user_from = \""+ user_from +"\" ORDER BY sentDate";
-            ResultSet rs = statement.executeQuery(sql);
-            while(rs.next()){
-                chat.add(rs.getString("chat_id"));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return chat;
-    }
-
-    public static Vector<String> getAllReceivedMessages(String user_to){
-        Vector<String> chat = new Vector<>();
-        try {
-            Statement statement = con.createStatement();
-            String sql = "SELECT * FROM chat WHERE user_to = \""+ user_to +"\" ORDER BY sentDate";
-            ResultSet rs = statement.executeQuery(sql);
-            while(rs.next()){
-                chat.add(rs.getString("chat_id"));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return chat;
-    }
-
-    public static Vector<String> getAllSentChallenges(String user_from){
-        Vector<String> requests = new Vector<>();
-        try {
-            Statement statement = con.createStatement();
-            String sql = "SELECT * FROM quizChallenges WHERE user_from = \""+ user_from + "\"ORDER BY sentDate";
-            ResultSet rs = statement.executeQuery(sql);
-            while(rs.next()){
-                requests.add(rs.getString("challenge_id"));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return requests;
-    }
-
-    public static Vector<String> getAllReceivedChallenges(String user_to){
-        Vector<String> requests = new Vector<>();
-        try {
-            Statement statement = con.createStatement();
-            String sql = "SELECT * FROM quizChallenges WHERE user_to = \""+ user_to + "\"ORDER BY sentDate";
-            ResultSet rs = statement.executeQuery(sql);
-            while(rs.next()){
-                requests.add(rs.getString("challenge_id"));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return requests;
-    }
-
-    public static Vector<String> getChallenge(String user_from, String user_to){
-        Vector<String> requests = new Vector<>();
-        try {
-            Statement statement = con.createStatement();
-            String sql = "SELECT * FROM quizChallenges WHERE user_from = \""+ user_from +"\" AND user_to = \"" + user_to + "\"ORDER BY sentDate";
-            ResultSet rs = statement.executeQuery(sql);
-            while(rs.next()){
-                requests.add(rs.getString("challenge_id"));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return requests;
-    }
-
-    public static Vector<String> getChallengeWithID(String id){
-        Vector<String> info = new Vector<>();
-        try {
-            Statement statement = con.createStatement();
-            String sql = "SELECT * FROM quizChallenges WHERE challenge_id = \""+ id + "\"ORDER BY sentDate";
-            ResultSet rs = statement.executeQuery(sql);
-            while(rs.next()){
-                info.add(rs.getString("user_from"));
-                info.add(rs.getString("user_to"));
-                info.add(rs.getString("link"));
-                info.add(rs.getString("status"));
-                info.add(rs.getString("quiz_id"));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return info;
     }
 
     public static void acceptChallenge(int id) throws SQLException {
@@ -402,19 +199,8 @@ public class User {
         PreparedStatement st = con.prepareStatement(sql);
         st.setInt(1, quiz_id);
         ResultSet rs = st.executeQuery();
-        if(rs.next()){
-            highest = rs.getInt("score");
-        }
+        if(rs.next()) highest = rs.getInt("score");
         return highest;
-    }
-
-    public static void sendMessage(String from, String to, String message) throws SQLException {
-        String sql = "INSERT INTO chat (user_from, user_to, message) VALUES (?, ?, ?)";
-        PreparedStatement st = con.prepareStatement(sql);
-        st.setString(1 , from);
-        st.setString(2 , to);
-        st.setString(3 , message);
-        st.executeUpdate();
     }
 
     public static int getUsersHighestScoreOnQuiz(String username, int quiz_id) throws SQLException {
@@ -423,9 +209,7 @@ public class User {
         st.setString(1,username);
         st.setInt(2,quiz_id);
         ResultSet rs = st.executeQuery();
-        if(rs.next()){
-            return rs.getInt(1);
-        }
+        if(rs.next()) return rs.getInt(1);
         return 0;
     }
 
@@ -440,9 +224,7 @@ public class User {
             if(rs.next()){
                 res = rs.getInt(1);
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        } catch (SQLException e) {throw new RuntimeException(e);}
         return res;
     }
     public static int getUsersScore(String user) throws SQLException {
@@ -450,9 +232,7 @@ public class User {
         PreparedStatement st = con.prepareStatement(query);
         st.setString(1, user);
         ResultSet rs = st.executeQuery();
-        if(rs.next()){
-            return rs.getInt(1);
-        }
+        if(rs.next()) return rs.getInt(1);
         return 0;
     }
 
