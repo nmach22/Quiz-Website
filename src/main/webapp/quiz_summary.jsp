@@ -52,7 +52,15 @@
                 <% for (Map<String,Object> performance : pastPerformances) { %>
                 <tr>
                     <td><%= performance.get("score") %></td>
-                    <td><%= performance.get("time") %></td>
+                    <%
+                        int totalSeconds = (int)performance.get("time");
+                        int hours = totalSeconds / 3600;
+                        int minutes = (totalSeconds % 3600) / 60;
+                        int seconds = totalSeconds % 60;
+
+                        String time = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+                    %>
+                    <td><%=time %></td>
                     <td><%= performance.get("date_taken") %></td>
                 </tr>
                 <% } %>

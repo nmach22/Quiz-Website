@@ -39,11 +39,10 @@ public class SubmitAnswersServlet extends HttpServlet {
             timeLeft = Integer.parseInt(timeLeftStr);
         try {
             int duration = (int)request.getSession().getAttribute("duration");
-            History h = new History(Integer.parseInt(request.getParameter("quiz_id")),request.getParameter("username"), score, ((int) request.getSession().getAttribute("duration")) - ((int) request.getSession().getAttribute("timeLeft")));
             int ID = Integer.parseInt(request.getParameter("quiz_id"));
             String name = request.getParameter("username");
             int prev = User.highestScore(ID);
-            History h = new History(ID,name, score);
+            History h = new History(ID,name, score,((int) request.getSession().getAttribute("duration")) - ((int) request.getSession().getAttribute("timeLeft")));
             if(score > prev){
                 User.addAchievement(name, "I am the Greatest");
             }

@@ -125,7 +125,7 @@ public class User {
                 Vector<String> quiz = new Vector<>();
                 quiz.add(rs.getString("quiz_id"));
                 quiz.add(rs.getString("score"));
-                quiz.add(rs.getString("time"));
+                quiz.add(Integer.toString(rs.getInt("time")));
                 quizzes.add(quiz);
             }
         } catch (SQLException e) {
@@ -144,7 +144,7 @@ public class User {
                 Vector<String> quiz = new Vector<>();
                 quiz.add(rs.getString("quiz_id"));
                 quiz.add(rs.getString("score"));
-                quiz.add(rs.getString("time"));
+                quiz.add(Integer.toString(rs.getInt("time")));
                 quizzes.add(quiz);
             }
         } catch (SQLException e) {
@@ -163,7 +163,7 @@ public class User {
                 Vector<String> quiz = new Vector<>();
                 quiz.add(rs.getString("quiz_id"));
                 quiz.add(rs.getString("score"));
-                quiz.add(rs.getString("time"));
+                quiz.add(Integer.toString(rs.getInt("time")));
                 quizzes.add(quiz);
             }
         } catch (SQLException e) {

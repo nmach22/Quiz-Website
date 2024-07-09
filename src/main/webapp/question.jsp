@@ -26,11 +26,10 @@
             String username = (String)request.getSession().getAttribute("username");
             String quiz_id = (String)request.getSession().getAttribute("quiz_id");
             request.getSession().setAttribute("duration", duration);
-            History h = new History(Integer.parseInt(quiz_id),username, (int)request.getSession().getAttribute("score"), ((int) request.getSession().getAttribute("duration")) - ((int) request.getSession().getAttribute("timeLeft")));
             int ID = Integer.parseInt(quiz_id);
             int score = (int)request.getSession().getAttribute("score");
             int prev = User.highestScore(ID);
-            History h = new History(ID ,username, score);
+            History h = new History(ID ,username, score,((int) request.getSession().getAttribute("duration")) - ((int) request.getSession().getAttribute("timeLeft")));
             if(score > prev){
                 User.addAchievement(username, "I am the Greatest");
             }
