@@ -25,7 +25,7 @@ public class HistoryTest {
         MockitoAnnotations.openMocks(this);
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockPreparedStatement);
 
-        // Mock the database connection
+
         DataBaseConnection.setMockConnection(mockConnection);
     }
 

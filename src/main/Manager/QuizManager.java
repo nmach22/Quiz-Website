@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class QuizManager {
-    static Connection con;
+    public static Connection con;
 
     static {
         try {
