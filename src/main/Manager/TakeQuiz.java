@@ -50,11 +50,8 @@ public class TakeQuiz {
                 if(rs.getInt(numColumns) == 1)
                     correctOptions.add(rs.getString(numColumns - 1));
             }
-            List<String> choicesList = new ArrayList<>(choices);
-            List<String> correctoptions = new ArrayList<>(correctOptions);
-            Collections.shuffle(choicesList);
-            question.put("multipleChoices", new HashSet<>(choicesList));
-            question.put("correct_answers", new HashSet<>(correctoptions));
+            question.put("multipleChoices", choices);
+            question.put("correct_answers", correctOptions);
             query = "SELECT * FROM questionMultipleChoice WHERE question_id = ?";
             ps = con.prepareStatement(query);
             ps.setInt(1, (int) question.get("question_id"));

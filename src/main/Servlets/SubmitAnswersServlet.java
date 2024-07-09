@@ -32,8 +32,13 @@ public class SubmitAnswersServlet extends HttpServlet {
             if(is_correct) score++;
         }
         request.getSession().setAttribute("score", score);
+        String timeLeftStr = request.getParameter("timeLeft");
+        int timeLeft = 0;
+        if (timeLeftStr != null)
+            timeLeft = Integer.parseInt(timeLeftStr);
         try {
-            History h = new History(Integer.parseInt(request.getParameter("quiz_id")),request.getParameter("username"), score);
+            int duration = (int)request.getSession().getAttribute("duration");
+            History h = new History(Integer.parseInt(request.getParameter("quiz_id")),request.getParameter("username"), score, ((int) request.getSession().getAttribute("duration")) - ((int) request.getSession().getAttribute("timeLeft")));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {

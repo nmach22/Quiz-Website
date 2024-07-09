@@ -79,7 +79,7 @@
                 String imageUrl = (String) question.get("picture_link");
                 request.getSession().setAttribute("correct_answers"+id, question.get("correct_answers"));
             %>
-            <img src="/images/<%=imageUrl%>" alt=<%= question.get("question") %>><br />
+            <img src="<%=imageUrl%>" alt=<%= question.get("question") %>><br />
             <textarea name="submitted<%= id %>"></textarea><br />
             <% } %>
         </c:choose>
@@ -88,7 +88,8 @@
     <% } %>
     <input type="hidden" name="quiz_id" value= "<%=request.getParameter("quiz_id")%>">
     <input type="hidden" name="username" value=${username}>
-    <%request.getSession().setAttribute("isSubmitted", true);%>
+    <input type="hidden" id="timeLeftInput" name="timeLeft">
+    <%request.getSession().setAttribute("duration", timeLimit);%>
     <input type="submit" value="Submit">
 </form>
 <%
@@ -99,6 +100,7 @@
         request.getSession().setAttribute("score", 0);
         request.getSession().setAttribute("currentQuestionIndex", 0);
         request.getSession().setAttribute("timeLeft", timeLimit);
+        request.getSession().setAttribute("duration", timeLimit);
         response.sendRedirect("question.jsp");
     }
 %>
@@ -123,6 +125,10 @@
     }
 
     countdown();
+
+    document.getElementById('quizForm').addEventListener('submit', function() {
+        document.getElementById('timeLeftInput').value = timeLeft;
+    });
 </script>
 </body>
 </html>

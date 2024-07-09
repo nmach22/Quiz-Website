@@ -17,25 +17,22 @@
 <body>
 <%
     Integer timeLeft = (Integer) request.getSession().getAttribute("timeLeft");
-    if (timeLeft == null) {
-        timeLeft = ((int) request.getSession().getAttribute("duration"));
-    }
+    int duration = ((int) request.getSession().getAttribute("duration"));
     int currentQuestionIndex = (int) request.getSession().getAttribute("currentQuestionIndex");
     List<Map<String,Object>> questions = (List<Map<String,Object>>) request.getSession().getAttribute("questions");
     if (currentQuestionIndex >= questions.size() || timeLeft <= 0) {
-        timeLeft = -1;
-        currentQuestionIndex = questions.size();
         try {
-            String username = (String)request.getSession().getAttribute("username");
+                String username = (String)request.getSession().getAttribute("username");
             String quiz_id = (String)request.getSession().getAttribute("quiz_id");
-            History h = new History(Integer.parseInt(quiz_id),username, (int)request.getSession().getAttribute("score"));
+            request.getSession().setAttribute("duration", duration);
+            History h = new History(Integer.parseInt(quiz_id),username, (int)request.getSession().getAttribute("score"), ((int) request.getSession().getAttribute("duration")) - ((int) request.getSession().getAttribute("timeLeft")));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
 %>
-    <input type="hidden" name="score" value="<%=request.getSession().getAttribute("score")%>"
+<%--    <input type="hidden" name="score" value="<%=request.getSession().getAttribute("score")%>"--%>
 <%
         response.sendRedirect("finished-quiz.jsp");
     } else {
@@ -97,7 +94,7 @@
         String imageUrl = (String) question.get("picture_link");
         request.getSession().setAttribute("correct_answers"+id, question.get("correct_answers"));
 %>
-<img src="/images/<%=imageUrl%>" alt=<%= question.get("question") %>><br />
+<img src="<%=imageUrl%>" alt=<%= question.get("question") %>><br />
 <textarea name="submitted<%= id %>"></textarea><br />
 <% } %>
     <input type="submit" value="Submit">
